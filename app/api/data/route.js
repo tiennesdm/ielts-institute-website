@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getDb, saveDb } from '@/lib/db';
+import { sendLeadNotification } from '@/lib/mailer';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,6 +64,13 @@ export async function POST(request) {
     db.leads.unshift(newLead);
 
     saveDb(db);
+
+    // Send instant email notification to Info@firstclassglobaleducation.com
+    try {
+      await sendLeadNotification(newLead);
+    } catch (e) {
+      console.error('Email dispatch error:', e);
+    }
 
     return NextResponse.json({ success: true, message: 'Inquiry submitted successfully! Our expert counselor will call you shortly.' });
   } catch (error) {
