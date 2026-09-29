@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
             <GraduationCap className="w-9 h-9" />
           </div>
           <h1 className="text-2xl font-black text-white tracking-tight">
-            Apex Admin Portal
+            First Class Admin Portal
           </h1>
           <p className="text-xs text-slate-400">
             Manage your IELTS website content, gallery, courses & inquiries

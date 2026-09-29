@@ -89,7 +89,7 @@ export default function AdminLayout({ children }) {
           <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
             <GraduationCap className="w-5 h-5" />
           </div>
-          <span className="font-bold text-sm">Apex Admin Portal</span>
+          <span className="font-bold text-sm">First Class Admin Portal</span>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -113,7 +113,7 @@ export default function AdminLayout({ children }) {
                 <GraduationCap className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="font-black text-white text-base leading-tight">Apex Admin</h2>
+                <h2 className="font-black text-white text-base leading-tight">First Class Admin</h2>
                 <p className="text-[11px] text-slate-400">Content Management</p>
               </div>
             </div>

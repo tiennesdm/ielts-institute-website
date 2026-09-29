@@ -6,7 +6,7 @@ import { GraduationCap, Phone, Menu, X, ShieldCheck, Sparkles, UserCog } from 'l
 export default function Navbar({ settings, onBookClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const instituteName = settings?.instituteName || 'Apex IELTS Academy';
+  const instituteName = settings?.instituteName || 'First Class Global Education';
   const phone = settings?.phone || '+91 98765 43210';
 
   const navLinks = [

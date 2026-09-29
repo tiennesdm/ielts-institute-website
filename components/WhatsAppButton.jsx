@@ -5,7 +5,7 @@ export default function WhatsAppButton({ whatsapp = '919876543210' }) {
   if (!whatsapp) return null;
 
   const cleanNumber = whatsapp.replace(/[^0-9]/g, '');
-  const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hello%20Apex%20IELTS%20Academy,%20I%20am%20interested%20in%20IELTS%20coaching%20and%20would%20like%20to%20know%20batch%20timings%20and%20fees.`;
+  const whatsappUrl = `https://wa.me/${cleanNumber}?text=Hello%20First%20Class%20Global%20Education,%20I%20am%20interested%20in%20IELTS%20coaching%20and%20would%20like%20to%20know%20batch%20timings%20and%20fees.`;
 
   return (
     <a

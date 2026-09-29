@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { GraduationCap, Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck, UserCog } from 'lucide-react';
 
 export default function Footer({ settings }) {
-  const instituteName = settings?.instituteName || 'Apex IELTS Academy';
+  const instituteName = settings?.instituteName || 'First Class Global Education';
   const phone = settings?.phone || '+91 98765 43210';
   const email = settings?.email || 'admissions@apexieltsacademy.com';
   const address = settings?.address || 'SCO 42-45, 2nd Floor, Sector 17, Chandigarh';
