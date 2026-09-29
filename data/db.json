@@ -1,0 +1,478 @@
+{
+  "settings": {
+    "instituteName": "Apex IELTS & Study Abroad Academy",
+    "tagline": "India's Premier IELTS, PTE & Spoken English Institute",
+    "phone": "+91 98765 43210",
+    "whatsapp": "919876543210",
+    "email": "admissions@apexieltsacademy.com",
+    "address": "SCO 42-45, 2nd & 3rd Floor, Education Hub, Sector 17, Chandigarh, India",
+    "workingHours": "Mon - Sat: 7:00 AM - 8:30 PM | Sun: Special Mock Tests",
+    "announcement": "🔥 New Super-Fast 8+ Band Batches starting this Monday! Free Cambridge Study Kit with every enrollment. Call +91 98765 43210 to reserve your seat.",
+    "showAnnouncement": true,
+    "socialLinks": {
+      "instagram": "https://instagram.com",
+      "facebook": "https://facebook.com",
+      "youtube": "https://youtube.com",
+      "telegram": "https://telegram.org"
+    },
+    "hero": {
+      "headline": "Achieve Your Dream 8+ Band in IELTS on First Try",
+      "subheadline": "Certified British Council & IDP Master Faculty. Daily 1-on-1 Speaking, line-by-line Writing evaluations, and official Computer-Delivered IELTS simulation labs.",
+      "badge": "⭐ Rated 4.9/5 by 12,000+ Achievers • British Council Partner",
+      "bannerImage": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop",
+      "primaryCtaText": "Book Free Mock Test & Demo",
+      "secondaryCtaText": "Explore Band Courses"
+    },
+    "stats": [
+      {
+        "id": "stat-1",
+        "value": "98.4%",
+        "label": "Success Rate",
+        "subtext": "7+ Bands in first attempt"
+      },
+      {
+        "id": "stat-2",
+        "value": "12,500+",
+        "label": "Students Trained",
+        "subtext": "Across 25+ countries"
+      },
+      {
+        "id": "stat-3",
+        "value": "3,400+",
+        "label": "8+ Band Achievers",
+        "subtext": "Academic & General"
+      },
+      {
+        "id": "stat-4",
+        "value": "15+ Yrs",
+        "label": "Excellence Record",
+        "subtext": "Certified Master Mentors"
+      }
+    ]
+  },
+  "courses": [
+    {
+      "id": "course-1",
+      "title": "IELTS Academic Comprehensive",
+      "tag": "Most Popular",
+      "badgeColor": "red",
+      "targetBand": "Target 7.5 - 8.5 Bands",
+      "duration": "8 Weeks (Daily 3 Hours)",
+      "fee": "₹14,999",
+      "mode": "Offline & Live Online",
+      "description": "Complete rigorous preparation designed for students aiming for top tier universities in Canada, UK, USA, Australia and Germany.",
+      "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "Daily 1-on-1 Speaking interview simulations with examiner feedback",
+        "Daily Writing Task 1 & 2 evaluation with grammatical correction",
+        "Weekly full-length Saturday mock test with live analytics",
+        "Latest Cambridge IELTS 1 to 19 official books & secret templates",
+        "Special lexical resource & grammar mastery sessions"
+      ],
+      "popular": true
+    },
+    {
+      "id": "course-2",
+      "title": "IELTS General Training (PR Focused)",
+      "tag": "PR & Express Entry",
+      "badgeColor": "blue",
+      "targetBand": "Target CLB 9 & 10 (8777)",
+      "duration": "6 Weeks (Flexible Timings)",
+      "fee": "₹13,499",
+      "mode": "Offline / Online / Weekend Batches",
+      "description": "Tailored for immigration & work visa candidates targeting Canada Express Entry (CLB 9/10), Australia PR, and UK Skilled Worker.",
+      "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "Strict 8-7-7-7 scoring strategy and formula",
+        "Formal & Informal Letter templates for Writing Task 1",
+        "In-depth Reading speed & scanning shortcuts",
+        "Weekend flexible batches for working professionals",
+        "Free visa profile evaluation with licensed consultants"
+      ],
+      "popular": false
+    },
+    {
+      "id": "course-3",
+      "title": "Fast-Track IELTS Crash Course",
+      "tag": "Express 21 Days",
+      "badgeColor": "amber",
+      "targetBand": "Target 7+ Bands Fast",
+      "duration": "3 Weeks (Intensive 4 Hours/day)",
+      "fee": "₹9,999",
+      "mode": "Crash Course (Daily)",
+      "description": "Short on time before your exam date? Master proven scoring shortcuts, high-frequency repeated questions and time management.",
+      "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "High-frequency predicted exam question banks",
+        "Speaking cue card cheat-sheets and idiomatic phrases",
+        "15 Full length timed mock test series",
+        "Direct doubt clearance with Senior Head Trainer",
+        "Emergency exam booking assistance"
+      ],
+      "popular": false
+    },
+    {
+      "id": "course-4",
+      "title": "PTE Academic 79+ Guaranteed",
+      "tag": "Pearson Certified",
+      "badgeColor": "teal",
+      "targetBand": "Target 79+ Score (8+ IELTS Equivalent)",
+      "duration": "4 to 6 Weeks",
+      "fee": "₹12,999",
+      "mode": "Air-Conditioned Computer Lab Practice",
+      "description": "Hands-on practice on real Pearson PTE AI scoring software with verified templates for Describe Image, Retell Lecture & Write from Dictation.",
+      "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "Real AI software lab with noise-canceling headsets",
+        "Proven templates that consistently score 90 in Fluency",
+        "Special focus on Repeat Sentences & Dictation predictions",
+        "Instant computerized scorecards after mock tests",
+        "Unlimited lab access from 8 AM to 8 PM"
+      ],
+      "popular": true
+    },
+    {
+      "id": "course-5",
+      "title": "CD-IELTS Computer Delivered Lab",
+      "tag": "Modern Tech Lab",
+      "badgeColor": "indigo",
+      "targetBand": "Target 8+ Bands",
+      "duration": "4 Weeks",
+      "fee": "₹11,999",
+      "mode": "Dedicated CD-IELTS Terminal Lab",
+      "description": "Get 100% comfortable with the official computer-delivered IELTS interface. Practice highlight tools, note taking, and fast typing under timed pressure.",
+      "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "Exact replica of official IDP / British Council computer exam",
+        "Touch-typing speed booster drills for Writing section",
+        "On-screen listening practice with high-fidelity audio",
+        "Results in just 3-5 days strategy",
+        "Free mock test voucher included"
+      ],
+      "popular": false
+    },
+    {
+      "id": "course-6",
+      "title": "Spoken English & Fluency Builder",
+      "tag": "Foundation & Fluency",
+      "badgeColor": "purple",
+      "targetBand": "Basic to Advanced Fluency",
+      "duration": "8 Weeks",
+      "fee": "₹7,999",
+      "mode": "Interactive Group & 1-on-1",
+      "description": "Overcome stage fear, eliminate mother tongue influence (MTI), speak English with crystal-clear confidence in meetings and interviews.",
+      "image": "https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=800&auto=format&fit=crop",
+      "features": [
+        "Daily group discussions, extempore and debates",
+        "Grammar fundamentals without confusing jargons",
+        "Pronunciation & accent neutralization workshops",
+        "Job interview prep & corporate communication",
+        "Weekly public speaking podium sessions"
+      ],
+      "popular": false
+    }
+  ],
+  "results": [
+    {
+      "id": "res-1",
+      "studentName": "Gurpreet Singh Gill",
+      "overallBand": "8.5",
+      "examType": "IELTS Academic",
+      "scores": {
+        "listening": "9.0",
+        "reading": "9.0",
+        "writing": "7.5",
+        "speaking": "8.5"
+      },
+      "destination": "University of Toronto, Canada",
+      "flag": "🇨🇦",
+      "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=500&auto=format&fit=crop",
+      "quote": "The 1-on-1 speaking sessions and writing critiques by Apex faculty are unmatched. They pointed out subtle lexical errors that no other coaching could fix.",
+      "admitted": "Fall Intake 2025"
+    },
+    {
+      "id": "res-2",
+      "studentName": "Simranpreet Kaur",
+      "overallBand": "8.0",
+      "examType": "IELTS Academic",
+      "scores": {
+        "listening": "9.0",
+        "reading": "8.5",
+        "writing": "7.0",
+        "speaking": "8.0"
+      },
+      "destination": "University of Melbourne, Australia",
+      "flag": "🇦🇺",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop",
+      "quote": "I was stuck at 6.5 bands in writing for 2 attempts. Within 4 weeks at Apex, my score jumped straight to 8.0 overall! Forever grateful.",
+      "admitted": "Master of Data Science"
+    },
+    {
+      "id": "res-3",
+      "studentName": "Rohan Malhotra",
+      "overallBand": "8.0",
+      "examType": "IELTS General Training",
+      "scores": {
+        "listening": "8.5",
+        "reading": "8.5",
+        "writing": "7.5",
+        "speaking": "8.0"
+      },
+      "destination": "Express Entry PR, Canada (CLB 10)",
+      "flag": "🇨🇦",
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
+      "quote": "Needed 8-7-7-7 for Canada PR CRS score. The tips for Reading True/False/Not Given saved me 15 minutes in the real exam.",
+      "admitted": "Canada Permanent Resident"
+    },
+    {
+      "id": "res-4",
+      "studentName": "Tanvi Sharma",
+      "overallBand": "8.0",
+      "examType": "IELTS Academic",
+      "scores": {
+        "listening": "8.5",
+        "reading": "8.0",
+        "writing": "7.5",
+        "speaking": "8.0"
+      },
+      "destination": "Imperial College London, UK",
+      "flag": "🇬🇧",
+      "photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=500&auto=format&fit=crop",
+      "quote": "The computer-delivered mock test software here is an exact clone of the real IDP exam. I felt zero nervousness on exam day!",
+      "admitted": "MSc Biomedical Engineering"
+    },
+    {
+      "id": "res-5",
+      "studentName": "Arjun Singhal",
+      "overallBand": "86/90",
+      "examType": "PTE Academic",
+      "scores": {
+        "listening": "88",
+        "reading": "84",
+        "writing": "90",
+        "speaking": "85"
+      },
+      "destination": "Monash University, Australia",
+      "flag": "🇦🇺",
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500&auto=format&fit=crop",
+      "quote": "Their AI PTE software scoring and templates for Describe Image and Retell Lecture work like magic. Scored 86 overall!",
+      "admitted": "Master of IT"
+    },
+    {
+      "id": "res-6",
+      "studentName": "Navjot Kaur Dhillon",
+      "overallBand": "7.5",
+      "examType": "IELTS Academic",
+      "scores": {
+        "listening": "8.0",
+        "reading": "8.0",
+        "writing": "7.0",
+        "speaking": "7.5"
+      },
+      "destination": "University of British Columbia, Canada",
+      "flag": "🇨🇦",
+      "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop",
+      "quote": "The friendly faculty and daily mock interview room helped me overcome my speaking hesitation completely.",
+      "admitted": "Bachelor of Commerce"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-1",
+      "title": "Interactive Smart Classroom Session",
+      "category": "Classrooms & Labs",
+      "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop",
+      "description": "Students engaging in an interactive audio-visual IELTS listening workshop."
+    },
+    {
+      "id": "gal-2",
+      "title": "Computer-Delivered IELTS Simulation Lab",
+      "category": "Classrooms & Labs",
+      "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
+      "description": "50-seater high-tech lab equipped with noise-cancellation headphones."
+    },
+    {
+      "id": "gal-3",
+      "title": "Visa Approval & Band 8+ Celebration",
+      "category": "Celebrations & Visas",
+      "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop",
+      "description": "Celebrating 45+ Canada and Australia visa grant approvals in a single month!"
+    },
+    {
+      "id": "gal-4",
+      "title": "Annual High Achievers Award Ceremony",
+      "category": "Awards & Events",
+      "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop",
+      "description": "Honoring our 8+ band students with scholarships and trophies."
+    },
+    {
+      "id": "gal-5",
+      "title": "Exclusive Study Abroad & University Fair",
+      "category": "Seminars & Workshops",
+      "image": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800&auto=format&fit=crop",
+      "description": "Direct interaction with representatives from 60+ top UK, Canadian & Australian universities."
+    },
+    {
+      "id": "gal-6",
+      "title": "1-on-1 Master Speaking Cabin Interview",
+      "category": "Classrooms & Labs",
+      "image": "https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=800&auto=format&fit=crop",
+      "description": "Private acoustic cabins for recorded speaking interviews and instant band rating."
+    },
+    {
+      "id": "gal-7",
+      "title": "Full Hall Saturday Official Mock Test",
+      "category": "Mock Tests",
+      "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop",
+      "description": "Strict exam environment with timed paper distribution to conquer real exam pressure."
+    },
+    {
+      "id": "gal-8",
+      "title": "Canadian Embassy Visa Grant Party",
+      "category": "Celebrations & Visas",
+      "image": "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=800&auto=format&fit=crop",
+      "description": "Smiles and cakes as students receive their study permits and passport stamps."
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "test-1",
+      "name": "Manpreet Singh",
+      "course": "IELTS Academic - 8.0 Bands",
+      "rating": 5,
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop",
+      "text": "Apex Institute is literally the best place if you want genuine guidance. Their writing task 2 structure templates alone boosted my writing from 6.0 to 7.5. Today I am heading to York University, Toronto!"
+    },
+    {
+      "id": "test-2",
+      "name": "Pooja Varma",
+      "course": "PTE Academic - 84 Score",
+      "rating": 5,
+      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop",
+      "text": "The computer lab at Apex has exact PTE test software. Sir taught us how to pitch our voice correctly in the microphone to score 90 in Oral Fluency. Got my target score in the very first attempt."
+    },
+    {
+      "id": "test-3",
+      "name": "Jaswinder Sandhu",
+      "course": "IELTS General Training - 8777 Achiever",
+      "rating": 5,
+      "photo": "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?q=80&w=300&auto=format&fit=crop",
+      "text": "For working professionals like me, their early morning 7 AM batch was a blessing. Very disciplined environment, daily homework checks, and weekend mock tests. I achieved CLB 10 for Canada PR!"
+    }
+  ],
+  "batches": [
+    {
+      "id": "batch-1",
+      "title": "Early Morning Intensive Batch",
+      "target": "IELTS Academic & General",
+      "timing": "7:00 AM - 9:30 AM",
+      "startDate": "Upcoming Monday",
+      "mode": "Offline & Hybrid",
+      "seatsLeft": "5 Seats Remaining",
+      "status": "Filling Fast"
+    },
+    {
+      "id": "batch-2",
+      "title": "Regular Daytime Master Batch",
+      "target": "Full 4-Module Preparation",
+      "timing": "10:00 AM - 1:00 PM",
+      "startDate": "New Batch Every Monday",
+      "mode": "Offline Classroom",
+      "seatsLeft": "8 Seats Remaining",
+      "status": "Open"
+    },
+    {
+      "id": "batch-3",
+      "title": "Evening Professionals Special",
+      "target": "Working Professionals & PR Aspirants",
+      "timing": "6:00 PM - 8:30 PM",
+      "startDate": "Next Wednesday",
+      "mode": "Live Online & Classroom",
+      "seatsLeft": "3 Seats Remaining",
+      "status": "Almost Full"
+    },
+    {
+      "id": "batch-4",
+      "title": "PTE Academic Lab Batch",
+      "target": "79+ Target Pearson Exam",
+      "timing": "2:00 PM - 5:00 PM",
+      "startDate": "Every Monday & Thursday",
+      "mode": "Dedicated AI Computer Lab",
+      "seatsLeft": "6 Seats Remaining",
+      "status": "Open"
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-1",
+      "question": "What is the difference between IELTS Academic and General Training?",
+      "answer": "IELTS Academic is strictly for candidates applying for higher education (Bachelors, Masters, PhD) or professional registration in medical/nursing fields. IELTS General Training is primarily for permanent residency (PR immigration like Canada Express Entry, Australia SkillSelect) and secondary education or work visas."
+    },
+    {
+      "id": "faq-2",
+      "question": "How often are Mock Tests conducted at Apex Institute?",
+      "answer": "We conduct full-length sectional tests every Wednesday and a complete 3-hour official timed Mock Test every Saturday in exam conditions with question papers strictly following the latest IDP exam pattern. Your results and detailed band breakdown are provided within 24 hours."
+    },
+    {
+      "id": "faq-3",
+      "question": "Do you provide 1-on-1 Speaking practice with individual trainers?",
+      "answer": "Yes! Every enrolled student is assigned a dedicated speaking slot every single day in our private acoustic speaking cabins. You are interviewed just like the real IELTS speaking test, recorded for review, and given immediate feedback on fluency, pronunciation, grammar, and vocabulary."
+    },
+    {
+      "id": "faq-4",
+      "question": "Is the study material included in the course fee?",
+      "answer": "Absolutely! We provide Cambridge IELTS Books (1 to 19), our exclusive 8-Band Lexical Vocabulary Guide, 150+ Solved Writing Task 1 & 2 Essays, Speaking Cue Card prediction kits, and 24x7 access to our online student portal."
+    },
+    {
+      "id": "faq-5",
+      "question": "Can I attend a free demo class before enrolling?",
+      "answer": "Yes, we encourage all students to take a Free Diagnostic Test and attend a 2-hour Live Demo Class to experience our teaching methodology, computer lab, and interact with our master trainers before making any payment."
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead-1",
+      "name": "Karanveer Randhawa",
+      "phone": "+91 98888 12345",
+      "email": "karan.randhawa@gmail.com",
+      "course": "IELTS Academic Comprehensive",
+      "targetBand": "8.0 Bands",
+      "city": "Chandigarh",
+      "message": "Planning for Fall 2025 intake in Canada for Masters in Mechanical Engineering. Want to start this Monday.",
+      "createdAt": "2026-09-28T14:30:00.000Z",
+      "status": "Demo Scheduled",
+      "notes": "Booked for demo on Tuesday 10 AM batch."
+    },
+    {
+      "id": "lead-2",
+      "name": "Harleen Sandhu",
+      "phone": "+91 97777 56789",
+      "email": "harleen.s@outlook.com",
+      "course": "IELTS General Training (PR)",
+      "targetBand": "8777 (CLB 10)",
+      "city": "Mohali",
+      "message": "Looking for evening batch after 6 PM as I am working in an IT firm. Need urgent CLB 9 for Canada PR.",
+      "createdAt": "2026-09-29T09:15:00.000Z",
+      "status": "New",
+      "notes": ""
+    },
+    {
+      "id": "lead-3",
+      "name": "Prabhjot Singh",
+      "phone": "+91 98123 45678",
+      "email": "prabh.singh@gmail.com",
+      "course": "PTE Academic 79+",
+      "targetBand": "79+ Pearson",
+      "city": "Panchkula",
+      "message": "Gave IELTS earlier got 6.5 in writing, switching to PTE for Australian PR.",
+      "createdAt": "2026-09-27T11:00:00.000Z",
+      "status": "Contacted",
+      "notes": "Spoke on phone, invited for PTE lab tour tomorrow."
+    }
+  ],
+  "admin": {
+    "username": "admin",
+    "password": "password123",
+    "pin": "1234"
+  }
+}
