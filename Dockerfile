@@ -29,16 +29,16 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+# Pre-create writable directories
+RUN mkdir -p /app/public/uploads /app/data /app/.next && \
+    chown -R nextjs:nodejs /app
 
-# Set the correct permission for prerender cache & data
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/data ./data
+
+RUN chown -R nextjs:nodejs /app/public /app/data /app/.next
 
 USER nextjs
 

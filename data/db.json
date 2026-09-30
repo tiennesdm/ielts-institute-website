@@ -10,6 +10,88 @@
     "workingHours": "Mon - Sat: 7:00 AM - 8:30 PM | Sun: Special Mock Tests",
     "announcement": "🔥 New Super-Fast 8+ Band Batches starting this Monday! Free Cambridge Study Kit with every enrollment. Call +91 98765 43210 to reserve your seat.",
     "showAnnouncement": true,
+    "logo": {
+      "type": "text",
+      "imageUrl": "",
+      "textPart1": "First Class",
+      "textPart2": "Global Education",
+      "tagline": "Premier IELTS, PTE & Study Abroad Academy",
+      "showIcon": true
+    },
+    "navigation": {
+      "ctaText": "Book Free Demo",
+      "showPhone": true,
+      "links": [
+        { "id": "nav-1", "label": "Home", "href": "#" },
+        { "id": "nav-2", "label": "Courses", "href": "#courses" },
+        { "id": "nav-3", "label": "8+ Band Results", "href": "#results" },
+        { "id": "nav-4", "label": "Gallery", "href": "#gallery" },
+        { "id": "nav-5", "label": "Batches", "href": "#batches" },
+        { "id": "nav-6", "label": "Why Us", "href": "#why-us" },
+        { "id": "nav-7", "label": "Reviews", "href": "#testimonials" },
+        { "id": "nav-8", "label": "FAQs", "href": "#faqs" },
+        { "id": "nav-9", "label": "Contact", "href": "#contact" }
+      ]
+    },
+    "footer": {
+      "bio": "Official British Council & IDP certified coaching partner specializing in high-band IELTS Academic, General Training, and PTE Academic preparation.",
+      "accreditation": "Certified IELTS & PTE Test Venue",
+      "copyright": "All rights reserved.",
+      "partnerText": "Official Training Partner IDP & Cambridge",
+      "address": "SCO 42-45, 2nd & 3rd Floor, Education Hub, Sector 17, Chandigarh, India",
+      "phone": "+91 98765 43210",
+      "email": "info@firstclassglobaleducation.com",
+      "hours": "Mon - Sat: 7:00 AM - 8:30 PM | Sun: Special Mock Tests",
+      "programs": [
+        "IELTS Academic Comprehensive",
+        "IELTS General Training (PR)",
+        "Fast-Track 21-Day Crash Course",
+        "PTE Academic 79+ Guaranteed",
+        "CD-IELTS Computer Simulation Lab",
+        "1-on-1 Daily Speaking Cabins",
+        "Spoken English & Fluency"
+      ]
+    },
+    "whyUs": {
+      "badge": "The First Class Advantage",
+      "title": "Why 12,000+ Students Chose Us Over Others",
+      "subtitle": "We don't just lecture; we train you module-by-module until you score your target band. Here is what sets our coaching methodology apart.",
+      "diagnosticTitle": "Unsure About Your Current IELTS Band Level?",
+      "diagnosticText": "Take our 45-minute Free Diagnostic Evaluation Test & get an accurate band score report from our Senior Head Examiner today.",
+      "diagnosticCta": "Take Free Diagnostic Test",
+      "items": [
+        {
+          "id": "why-1",
+          "title": "Daily 1-on-1 Speaking Cabins",
+          "description": "No group speaking hesitation. Practice daily in sound-isolated acoustic cabins directly with certified examiners who record and grade your fluency, lexical score, and pronunciation."
+        },
+        {
+          "id": "why-2",
+          "title": "Line-by-Line Writing Evaluation",
+          "description": "Submit Task 1 and Task 2 essays daily. Our master mentors mark grammatical range, coherence & cohesion, and task achievement with handwritten corrections."
+        },
+        {
+          "id": "why-3",
+          "title": "Official CD-IELTS Computer Lab",
+          "description": "A 50-terminal computer lab equipped with high-fidelity headsets and official exam simulation software to build typing speed and exam stamina."
+        },
+        {
+          "id": "why-4",
+          "title": "Certified Master Mentors",
+          "description": "Learn exclusively from former British Council and IDP trained trainers with 12+ years average teaching experience."
+        },
+        {
+          "id": "why-5",
+          "title": "Cambridge 1 to 19 Original Kits",
+          "description": "Receive full physical and digital study kits with authentic Cambridge past papers, high-scoring vocabulary banks, and proven task templates."
+        },
+        {
+          "id": "why-6",
+          "title": "Saturday Full Hall Mock Tests",
+          "description": "Strict exam conditions every Saturday with identical timing, invigilators, and real question patterns. Score reports delivered in 24 hours."
+        }
+      ]
+    },
     "socialLinks": {
       "instagram": "https://instagram.com",
       "facebook": "https://facebook.com",

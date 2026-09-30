@@ -69,7 +69,7 @@ export default function HomeClient({ initialData }) {
         <ResultsSection results={results} />
 
         {/* Why Choose Us */}
-        <WhyUsSection onBookClick={() => handleOpenModal()} />
+        <WhyUsSection whyUs={settings.whyUs} onBookClick={() => handleOpenModal()} />
 
         {/* Dynamic Campus & Events Gallery */}
         <GallerySection gallery={gallery} />

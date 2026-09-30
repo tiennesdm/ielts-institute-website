@@ -21,24 +21,41 @@ export async function POST(request) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const mimeType = file.type || 'image/jpeg';
 
-    // Sanitize filename and create unique name
+    // Generate safe filename
     const ext = path.extname(file.name) || '.jpg';
     const sanitizedBase = path.basename(file.name, ext).replace(/[^a-zA-Z0-9-_]/g, '_');
     const filename = `${sanitizedBase}_${Date.now()}${ext}`;
 
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    // Generate Base64 Data URL as a 100% resilient fallback for cloud containers
+    const base64Data = buffer.toString('base64');
+    const dataUrl = `data:${mimeType};base64,${base64Data}`;
+
+    // Attempt to save to public/uploads directory if filesystem is writable
+    let diskUrl = null;
+    try {
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
+      diskUrl = `/uploads/${filename}`;
+    } catch (fsErr) {
+      console.warn('Filesystem write not permitted, using Data URL fallback:', fsErr);
     }
 
-    const filePath = path.join(uploadDir, filename);
-    fs.writeFileSync(filePath, buffer);
+    // Return disk URL if available, otherwise return Data URL
+    const finalUrl = diskUrl || dataUrl;
 
-    const fileUrl = `/uploads/${filename}`;
-    return NextResponse.json({ success: true, url: fileUrl });
+    return NextResponse.json({
+      success: true,
+      url: finalUrl,
+      isDataUrl: !diskUrl
+    });
   } catch (error) {
-    console.error('File upload error:', error);
-    return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
+    console.error('File upload fatal error:', error);
+    return NextResponse.json({ error: error.message || 'Failed to upload image' }, { status: 500 });
   }
 }
