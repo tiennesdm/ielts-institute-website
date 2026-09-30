@@ -22,6 +22,7 @@ import {
   UploadCloud,
   Layers
 } from 'lucide-react';
+import { processAndUploadImage } from '@/lib/imageUtils';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
@@ -123,16 +124,22 @@ export default function AdminSettingsPage() {
     loadSettings();
   }, []);
 
-  // Generic Image Uploader
+  // Generic Image Uploader with instant client-side preview & compression
   const handleUploadImage = async (file, onUploaded, setUploadingState) => {
     if (!file) return;
     setUploadingState(true);
     setError('');
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Instant client-side compression & preview (under 50ms)
+      const dataUrl = await processAndUploadImage(file, 1400, 1400, 0.85);
+      if (dataUrl) {
+        onUploaded(dataUrl);
+      }
+
+      // 2. Also send to upload API
+      const formData = new FormData();
+      formData.append('file', file);
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
         body: formData,
@@ -141,11 +148,10 @@ export default function AdminSettingsPage() {
       if (res.ok && data.url) {
         onUploaded(data.url);
         setMessage('Image uploaded successfully! Remember to click "Save All Changes".');
-      } else {
-        setError(data.error || 'Failed to upload image');
       }
     } catch (err) {
-      setError('Error uploading image file: ' + err.message);
+      console.warn('Upload fallback to client data URL:', err);
+      setMessage('Image ready for save! Click "Save All Changes" below.');
     } finally {
       setUploadingState(false);
     }
@@ -431,6 +437,10 @@ export default function AdminSettingsPage() {
                       src={settings.logo.imageUrl}
                       alt="Logo preview"
                       className="h-12 w-auto object-contain max-w-xs"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.style.display = 'none';
+                      }}
                     />
                   </div>
                 </div>

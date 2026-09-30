@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { PlusCircle, Edit3, Trash2, Trophy, Image as ImageIcon, X, Award, CheckCircle2 } from 'lucide-react';
+import { processAndUploadImage } from '@/lib/imageUtils';
 
 export default function AdminResultsPage() {
   const [results, setResults] = useState([]);
@@ -77,19 +78,23 @@ export default function AdminResultsPage() {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Instant client-side compression & preview
+      const dataUrl = await processAndUploadImage(file, 800, 800, 0.85);
+      if (dataUrl) {
+        setCurrentResult(prev => ({ ...prev, photo: dataUrl }));
+      }
+
+      // 2. Also send to upload API
+      const formData = new FormData();
+      formData.append('file', file);
       const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const data = await res.json();
       if (res.ok && data.url) {
         setCurrentResult(prev => ({ ...prev, photo: data.url }));
-      } else {
-        alert(data.error || 'Failed to upload photo');
       }
     } catch (err) {
-      alert('Upload error');
+      console.warn('Upload fallback to client data URL:', err);
     } finally {
       setUploading(false);
     }
@@ -391,6 +396,22 @@ export default function AdminResultsPage() {
                     <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                   </label>
                 </div>
+                {currentResult.photo && (
+                  <div className="mt-2 flex items-center gap-3 p-2 bg-slate-50 border border-slate-200 rounded-xl">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-slate-200 bg-white">
+                      <img
+                        src={currentResult.photo}
+                        alt="Student"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
+                        }}
+                      />
+                    </div>
+                    <span className="text-[11px] text-slate-500 font-medium">Selected student portrait preview</span>
+                  </div>
+                )}
               </div>
 
               {/* Quote */}

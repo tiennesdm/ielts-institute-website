@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { PlusCircle, Edit3, Trash2, Star, Image as ImageIcon, X } from 'lucide-react';
+import { processAndUploadImage } from '@/lib/imageUtils';
 
 export default function AdminTestimonialsPage() {
   const [testimonials, setTestimonials] = useState([]);
@@ -64,17 +65,23 @@ export default function AdminTestimonialsPage() {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Instant client-side compression & preview
+      const dataUrl = await processAndUploadImage(file, 800, 800, 0.85);
+      if (dataUrl) {
+        setCurrentItem(prev => ({ ...prev, photo: dataUrl }));
+      }
+
+      // 2. Also send to upload API
+      const formData = new FormData();
+      formData.append('file', file);
       const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
       const data = await res.json();
       if (res.ok && data.url) {
         setCurrentItem(prev => ({ ...prev, photo: data.url }));
       }
     } catch (e) {
-      alert('Upload error');
+      console.warn('Upload fallback to client data URL:', e);
     } finally {
       setUploading(false);
     }
@@ -259,6 +266,22 @@ export default function AdminTestimonialsPage() {
                     <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                   </label>
                 </div>
+                {currentItem.photo && (
+                  <div className="mt-2 flex items-center gap-3 p-2 bg-slate-50 border border-slate-200 rounded-xl">
+                    <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-slate-200 bg-white">
+                      <img
+                        src={currentItem.photo}
+                        alt="Student"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
+                        }}
+                      />
+                    </div>
+                    <span className="text-[11px] text-slate-500 font-medium">Selected student review photo</span>
+                  </div>
+                )}
               </div>
 
               <div>

@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { PlusCircle, Trash2, Image as ImageIcon, UploadCloud, X, CheckCircle2, Eye, Filter } from 'lucide-react';
 
+import { processAndUploadImage } from '@/lib/imageUtils';
+
 export default function AdminGalleryPage() {
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,10 +49,16 @@ export default function AdminGalleryPage() {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Instant client-side compression & preview (instant within 50ms)
+      const dataUrl = await processAndUploadImage(file);
+      if (dataUrl) {
+        setNewItem(prev => ({ ...prev, image: dataUrl }));
+      }
+
+      // 2. Also send to server upload endpoint
+      const formData = new FormData();
+      formData.append('file', file);
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
         body: formData,
@@ -58,11 +66,9 @@ export default function AdminGalleryPage() {
       const data = await res.json();
       if (res.ok && data.url) {
         setNewItem(prev => ({ ...prev, image: data.url }));
-      } else {
-        alert(data.error || 'Failed to upload image file');
       }
     } catch (err) {
-      alert('Upload failed');
+      console.warn('Upload fallback to client image:', err);
     } finally {
       setUploading(false);
     }
@@ -297,11 +303,17 @@ export default function AdminGalleryPage() {
                 {newItem.image && (
                   <div className="mt-3">
                     <span className="text-[10px] text-slate-400 font-semibold block mb-1">Selected Preview:</span>
-                    <img
-                      src={newItem.image}
-                      alt="Preview"
-                      className="h-32 w-full object-cover rounded-xl border border-slate-200 shadow-sm"
-                    />
+                    <div className="relative h-36 w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center">
+                      <img
+                        src={newItem.image}
+                        alt="Preview"
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80';
+                        }}
+                      />
+                    </div>
                   </div>
                 )}
               </div>

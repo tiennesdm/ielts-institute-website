@@ -90,6 +90,9 @@ export default function Navbar({ settings, onBookClick }) {
                 src={logo.imageUrl}
                 alt={settings?.instituteName || 'Logo'}
                 className="h-10 sm:h-12 w-auto object-contain max-w-[200px]"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
               />
             ) : (
               <>

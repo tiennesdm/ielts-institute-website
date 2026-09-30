@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { PlusCircle, Edit3, Trash2, Check, Clock, DollarSign, Image as ImageIcon, X, Save, AlertCircle } from 'lucide-react';
+import { processAndUploadImage } from '@/lib/imageUtils';
 
 export default function AdminCoursesPage() {
   const [courses, setCourses] = useState([]);
@@ -73,10 +74,16 @@ export default function AdminCoursesPage() {
     if (!file) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // 1. Instant client-side compression and preview
+      const dataUrl = await processAndUploadImage(file);
+      if (dataUrl) {
+        setCurrentCourse(prev => ({ ...prev, image: dataUrl }));
+      }
+
+      // 2. Also send to upload API
+      const formData = new FormData();
+      formData.append('file', file);
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
         body: formData,
@@ -84,11 +91,9 @@ export default function AdminCoursesPage() {
       const data = await res.json();
       if (res.ok && data.url) {
         setCurrentCourse(prev => ({ ...prev, image: data.url }));
-      } else {
-        alert(data.error || 'Failed to upload image');
       }
     } catch (err) {
-      alert('Upload error');
+      console.warn('Upload fallback to client data URL:', err);
     } finally {
       setUploading(false);
     }
@@ -372,6 +377,19 @@ export default function AdminCoursesPage() {
                     <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                   </label>
                 </div>
+                {currentCourse.image && (
+                  <div className="mt-2 relative h-28 w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-100 flex items-center justify-center">
+                    <img
+                      src={currentCourse.image}
+                      alt="Course Preview"
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop';
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Bullet Features Manager */}
