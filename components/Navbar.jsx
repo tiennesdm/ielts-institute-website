@@ -64,9 +64,9 @@ export default function Navbar({ settings, onBookClick }) {
   }, []);
 
   const courseList = [
-    { title: 'IELTS Academic Comprehensive', tag: '8+ Bands', desc: 'For University Admissions in Canada, UK, Australia' },
-    { title: 'IELTS General Training (PR)', tag: 'CLB 9/10', desc: 'Canada Express Entry & Work Visa Special' },
-    { title: 'Fast-Track IELTS Crash Course', tag: '21 Days', desc: 'Intensive exam strategies & high-frequency papers' },
+    { title: 'IELTS Academic Comprehensive', tag: '8+ Band Focus', desc: 'Complete 4-module mastery with daily mock drills' },
+    { title: 'IELTS General Training (PR)', tag: 'Canada & Aus', desc: 'CLB 9/10 targeted strategies for express entry' },
+    { title: 'Fast-Track 21-Day Crash Course', tag: 'Super Fast', desc: 'Exam shortcuts, band 8 templates & speaking cabins' },
     { title: 'PTE Academic 79+ Guaranteed', tag: 'Pearson Lab', desc: 'AI software scoring lab with real headphones' },
     { title: 'CD-IELTS Computer Delivered', tag: 'Computer Lab', desc: 'Official test interface replica & typing drills' },
     { title: 'Spoken English & Fluency', tag: 'Fluency', desc: 'Grammar foundation & interview confidence' },
@@ -76,20 +76,20 @@ export default function Navbar({ settings, onBookClick }) {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5 border-b border-slate-200/80'
-          : 'bg-white border-b border-slate-200 py-3.5'
+          ? 'bg-white/95 backdrop-blur-md shadow-md py-2 border-b border-slate-200/80'
+          : 'bg-white border-b border-slate-200/90 py-2.5 sm:py-3'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3 xl:gap-6">
           
-          {/* Brand Logo - 100% Dynamic */}
-          <Link href="/" className="flex items-center gap-3 group">
+          {/* Brand Logo - Sleek & Balanced Spacing */}
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
             {logo.type === 'image' && logo.imageUrl ? (
               <img
                 src={logo.imageUrl}
                 alt={settings?.instituteName || 'Logo'}
-                className="h-10 sm:h-12 w-auto object-contain max-w-[200px]"
+                className="h-9 sm:h-10 w-auto object-contain max-w-[170px] sm:max-w-[210px]"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
@@ -97,20 +97,20 @@ export default function Navbar({ settings, onBookClick }) {
             ) : (
               <>
                 {logo.showIcon !== false && (
-                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-blue-950 via-blue-900 to-red-600 flex items-center justify-center text-white shadow-md shadow-blue-950/20 group-hover:scale-105 transition-transform shrink-0">
-                    <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-950 via-blue-900 to-red-600 flex items-center justify-center text-white shadow-md shadow-blue-950/15 group-hover:scale-105 transition-transform shrink-0">
+                    <GraduationCap className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
                   </div>
                 )}
                 <div>
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-lg sm:text-xl font-black text-slate-900 tracking-tight group-hover:text-blue-900 transition-colors">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-base sm:text-lg font-black text-slate-900 tracking-tight group-hover:text-blue-900 transition-colors whitespace-nowrap">
                       {logo.textPart1 || settings?.instituteName?.split(' ')[0] || 'First Class'}
                     </span>
-                    <span className="text-lg sm:text-xl font-black text-red-600">
+                    <span className="text-base sm:text-lg font-black text-red-600 whitespace-nowrap">
                       {logo.textPart2 || settings?.instituteName?.split(' ').slice(1).join(' ') || 'Global Education'}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-xs">
+                  <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight">
                     {logo.tagline || settings?.tagline || 'Premier IELTS, PTE & Study Abroad Academy'}
                   </p>
                 </div>
@@ -118,8 +118,8 @@ export default function Navbar({ settings, onBookClick }) {
             )}
           </Link>
 
-          {/* Desktop Navigation Links - 100% Dynamic */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {/* Desktop Navigation Links - Perfectly Spaced & Proportional */}
+          <nav className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1.5 flex-1 max-w-3xl">
             {links.map((link) => {
               const isCourses = link.href === '#courses' || link.label.toLowerCase().includes('course');
 
@@ -128,11 +128,11 @@ export default function Navbar({ settings, onBookClick }) {
                   <div key={link.id || link.label} className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setCoursesDropdownOpen(!coursesDropdownOpen)}
-                      className="px-3 py-2 text-sm font-bold text-slate-700 hover:text-red-600 rounded-lg transition-colors flex items-center gap-1 group"
+                      className="px-2 xl:px-2.5 py-1.5 text-[13px] xl:text-sm font-bold text-slate-700 hover:text-red-600 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1 group whitespace-nowrap"
                     >
                       <span>{link.label}</span>
                       <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-200 ${
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
                           coursesDropdownOpen ? 'rotate-180 text-red-600' : 'text-slate-400 group-hover:text-red-600'
                         }`}
                       />
@@ -189,7 +189,7 @@ export default function Navbar({ settings, onBookClick }) {
                 <a
                   key={link.id || link.label}
                   href={link.href}
-                  className="px-3 py-2 text-sm font-bold text-slate-700 hover:text-red-600 rounded-lg transition-colors"
+                  className="px-2 xl:px-2.5 py-1.5 text-[13px] xl:text-sm font-semibold text-slate-700 hover:text-red-600 hover:bg-slate-50 rounded-lg transition-colors whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -197,12 +197,12 @@ export default function Navbar({ settings, onBookClick }) {
             })}
           </nav>
 
-          {/* Right Action CTA */}
-          <div className="hidden sm:flex items-center gap-2.5">
+          {/* Right Action CTA - Balanced with Nav */}
+          <div className="hidden sm:flex items-center gap-2 sm:gap-2.5 shrink-0">
             {navConfig.showPhone !== false && phone && (
               <a
                 href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="hidden xl:flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-blue-900 px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="hidden 2xl:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-blue-900 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors whitespace-nowrap"
               >
                 <Phone className="w-3.5 h-3.5 text-red-600" />
                 <span>{phone}</span>
@@ -211,7 +211,7 @@ export default function Navbar({ settings, onBookClick }) {
 
             <button
               onClick={onBookClick}
-              className="relative group overflow-hidden rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 text-white text-xs font-black px-4 py-2.5 shadow-md shadow-red-600/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+              className="relative group overflow-hidden rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 text-white text-xs font-black px-4 py-2 sm:py-2.5 shadow-md shadow-red-600/25 transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 whitespace-nowrap"
             >
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               <span>{ctaText}</span>
@@ -227,7 +227,7 @@ export default function Navbar({ settings, onBookClick }) {
           </div>
 
           {/* Mobile Menu Hamburger Button */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2 shrink-0">
             <button
               onClick={onBookClick}
               className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-sm"
@@ -237,24 +237,25 @@ export default function Navbar({ settings, onBookClick }) {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none"
+              aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile Drawer Menu - Dynamic Links */}
+      {/* Mobile Drawer Menu - Clean Spacing */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-4 pb-6 space-y-4 animate-in fade-in duration-200 shadow-xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-5 space-y-3 animate-in fade-in duration-200 shadow-xl">
           <div className="grid grid-cols-2 gap-2 text-xs font-bold text-slate-700">
             {links.map((link) => (
               <a
                 key={link.id || link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-3 bg-slate-50 hover:bg-slate-100 rounded-xl flex items-center gap-1.5"
+                className="p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-100 rounded-xl flex items-center justify-center text-center transition-colors"
               >
                 <span>{link.label}</span>
               </a>
@@ -265,9 +266,9 @@ export default function Navbar({ settings, onBookClick }) {
             {phone && (
               <a
                 href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 bg-slate-50"
+                className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 bg-slate-50"
               >
-                <Phone className="w-4 h-4 text-red-600" />
+                <Phone className="w-3.5 h-3.5 text-red-600" />
                 Call Now: {phone}
               </a>
             )}
@@ -277,7 +278,7 @@ export default function Navbar({ settings, onBookClick }) {
                 setMobileMenuOpen(false);
                 onBookClick();
               }}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-black shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-black shadow-lg shadow-red-600/25 flex items-center justify-center gap-2"
             >
               <Sparkles className="w-4 h-4 text-yellow-300" />
               {ctaText}
@@ -286,7 +287,7 @@ export default function Navbar({ settings, onBookClick }) {
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-400 hover:text-slate-800"
+              className="flex items-center justify-center gap-2 py-1.5 text-xs font-medium text-slate-400 hover:text-slate-800"
             >
               <UserCog className="w-3.5 h-3.5" />
               Admin Portal
