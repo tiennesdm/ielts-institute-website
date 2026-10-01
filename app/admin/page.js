@@ -70,6 +70,7 @@ export default function AdminDashboardPage() {
   const coursesCount = data?.courses?.length || 0;
   const galleryCount = data?.gallery?.length || 0;
   const resultsCount = data?.results?.length || 0;
+  const universitiesCount = data?.universities?.items?.length || 0;
   const totalLeads = leads.length;
   const newLeads = leads.filter(l => l.status === 'New').length;
 
@@ -87,7 +88,14 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <Link
+            href="/admin/universities"
+            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>Manage Universities</span>
+          </Link>
           <Link
             href="/admin/gallery"
             className="px-4 py-2.5 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
@@ -105,56 +113,66 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Metric Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {/* Metric Cards Grid - 5 Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
         {/* Card 1: Leads */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Leads</span>
-            <div className="text-3xl font-black text-slate-900 mt-1">{totalLeads}</div>
-            <div className="text-xs font-semibold text-red-600 mt-1 flex items-center gap-1">
-              <span>{newLeads} pending callback</span>
-            </div>
+            <div className="text-2xl font-black text-slate-900 mt-1">{totalLeads}</div>
+            <div className="text-xs font-semibold text-red-600 mt-0.5">{newLeads} pending callback</div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
-            <Users className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+            <Users className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Card 2: Courses */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        {/* Card 2: Universities */}
+        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Courses</span>
-            <div className="text-3xl font-black text-slate-900 mt-1">{coursesCount}</div>
-            <div className="text-xs font-medium text-slate-500 mt-1">Live on website</div>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Universities</span>
+            <div className="text-2xl font-black text-slate-900 mt-1">{universitiesCount}</div>
+            <div className="text-xs font-medium text-emerald-600 mt-0.5 font-semibold">Direct Tie-ups</div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center">
-            <BookOpen className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <GraduationCap className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Card 3: Gallery */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        {/* Card 3: Courses */}
+        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gallery Images</span>
-            <div className="text-3xl font-black text-slate-900 mt-1">{galleryCount}</div>
-            <div className="text-xs font-medium text-slate-500 mt-1">Photos & Lab Shots</div>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Courses</span>
+            <div className="text-2xl font-black text-slate-900 mt-1">{coursesCount}</div>
+            <div className="text-xs font-medium text-slate-500 mt-0.5">Live on site</div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-            <ImageIcon className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center">
+            <BookOpen className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Card 4: Results */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        {/* Card 4: Gallery */}
+        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+          <div>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Gallery</span>
+            <div className="text-2xl font-black text-slate-900 mt-1">{galleryCount}</div>
+            <div className="text-xs font-medium text-slate-500 mt-0.5">Photos & Labs</div>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <ImageIcon className="w-5 h-5" />
+          </div>
+        </div>
+
+        {/* Card 5: Results */}
+        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">High Scorers</span>
-            <div className="text-3xl font-black text-slate-900 mt-1">{resultsCount}</div>
-            <div className="text-xs font-medium text-emerald-600 mt-1 font-semibold">8+ Band Achievers</div>
+            <div className="text-2xl font-black text-slate-900 mt-1">{resultsCount}</div>
+            <div className="text-xs font-medium text-amber-600 mt-0.5 font-semibold">8+ Band Alumni</div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <Trophy className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <Trophy className="w-5 h-5" />
           </div>
         </div>
 

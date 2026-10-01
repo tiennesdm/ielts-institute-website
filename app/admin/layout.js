@@ -72,6 +72,7 @@ export default function AdminLayout({ children }) {
   const menuItems = [
     { label: 'Dashboard', href: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
     { label: 'Site Settings & Hero', href: '/admin/settings', icon: <Settings className="w-5 h-5" /> },
+    { label: 'University Tie-ups', href: '/admin/universities', icon: <GraduationCap className="w-5 h-5" /> },
     { label: 'Manage Courses', href: '/admin/courses', icon: <BookOpen className="w-5 h-5" /> },
     { label: 'Photo Gallery', href: '/admin/gallery', icon: <ImageIcon className="w-5 h-5" /> },
     { label: '8+ Band Results', href: '/admin/results', icon: <Trophy className="w-5 h-5" /> },

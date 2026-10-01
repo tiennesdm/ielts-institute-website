@@ -35,6 +35,7 @@ export default function Navbar({ settings, onBookClick }) {
     { id: 'nav-1', label: 'Home', href: '#' },
     { id: 'nav-2', label: 'Courses', href: '#courses' },
     { id: 'nav-3', label: '8+ Band Results', href: '#results' },
+    { id: 'nav-uni', label: 'University Tie-ups', href: '#universities' },
     { id: 'nav-4', label: 'Gallery', href: '#gallery' },
     { id: 'nav-5', label: 'Batches', href: '#batches' },
     { id: 'nav-6', label: 'Why Us', href: '#why-us' },

@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import StatsSection from '@/components/StatsSection';
 import CoursesSection from '@/components/CoursesSection';
 import ResultsSection from '@/components/ResultsSection';
+import UniversitySection from '@/components/UniversitySection';
 import GallerySection from '@/components/GallerySection';
 import WhyUsSection from '@/components/WhyUsSection';
 import BatchesSection from '@/components/BatchesSection';
@@ -22,6 +23,7 @@ export default function HomeClient({ initialData }) {
   const settings = initialData?.settings || {};
   const courses = initialData?.courses || [];
   const results = initialData?.results || [];
+  const universities = initialData?.universities || {};
   const gallery = initialData?.gallery || [];
   const batches = initialData?.batches || [];
   const testimonials = initialData?.testimonials || [];
@@ -67,6 +69,12 @@ export default function HomeClient({ initialData }) {
 
         {/* Hall of Fame / High Scorers */}
         <ResultsSection results={results} />
+
+        {/* Global University Tie-Ups Section */}
+        <UniversitySection
+          universities={universities}
+          onSelectUniversity={(uniName) => handleOpenModal(uniName)}
+        />
 
         {/* Why Choose Us */}
         <WhyUsSection whyUs={settings.whyUs} onBookClick={() => handleOpenModal()} />

@@ -20,6 +20,7 @@ export async function GET() {
       testimonials: db.testimonials,
       batches: db.batches,
       faqs: db.faqs,
+      universities: db.universities || {},
     };
 
     return NextResponse.json(publicData);
