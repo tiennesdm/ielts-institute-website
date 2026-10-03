@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import BrandLogo from './BrandLogo';
 import { GraduationCap, Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck, UserCog } from 'lucide-react';
 
 export default function Footer({ settings }) {
@@ -45,26 +46,7 @@ export default function Footer({ settings }) {
           
           {/* Col 1: Brand & Bio */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              {logo.type === 'image' && logo.imageUrl ? (
-                <img
-                  src={logo.imageUrl}
-                  alt={instituteName}
-                  className="h-10 w-auto object-contain max-w-[180px]"
-                />
-              ) : (
-                <>
-                  {logo.showIcon !== false && (
-                    <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white font-bold shrink-0">
-                      <GraduationCap className="w-6 h-6" />
-                    </div>
-                  )}
-                  <span className="text-xl font-black text-white tracking-tight">
-                    {instituteName}
-                  </span>
-                </>
-              )}
-            </div>
+            <BrandLogo placement="footer" settings={settings} />
             <p className="text-xs text-slate-400 leading-relaxed">
               {bio}
             </p>

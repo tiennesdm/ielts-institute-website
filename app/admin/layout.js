@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import BrandLogo from '@/components/BrandLogo';
 import {
   LayoutDashboard,
   Settings,
@@ -24,9 +25,17 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [settings, setSettings] = useState(null);
 
   // If on login page, render children without sidebar
   const isLoginPage = pathname === '/admin/login';
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then(r => r.json())
+      .then(d => { if (d?.settings) setSettings(d.settings); })
+      .catch(() => {});
+  }, [pathname]);
 
   useEffect(() => {
     if (isLoginPage) {
@@ -110,16 +119,10 @@ export default function AdminLayout({ children }) {
       >
         <div>
           {/* Logo & Header */}
-          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center text-white shadow-md">
-                <GraduationCap className="w-6 h-6" />
-              </div>
-              <div>
-                <h2 className="font-black text-white text-base leading-tight">First Class Admin</h2>
-                <p className="text-[11px] text-slate-400">Content Management</p>
-              </div>
-            </div>
+          <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+            <Link href="/admin" className="flex items-center">
+              <BrandLogo placement="admin" settings={settings} />
+            </Link>
           </div>
 
           {/* Nav List */}

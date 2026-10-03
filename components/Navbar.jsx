@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import BrandLogo from './BrandLogo';
 import {
   GraduationCap,
   Phone,
@@ -95,41 +96,9 @@ export default function Navbar({ settings, onBookClick, courses }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-3 xl:gap-6">
           
-          {/* Brand Logo - Sleek & Balanced Spacing */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
-            {logo.type === 'image' && logo.imageUrl ? (
-              <img
-                src={logo.imageUrl}
-                alt={settings?.instituteName || 'Logo'}
-                className="h-9 sm:h-10 w-auto object-contain max-w-[170px] sm:max-w-[210px]"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
-            ) : (
-              <>
-                {logo.showIcon !== false && (
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-950 via-blue-900 to-red-600 flex items-center justify-center text-white shadow-md shadow-blue-950/15 group-hover:scale-105 transition-transform shrink-0">
-                    <GraduationCap className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
-                  </div>
-                )}
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-base sm:text-lg font-black text-slate-900 tracking-tight group-hover:text-blue-900 transition-colors whitespace-nowrap">
-                      {logo.textPart1 || settings?.instituteName?.split(' ')[0] || 'First Class'}
-                    </span>
-                    <span className="text-base sm:text-lg font-black text-red-600 whitespace-nowrap">
-                      {logo.textPart2 || settings?.instituteName?.split(' ').slice(1).join(' ') || 'Global Education'}
-                    </span>
-                  </div>
-                  {logoTagline && logoTagline.trim() ? (
-                    <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight">
-                      {logoTagline}
-                    </p>
-                  ) : null}
-                </div>
-              </>
-            )}
+          {/* Brand Logo - Sleek & Fully Dynamic */}
+          <Link href="/" className="shrink-0 flex items-center">
+            <BrandLogo placement="navbar" settings={settings} />
           </Link>
 
           {/* Desktop Navigation Links - Perfectly Spaced & Proportional */}

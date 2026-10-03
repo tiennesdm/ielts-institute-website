@@ -32,14 +32,18 @@ import {
   Globe
 } from 'lucide-react';
 import { processAndUploadImage } from '@/lib/imageUtils';
+import BrandLogo, { LOGO_ICONS, THEME_GRADIENTS } from '@/components/BrandLogo';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
   const [adminPassword, setAdminPassword] = useState('');
   const [activeTab, setActiveTab] = useState('logo');
+  const [logoSubTab, setLogoSubTab] = useState('navbar');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadingFooterLogo, setUploadingFooterLogo] = useState(false);
+  const [uploadingAdminLogo, setUploadingAdminLogo] = useState(false);
   const [uploadingHero, setUploadingHero] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -67,13 +71,47 @@ export default function AdminSettingsPage() {
           s.logo = {
             type: 'text',
             imageUrl: '',
+            imageHeight: 40,
             textPart1: 'First Class',
             textPart2: 'Global Education',
-            tagline: s.tagline !== undefined ? s.tagline : 'Premier IELTS, PTE & Study Abroad Academy',
-            showIcon: true
+            tagline: s.tagline !== undefined ? s.tagline : '',
+            showIcon: true,
+            icon: 'GraduationCap',
+            themeColor: 'blue-red',
+            badgeGradient: '',
+            textPart1Color: 'text-slate-900',
+            textPart2Color: 'text-red-600',
+            footerUseCustom: false,
+            footerType: 'text',
+            footerImageUrl: '',
+            footerImageHeight: 42,
+            footerText: s.instituteName || 'First Class Global Education',
+            footerTagline: '',
+            footerShowIcon: true,
+            footerIcon: 'GraduationCap',
+            footerBadgeColor: 'bg-red-600',
+            adminUseCustom: false,
+            adminType: 'text',
+            adminImageUrl: '',
+            adminImageHeight: 36,
+            adminTitle: 'First Class Admin',
+            adminSubtitle: 'Content Management',
+            adminShowIcon: true,
+            adminIcon: 'GraduationCap',
+            adminBadgeColor: 'bg-gradient-to-tr from-red-600 to-rose-600',
           };
-        } else if (s.logo.tagline === undefined && s.tagline !== undefined) {
-          s.logo.tagline = s.tagline;
+        } else {
+          if (s.logo.tagline === undefined && s.tagline !== undefined) s.logo.tagline = s.tagline;
+          if (s.logo.imageHeight === undefined) s.logo.imageHeight = 40;
+          if (s.logo.icon === undefined) s.logo.icon = 'GraduationCap';
+          if (s.logo.themeColor === undefined) s.logo.themeColor = 'blue-red';
+          if (s.logo.footerUseCustom === undefined) s.logo.footerUseCustom = false;
+          if (s.logo.footerType === undefined) s.logo.footerType = 'text';
+          if (s.logo.footerImageHeight === undefined) s.logo.footerImageHeight = 42;
+          if (s.logo.footerText === undefined) s.logo.footerText = s.instituteName || 'First Class Global Education';
+          if (s.logo.adminUseCustom === undefined) s.logo.adminUseCustom = false;
+          if (s.logo.adminType === undefined) s.logo.adminType = 'text';
+          if (s.logo.adminImageHeight === undefined) s.logo.adminImageHeight = 36;
         }
         if (!s.navigation) {
           s.navigation = {
@@ -488,166 +526,703 @@ export default function AdminSettingsPage() {
       {/* TAB 1: LOGO & BRAND */}
       {activeTab === 'logo' && (
         <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <Building className="w-5 h-5 text-blue-900" />
-            <h2 className="text-base font-bold text-slate-900">Logo & Brand Identity</h2>
-          </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center font-bold">
+                <Building className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Logo & Multi-Placement Identity</h2>
+                <p className="text-xs text-slate-500">Configure theme colors, custom icons, and independent logos for Header, Footer, and Admin.</p>
+              </div>
+            </div>
 
-          {/* Logo Type Selector */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-2">Logo Display Type</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100 flex-1">
-                <input
-                  type="radio"
-                  name="logoType"
-                  value="text"
-                  checked={settings.logo?.type === 'text'}
-                  onChange={() => setSettings(prev => ({
-                    ...prev,
-                    logo: { ...prev.logo, type: 'text' }
-                  }))}
-                  className="w-4 h-4 text-red-600"
-                />
-                <div>
-                  <span className="text-xs font-bold text-slate-900 block">Stylized Text Logo</span>
-                  <span className="text-[11px] text-slate-400">Customizable 2-part brand text + graduation icon</span>
-                </div>
-              </label>
-
-              <label className="flex items-center gap-2 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100 flex-1">
-                <input
-                  type="radio"
-                  name="logoType"
-                  value="image"
-                  checked={settings.logo?.type === 'image'}
-                  onChange={() => setSettings(prev => ({
-                    ...prev,
-                    logo: { ...prev.logo, type: 'image' }
-                  }))}
-                  className="w-4 h-4 text-red-600"
-                />
-                <div>
-                  <span className="text-xs font-bold text-slate-900 block">Custom Image Logo</span>
-                  <span className="text-[11px] text-slate-400">Upload your institute's official PNG/JPG logo file</span>
-                </div>
-              </label>
+            {/* Placement Switcher Sub-Tabs */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setLogoSubTab('navbar')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  logoSubTab === 'navbar'
+                    ? 'bg-white text-blue-950 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                🌐 Header Navbar
+              </button>
+              <button
+                type="button"
+                onClick={() => setLogoSubTab('footer')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  logoSubTab === 'footer'
+                    ? 'bg-white text-blue-950 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                📄 Footer (Dark)
+              </button>
+              <button
+                type="button"
+                onClick={() => setLogoSubTab('admin')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  logoSubTab === 'admin'
+                    ? 'bg-white text-blue-950 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                🔐 Admin Portal
+              </button>
             </div>
           </div>
 
-          {/* Custom Logo Image Upload */}
-          {settings.logo?.type === 'image' && (
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-700">
-                Upload Custom Logo File (PNG / JPG / WEBP)
-              </label>
-              <div className="flex flex-col sm:flex-row items-center gap-3">
-                <input
-                  type="text"
-                  placeholder="Paste Image URL or upload from computer"
-                  value={settings.logo?.imageUrl || ''}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    logo: { ...prev.logo, imageUrl: e.target.value }
-                  }))}
-                  className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800"
-                />
-                <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm">
-                  <UploadCloud className="w-4 h-4 inline mr-1.5" />
-                  <span>{uploadingLogo ? 'Uploading...' : 'Upload Logo File'}</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleUploadImage(
-                      e.target.files?.[0],
-                      (url) => setSettings(prev => ({ ...prev, logo: { ...prev.logo, imageUrl: url } })),
-                      setUploadingLogo
-                    )}
-                    className="hidden"
-                    disabled={uploadingLogo}
-                  />
-                </label>
+          {/* SUB-TAB 1: HEADER NAVBAR LOGO */}
+          {logoSubTab === 'navbar' && (
+            <div className="space-y-6">
+              {/* Live Preview Card */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-500">Live Header Preview (Light Theme)</span>
+                  <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Interactive</span>
+                </div>
+                <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center justify-between">
+                  <BrandLogo placement="navbar" settings={settings} />
+                  <span className="text-xs text-slate-400 hidden sm:inline font-mono">Navbar Simulation</span>
+                </div>
               </div>
 
-              {settings.logo?.imageUrl && (
-                <div className="pt-2">
-                  <span className="text-[11px] text-slate-400 font-bold block mb-1">Live Logo Preview:</span>
-                  <div className="p-3 bg-white border rounded-xl inline-block shadow-sm">
-                    <img
-                      src={settings.logo.imageUrl}
-                      alt="Logo preview"
-                      className="h-12 w-auto object-contain max-w-xs"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.style.display = 'none';
-                      }}
+              {/* Logo Type Selector */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-2">Header Logo Type</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3.5 rounded-xl hover:bg-slate-100 transition-colors">
+                    <input
+                      type="radio"
+                      name="headerLogoType"
+                      value="text"
+                      checked={settings.logo?.type !== 'image'}
+                      onChange={() => setSettings(prev => ({
+                        ...prev,
+                        logo: { ...prev.logo, type: 'text' }
+                      }))}
+                      className="w-4 h-4 text-red-600"
                     />
+                    <div>
+                      <span className="text-xs font-bold text-slate-900 block">Stylized Dynamic Text Logo</span>
+                      <span className="text-[11px] text-slate-500">Custom 2-part brand text, theme palette, and icon badge</span>
+                    </div>
+                  </label>
+
+                  <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3.5 rounded-xl hover:bg-slate-100 transition-colors">
+                    <input
+                      type="radio"
+                      name="headerLogoType"
+                      value="image"
+                      checked={settings.logo?.type === 'image'}
+                      onChange={() => setSettings(prev => ({
+                        ...prev,
+                        logo: { ...prev.logo, type: 'image' }
+                      }))}
+                      className="w-4 h-4 text-red-600"
+                    />
+                    <div>
+                      <span className="text-xs font-bold text-slate-900 block">Custom Image Logo</span>
+                      <span className="text-[11px] text-slate-500">Upload official transparent PNG/SVG or JPG file</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Header Image Logo Fields */}
+              {settings.logo?.type === 'image' && (
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Header Logo File (PNG / JPG / WEBP / SVG)
+                    </label>
+                    <div className="flex flex-col sm:flex-row items-center gap-3">
+                      <input
+                        type="text"
+                        placeholder="Paste Image URL or click Upload"
+                        value={settings.logo?.imageUrl || ''}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, imageUrl: e.target.value }
+                        }))}
+                        className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800"
+                      />
+                      <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
+                        <UploadCloud className="w-4 h-4" />
+                        <span>{uploadingLogo ? 'Uploading...' : 'Upload Logo File'}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleUploadImage(
+                            e.target.files?.[0],
+                            (url) => setSettings(prev => ({ ...prev, logo: { ...prev.logo, imageUrl: url } })),
+                            setUploadingLogo
+                          )}
+                          className="hidden"
+                          disabled={uploadingLogo}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-center mb-1">
+                      <label className="text-xs font-bold text-slate-700">Logo Display Height (px)</label>
+                      <span className="text-xs font-mono font-bold text-slate-600">{settings.logo?.imageHeight || 40}px</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="28"
+                      max="64"
+                      value={settings.logo?.imageHeight || 40}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        logo: { ...prev.logo, imageHeight: Number(e.target.value) }
+                      }))}
+                      className="w-full accent-red-600 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Header Stylized Text Logo Fields */}
+              {settings.logo?.type !== 'image' && (
+                <div className="space-y-5">
+                  {/* Theme Gradient Color Preset */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Logo Theme & Badge Color Palette
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                      {Object.entries(THEME_GRADIENTS).map(([key, val]) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => setSettings(prev => ({
+                            ...prev,
+                            logo: {
+                              ...prev.logo,
+                              themeColor: key,
+                              badgeGradient: val.badge
+                            }
+                          }))}
+                          className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
+                            (settings.logo?.themeColor || 'blue-red') === key
+                              ? 'border-blue-900 ring-2 ring-blue-900/20 bg-blue-50/50'
+                              : 'border-slate-200 hover:border-slate-300 bg-white'
+                          }`}
+                        >
+                          <div className={`w-6 h-6 rounded-lg ${val.badge} shrink-0 shadow-sm`} />
+                          <span className="text-xs font-bold text-slate-800 truncate">{val.label.split('(')[0]}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Icon Selector */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Choose Icon Badge Symbol
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                      {Object.entries(LOGO_ICONS).map(([key, item]) => {
+                        const IconComp = item.component;
+                        const isSelected = (settings.logo?.icon || 'GraduationCap') === key;
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, icon: key }
+                            }))}
+                            className={`p-2 rounded-xl border flex items-center gap-2 transition-all ${
+                              isSelected
+                                ? 'border-red-600 bg-red-50 text-red-600 font-bold'
+                                : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                            }`}
+                          >
+                            <IconComp className="w-4 h-4 shrink-0" />
+                            <span className="text-xs truncate">{item.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Brand Text Inputs */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 1)</label>
+                      <input
+                        type="text"
+                        value={settings.logo?.textPart1 || ''}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, textPart1: e.target.value }
+                        }))}
+                        placeholder="First Class"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-900"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 2)</label>
+                      <input
+                        type="text"
+                        value={settings.logo?.textPart2 || ''}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, textPart2: e.target.value }
+                        }))}
+                        placeholder="Global Education"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-red-600"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Tagline / Subtext under Logo (Leave empty to hide completely)
+                      </label>
+                      <input
+                        type="text"
+                        value={settings.logo?.tagline !== undefined ? settings.logo.tagline : (settings.tagline !== undefined ? settings.tagline : '')}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          tagline: e.target.value,
+                          logo: { ...prev.logo, tagline: e.target.value }
+                        }))}
+                        placeholder="e.g. Premier IELTS, PTE & Study Abroad Academy"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="flex items-center gap-2 cursor-pointer pt-1">
+                        <input
+                          type="checkbox"
+                          checked={settings.logo?.showIcon !== false}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            logo: { ...prev.logo, showIcon: e.target.checked }
+                          }))}
+                          className="w-4 h-4 text-red-600 rounded"
+                        />
+                        <span className="text-xs font-bold text-slate-800">Show Icon Badge in Logo</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           )}
 
-          {/* Text Logo Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 1 - Dark Text)</label>
-              <input
-                type="text"
-                value={settings.logo?.textPart1 || ''}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  logo: { ...prev.logo, textPart1: e.target.value }
-                }))}
-                placeholder="First Class"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-900"
-              />
-            </div>
+          {/* SUB-TAB 2: FOOTER LOGO */}
+          {logoSubTab === 'footer' && (
+            <div className="space-y-6">
+              {/* Live Preview on Dark Background */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">Live Footer Preview (Dark Theme)</span>
+                  <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800">Interactive</span>
+                </div>
+                <div className="p-5 bg-slate-950 border border-slate-800 rounded-xl shadow-inner flex items-center justify-between">
+                  <BrandLogo placement="footer" settings={settings} />
+                  <span className="text-xs text-slate-500 hidden sm:inline font-mono">Footer Simulation</span>
+                </div>
+              </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 2 - Red Text)</label>
-              <input
-                type="text"
-                value={settings.logo?.textPart2 || ''}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  logo: { ...prev.logo, textPart2: e.target.value }
-                }))}
-                placeholder="Global Education"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-red-600"
-              />
-            </div>
+              {/* Custom Footer Logo Toggle */}
+              <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={settings.logo?.footerUseCustom === true}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      logo: { ...prev.logo, footerUseCustom: e.target.checked }
+                    }))}
+                    className="w-4 h-4 text-red-600 rounded"
+                  />
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 block">Use Custom / Dedicated Logo for Footer</span>
+                    <span className="text-[11px] text-slate-500">Enable this if you want a separate logo (e.g. an all-white PNG for dark backgrounds) in the footer.</span>
+                  </div>
+                </label>
+              </div>
 
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-slate-700 mb-1">Tagline / Subtext under Logo</label>
-              <input
-                type="text"
-                value={settings.logo?.tagline !== undefined ? settings.logo.tagline : (settings.tagline !== undefined ? settings.tagline : '')}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  tagline: e.target.value,
-                  logo: { ...prev.logo, tagline: e.target.value }
-                }))}
-                placeholder="Premier IELTS, PTE & Study Abroad Academy"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
-              />
-            </div>
+              {settings.logo?.footerUseCustom ? (
+                <div className="space-y-5 p-4 border border-slate-200 rounded-2xl">
+                  {/* Footer Logo Type */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100">
+                      <input
+                        type="radio"
+                        name="footerLogoType"
+                        value="image"
+                        checked={settings.logo?.footerType === 'image'}
+                        onChange={() => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, footerType: 'image' }
+                        }))}
+                        className="w-4 h-4 text-red-600"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 block">Custom Footer Image</span>
+                        <span className="text-[11px] text-slate-500">Transparent white PNG/SVG for dark background</span>
+                      </div>
+                    </label>
 
-            <div>
-              <label className="flex items-center gap-2 cursor-pointer pt-2">
-                <input
-                  type="checkbox"
-                  checked={settings.logo?.showIcon !== false}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    logo: { ...prev.logo, showIcon: e.target.checked }
-                  }))}
-                  className="w-4 h-4 text-red-600 rounded"
-                />
-                <span className="text-xs font-bold text-slate-800">Show Graduation Cap Icon Badge</span>
-              </label>
+                    <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100">
+                      <input
+                        type="radio"
+                        name="footerLogoType"
+                        value="text"
+                        checked={settings.logo?.footerType !== 'image'}
+                        onChange={() => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, footerType: 'text' }
+                        }))}
+                        className="w-4 h-4 text-red-600"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 block">Custom Footer Text</span>
+                        <span className="text-[11px] text-slate-500">White typography with customizable icon</span>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* If Footer Image */}
+                  {settings.logo?.footerType === 'image' && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">
+                          Footer Image File (Transparent White PNG / SVG)
+                        </label>
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                          <input
+                            type="text"
+                            placeholder="Paste Footer Logo URL or upload"
+                            value={settings.logo?.footerImageUrl || ''}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, footerImageUrl: e.target.value }
+                            }))}
+                            className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800"
+                          />
+                          <label className="px-4 py-2.5 bg-blue-950 hover:bg-blue-900 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
+                            <UploadCloud className="w-4 h-4" />
+                            <span>{uploadingFooterLogo ? 'Uploading...' : 'Upload Footer Logo'}</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleUploadImage(
+                                e.target.files?.[0],
+                                (url) => setSettings(prev => ({ ...prev, logo: { ...prev.logo, footerImageUrl: url } })),
+                                setUploadingFooterLogo
+                              )}
+                              className="hidden"
+                              disabled={uploadingFooterLogo}
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-xs font-bold text-slate-700">Footer Logo Height (px)</label>
+                          <span className="text-xs font-mono font-bold text-slate-600">{settings.logo?.footerImageHeight || 42}px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="28"
+                          max="64"
+                          value={settings.logo?.footerImageHeight || 42}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            logo: { ...prev.logo, footerImageHeight: Number(e.target.value) }
+                          }))}
+                          className="w-full accent-blue-950 cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* If Footer Text */}
+                  {settings.logo?.footerType !== 'image' && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Footer Brand Text</label>
+                        <input
+                          type="text"
+                          value={settings.logo?.footerText || ''}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            logo: { ...prev.logo, footerText: e.target.value }
+                          }))}
+                          placeholder={settings.instituteName || 'First Class Global Education'}
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Footer Tagline (Optional)</label>
+                        <input
+                          type="text"
+                          value={settings.logo?.footerTagline || ''}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            logo: { ...prev.logo, footerTagline: e.target.value }
+                          }))}
+                          placeholder="e.g. Official Training Partner IDP & Cambridge"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Footer Icon Badge Symbol</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                          {Object.entries(LOGO_ICONS).map(([key, item]) => {
+                            const IconComp = item.component;
+                            const isSelected = (settings.logo?.footerIcon || 'GraduationCap') === key;
+                            return (
+                              <button
+                                key={key}
+                                type="button"
+                                onClick={() => setSettings(prev => ({
+                                  ...prev,
+                                  logo: { ...prev.logo, footerIcon: key }
+                                }))}
+                                className={`p-2 rounded-xl border flex items-center gap-2 transition-all ${
+                                  isSelected
+                                    ? 'border-blue-900 bg-blue-50 text-blue-900 font-bold'
+                                    : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                              >
+                                <IconComp className="w-4 h-4 shrink-0" />
+                                <span className="text-xs truncate">{item.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="p-4 bg-blue-50/60 border border-blue-200 rounded-xl text-xs text-blue-900 space-y-1">
+                  <p className="font-bold">ℹ️ Currently Linked to Header Logo</p>
+                  <p className="text-blue-800/80">The footer automatically adapts your header logo with high-contrast text and crisp styling for dark backgrounds. Check the box above if you wish to upload a unique, dedicated image file or custom text for the footer.</p>
+                </div>
+              )}
             </div>
-          </div>
+          )}
+
+          {/* SUB-TAB 3: ADMIN PORTAL LOGO */}
+          {logoSubTab === 'admin' && (
+            <div className="space-y-6">
+              {/* Live Preview on Admin Dark Background */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">Live Admin Sidebar Preview</span>
+                  <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800">Interactive</span>
+                </div>
+                <div className="p-5 bg-slate-900 border border-slate-800 rounded-xl shadow-inner flex items-center justify-between">
+                  <BrandLogo placement="admin" settings={settings} />
+                  <span className="text-xs text-slate-500 hidden sm:inline font-mono">Sidebar Simulation</span>
+                </div>
+              </div>
+
+              {/* Custom Admin Logo Toggle */}
+              <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={settings.logo?.adminUseCustom === true}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      logo: { ...prev.logo, adminUseCustom: e.target.checked }
+                    }))}
+                    className="w-4 h-4 text-red-600 rounded"
+                  />
+                  <div>
+                    <span className="text-xs font-bold text-slate-900 block">Use Custom / Dedicated Logo for Admin Portal</span>
+                    <span className="text-[11px] text-slate-500">Customize the title, subtitle, icon, or image used on the Admin Sidebar and Login screen.</span>
+                  </div>
+                </label>
+              </div>
+
+              {settings.logo?.adminUseCustom ? (
+                <div className="space-y-5 p-4 border border-slate-200 rounded-2xl">
+                  {/* Admin Logo Type */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100">
+                      <input
+                        type="radio"
+                        name="adminLogoType"
+                        value="text"
+                        checked={settings.logo?.adminType !== 'image'}
+                        onChange={() => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, adminType: 'text' }
+                        }))}
+                        className="w-4 h-4 text-red-600"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 block">Stylized Admin Title & Icon</span>
+                        <span className="text-[11px] text-slate-500">Custom portal title with badge</span>
+                      </div>
+                    </label>
+
+                    <label className="flex items-center gap-3 cursor-pointer bg-slate-50 border p-3 rounded-xl hover:bg-slate-100">
+                      <input
+                        type="radio"
+                        name="adminLogoType"
+                        value="image"
+                        checked={settings.logo?.adminType === 'image'}
+                        onChange={() => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, adminType: 'image' }
+                        }))}
+                        className="w-4 h-4 text-red-600"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 block">Custom Admin Image</span>
+                        <span className="text-[11px] text-slate-500">Upload dedicated admin branding image</span>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* If Admin Image */}
+                  {settings.logo?.adminType === 'image' && (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">
+                          Admin Logo File
+                        </label>
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                          <input
+                            type="text"
+                            placeholder="Paste Admin Logo URL or upload"
+                            value={settings.logo?.adminImageUrl || ''}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, adminImageUrl: e.target.value }
+                            }))}
+                            className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800"
+                          />
+                          <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
+                            <UploadCloud className="w-4 h-4" />
+                            <span>{uploadingAdminLogo ? 'Uploading...' : 'Upload Admin Logo'}</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleUploadImage(
+                                e.target.files?.[0],
+                                (url) => setSettings(prev => ({ ...prev, logo: { ...prev.logo, adminImageUrl: url } })),
+                                setUploadingAdminLogo
+                              )}
+                              className="hidden"
+                              disabled={uploadingAdminLogo}
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-xs font-bold text-slate-700">Admin Logo Height (px)</label>
+                          <span className="text-xs font-mono font-bold text-slate-600">{settings.logo?.adminImageHeight || 36}px</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="24"
+                          max="54"
+                          value={settings.logo?.adminImageHeight || 36}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            logo: { ...prev.logo, adminImageHeight: Number(e.target.value) }
+                          }))}
+                          className="w-full accent-red-600 cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* If Admin Text */}
+                  {settings.logo?.adminType !== 'image' && (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Admin Portal Title</label>
+                          <input
+                            type="text"
+                            value={settings.logo?.adminTitle || ''}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, adminTitle: e.target.value }
+                            }))}
+                            placeholder="First Class Admin"
+                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1">Admin Subtitle</label>
+                          <input
+                            type="text"
+                            value={settings.logo?.adminSubtitle || ''}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, adminSubtitle: e.target.value }
+                            }))}
+                            placeholder="Content Management"
+                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Admin Icon Badge Symbol</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                          {Object.entries(LOGO_ICONS).map(([key, item]) => {
+                            const IconComp = item.component;
+                            const isSelected = (settings.logo?.adminIcon || 'GraduationCap') === key;
+                            return (
+                              <button
+                                key={key}
+                                type="button"
+                                onClick={() => setSettings(prev => ({
+                                  ...prev,
+                                  logo: { ...prev.logo, adminIcon: key }
+                                }))}
+                                className={`p-2 rounded-xl border flex items-center gap-2 transition-all ${
+                                  isSelected
+                                    ? 'border-red-600 bg-red-50 text-red-600 font-bold'
+                                    : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                                }`}
+                              >
+                                <IconComp className="w-4 h-4 shrink-0" />
+                                <span className="text-xs truncate">{item.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 space-y-1">
+                  <p className="font-bold text-slate-900">ℹ️ Currently Linked to Brand Logo</p>
+                  <p>The Admin Sidebar & Login screen inherit your institute's name and icon automatically.</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 

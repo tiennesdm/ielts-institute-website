@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { GraduationCap, Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import BrandLogo from '@/components/BrandLogo';
+import { Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -9,6 +10,14 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('password123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then(r => r.json())
+      .then(d => { if (d?.settings) setSettings(d.settings); })
+      .catch(() => {});
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,17 +49,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6">
         
         {/* Brand Header */}
-        <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center text-white mx-auto shadow-lg shadow-red-600/30">
-            <GraduationCap className="w-9 h-9" />
-          </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">
-            First Class Admin Portal
-          </h1>
-          <p className="text-xs text-slate-400">
-            Manage your IELTS website content, gallery, courses & inquiries
-          </p>
-        </div>
+        <BrandLogo placement="login" settings={settings} />
 
         {/* Demo Credentials Box */}
         <div className="bg-slate-800/80 border border-slate-700/80 p-3.5 rounded-2xl text-xs space-y-1 text-slate-300">
