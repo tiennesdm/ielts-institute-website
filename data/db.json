@@ -1,7 +1,7 @@
 {
   "settings": {
     "instituteName": "First Class Global Education",
-    "tagline": "Premier IELTS, PTE & Study Abroad Academy",
+    "tagline": "",
     "phone": "+91 98765 43210",
     "whatsapp": "919876543210",
     "email": "info@firstclassglobaleducation.com",
@@ -15,7 +15,7 @@
       "imageUrl": "",
       "textPart1": "First Class",
       "textPart2": "Global Education",
-      "tagline": "Premier IELTS, PTE & Study Abroad Academy",
+      "tagline": "",
       "showIcon": true
     },
     "navigation": {

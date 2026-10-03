@@ -69,9 +69,11 @@ export default function AdminSettingsPage() {
             imageUrl: '',
             textPart1: 'First Class',
             textPart2: 'Global Education',
-            tagline: s.tagline || 'Premier IELTS, PTE & Study Abroad Academy',
+            tagline: s.tagline !== undefined ? s.tagline : 'Premier IELTS, PTE & Study Abroad Academy',
             showIcon: true
           };
+        } else if (s.logo.tagline === undefined && s.tagline !== undefined) {
+          s.logo.tagline = s.tagline;
         }
         if (!s.navigation) {
           s.navigation = {
@@ -620,7 +622,7 @@ export default function AdminSettingsPage() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Tagline / Subtext under Logo</label>
               <input
                 type="text"
-                value={settings.logo?.tagline || settings.tagline || ''}
+                value={settings.logo?.tagline !== undefined ? settings.logo.tagline : (settings.tagline !== undefined ? settings.tagline : '')}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
                   tagline: e.target.value,

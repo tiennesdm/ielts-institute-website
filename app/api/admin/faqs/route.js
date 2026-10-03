@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/auth';
-import { getDb, saveDb } from '@/lib/db';
+import { getDbAsync, saveDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
+  const db = await getDbAsync();
   return NextResponse.json(db ? db.faqs || [] : []);
 }
 
@@ -17,7 +17,7 @@ export async function POST(request) {
 
   try {
     const faqData = await request.json();
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
     }
@@ -39,7 +39,7 @@ export async function POST(request) {
       db.faqs.push(newFaq);
     }
 
-    saveDb(db);
+    await saveDb(db);
     return NextResponse.json({ success: true, faqs: db.faqs });
   } catch (error) {
     console.error('FAQ save error:', error);
@@ -61,11 +61,11 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'FAQ ID is required' }, { status: 400 });
     }
 
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
 
     db.faqs = (db.faqs || []).filter(f => f.id !== id);
-    saveDb(db);
+    await saveDb(db);
 
     return NextResponse.json({ success: true, faqs: db.faqs });
   } catch (error) {

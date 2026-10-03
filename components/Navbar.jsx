@@ -31,6 +31,11 @@ export default function Navbar({ settings, onBookClick, courses }) {
   const phone = settings?.phone || '+91 98765 43210';
   const ctaText = navConfig.ctaText || 'Book Free Demo';
 
+  // Handle logo tagline: if explicitly empty (""), do not fall back to default
+  const logoTagline = logo.tagline !== undefined
+    ? logo.tagline
+    : (settings?.tagline !== undefined ? settings.tagline : 'Premier IELTS, PTE & Study Abroad Academy');
+
   const defaultLinks = [
     { id: 'nav-1', label: 'Home', href: '#' },
     { id: 'nav-2', label: 'Courses', href: '#courses' },
@@ -117,9 +122,11 @@ export default function Navbar({ settings, onBookClick, courses }) {
                       {logo.textPart2 || settings?.instituteName?.split(' ').slice(1).join(' ') || 'Global Education'}
                     </span>
                   </div>
-                  <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight">
-                    {logo.tagline || settings?.tagline || 'Premier IELTS, PTE & Study Abroad Academy'}
-                  </p>
+                  {logoTagline && logoTagline.trim() ? (
+                    <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight">
+                      {logoTagline}
+                    </p>
+                  ) : null}
                 </div>
               </>
             )}

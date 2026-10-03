@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/auth';
-import { getDb, saveDb } from '@/lib/db';
+import { getDbAsync, saveDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const db = getDb();
+  const db = await getDbAsync();
   return NextResponse.json(db ? db.batches || [] : []);
 }
 
@@ -15,7 +15,7 @@ export async function POST(request) {
 
   try {
     const itemData = await request.json();
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
 
     if (!db.batches) db.batches = [];
@@ -35,7 +35,7 @@ export async function POST(request) {
       db.batches.push(newItem);
     }
 
-    saveDb(db);
+    await saveDb(db);
     return NextResponse.json({ success: true, batches: db.batches });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save batch' }, { status: 500 });
@@ -51,11 +51,11 @@ export async function DELETE(request) {
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
 
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
 
     db.batches = (db.batches || []).filter(b => b.id !== id);
-    saveDb(db);
+    await saveDb(db);
 
     return NextResponse.json({ success: true, batches: db.batches });
   } catch (error) {

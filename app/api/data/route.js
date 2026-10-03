@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { getDbAsync, saveDb } from '@/lib/db';
 import { sendLeadNotification } from '@/lib/mailer';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) {
       return NextResponse.json({ error: 'Database error' }, { status: 500 });
     }
@@ -40,7 +40,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Name and phone are required' }, { status: 400 });
     }
 
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
     }
@@ -64,7 +64,7 @@ export async function POST(request) {
     }
     db.leads.unshift(newLead);
 
-    saveDb(db);
+    await saveDb(db);
 
     // Send instant email notification to Info@firstclassglobaleducation.com
     try {

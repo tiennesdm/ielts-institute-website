@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/db';
+import { getDbAsync, saveDb } from '@/lib/db';
 import { verifyAdminSession } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = getDb();
+  const db = await getDbAsync();
   if (!db) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
   }
@@ -26,7 +26,7 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
     }
@@ -41,7 +41,7 @@ export async function POST(request) {
         ...db.universities.header,
         ...body.header
       };
-      saveDb(db);
+      await saveDb(db);
       return NextResponse.json({ success: true, universities: db.universities });
     }
 
@@ -78,7 +78,7 @@ export async function POST(request) {
     }
 
     db.universities.items = items;
-    saveDb(db);
+    await saveDb(db);
 
     return NextResponse.json({ success: true, universities: db.universities });
   } catch (error) {
@@ -101,13 +101,13 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'University ID is required' }, { status: 400 });
     }
 
-    const db = getDb();
+    const db = await getDbAsync();
     if (!db || !db.universities) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
     }
 
     db.universities.items = (db.universities.items || []).filter(u => u.id !== id);
-    saveDb(db);
+    await saveDb(db);
 
     return NextResponse.json({ success: true, universities: db.universities });
   } catch (error) {
