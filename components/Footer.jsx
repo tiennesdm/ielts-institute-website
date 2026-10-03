@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import BrandLogo from './BrandLogo';
-import { GraduationCap, Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck, UserCog } from 'lucide-react';
+import { GraduationCap, Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function Footer({ settings }) {
   const footerConfig = settings?.footer || {};
@@ -191,13 +191,6 @@ export default function Footer({ settings }) {
           <p>© {new Date().getFullYear()} {instituteName}. {copyright}</p>
           <div className="flex items-center gap-6">
             <span>{partnerText}</span>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
-            >
-              <UserCog className="w-3.5 h-3.5" />
-              <span>Admin Portal Login</span>
-            </Link>
           </div>
         </div>
 

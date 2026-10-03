@@ -15,7 +15,6 @@ import {
   Calendar,
   HelpCircle,
   Mail,
-  UserCog,
   CheckCircle2,
   Globe,
   ArrowRight
@@ -199,14 +198,6 @@ export default function Navbar({ settings, onBookClick, courses }) {
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               <span>{ctaText}</span>
             </button>
-
-            <Link
-              href="/admin"
-              className="p-2 text-slate-400 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors"
-              title="Admin CMS Portal"
-            >
-              <UserCog className="w-4 h-4" />
-            </Link>
           </div>
 
           {/* Mobile Menu Hamburger Button */}
@@ -266,15 +257,6 @@ export default function Navbar({ settings, onBookClick, courses }) {
               <Sparkles className="w-4 h-4 text-yellow-300" />
               {ctaText}
             </button>
-
-            <Link
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-1.5 text-xs font-medium text-slate-400 hover:text-slate-800"
-            >
-              <UserCog className="w-3.5 h-3.5" />
-              Admin Portal
-            </Link>
           </div>
         </div>
       )}
