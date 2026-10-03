@@ -109,28 +109,41 @@ export default function BrandLogo({
     const isImage = useCustom ? (logo.footerType === 'image' && logo.footerImageUrl) : (logo.type === 'image' && logo.imageUrl);
     const imageUrl = useCustom ? logo.footerImageUrl : logo.imageUrl;
     const height = useCustom ? (logo.footerImageHeight || 42) : (logo.imageHeight || 40);
-
-    if (isImage) {
-      return (
-        <div className={`flex items-center ${className}`}>
-          <img
-            src={imageUrl}
-            alt={instituteName}
-            style={{ height: `${height}px` }}
-            className={`w-auto object-contain max-w-[200px] ${imgClassName}`}
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
-      );
-    }
+    const showText = useCustom ? (logo.footerShowText !== false) : (logo.showTextWithImage !== false);
 
     const footerText = useCustom && logo.footerText ? logo.footerText : instituteName;
     const footerIcon = useCustom && logo.footerIcon ? logo.footerIcon : (logo.icon || 'GraduationCap');
     const footerShowIcon = useCustom ? (logo.footerShowIcon !== false) : (logo.showIcon !== false);
     const footerBadgeColor = useCustom ? (logo.footerBadgeColor || 'bg-red-600') : badgeClass;
     const footerTagline = useCustom ? logo.footerTagline : (logo.tagline !== undefined ? logo.tagline : '');
+
+    if (isImage) {
+      return (
+        <div className={`flex items-center gap-3 ${className}`}>
+          <img
+            src={imageUrl}
+            alt={instituteName}
+            style={{ height: `${height}px` }}
+            className={`w-auto object-contain max-w-[200px] shrink-0 ${imgClassName}`}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+          {showText && (footerText || footerTagline) && (
+            <div>
+              <span className="text-xl font-black text-white tracking-tight block">
+                {footerText}
+              </span>
+              {footerTagline && footerTagline.trim() ? (
+                <p className="text-[11px] text-slate-400 font-medium truncate max-w-[260px] leading-tight mt-0.5">
+                  {footerTagline}
+                </p>
+              ) : null}
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
       <div className={`flex items-center gap-3 ${className}`}>
@@ -159,28 +172,35 @@ export default function BrandLogo({
     const isImage = useCustom ? (logo.adminType === 'image' && logo.adminImageUrl) : (logo.type === 'image' && logo.imageUrl);
     const imageUrl = useCustom ? logo.adminImageUrl : logo.imageUrl;
     const height = useCustom ? (logo.adminImageHeight || 36) : 36;
-
-    if (isImage) {
-      return (
-        <div className={`flex items-center ${className}`}>
-          <img
-            src={imageUrl}
-            alt="Admin Logo"
-            style={{ height: `${height}px` }}
-            className={`w-auto object-contain max-w-[180px] ${imgClassName}`}
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </div>
-      );
-    }
+    const adminShowText = useCustom ? (logo.adminShowText !== false) : (logo.showTextWithImage !== false);
 
     const adminTitle = useCustom && logo.adminTitle ? logo.adminTitle : `${logo.textPart1 || 'First Class'} Admin`;
     const adminSubtitle = useCustom && logo.adminSubtitle ? logo.adminSubtitle : 'Content Management';
     const adminIcon = useCustom && logo.adminIcon ? logo.adminIcon : (logo.icon || 'GraduationCap');
     const adminShowIcon = useCustom ? (logo.adminShowIcon !== false) : true;
     const adminBadgeColor = useCustom ? (logo.adminBadgeColor || 'bg-gradient-to-tr from-red-600 to-rose-600') : 'bg-gradient-to-tr from-red-600 to-rose-600';
+
+    if (isImage) {
+      return (
+        <div className={`flex items-center gap-3 ${className}`}>
+          <img
+            src={imageUrl}
+            alt="Admin Logo"
+            style={{ height: `${height}px` }}
+            className={`w-auto object-contain max-w-[160px] shrink-0 ${imgClassName}`}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+          {adminShowText && (adminTitle || adminSubtitle) && (
+            <div>
+              <h2 className="font-black text-white text-base leading-tight">{adminTitle}</h2>
+              <p className="text-[11px] text-slate-400">{adminSubtitle}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
       <div className={`flex items-center gap-3 ${className}`}>
@@ -202,6 +222,10 @@ export default function BrandLogo({
     const useCustom = logo.adminUseCustom === true;
     const isImage = useCustom ? (logo.adminType === 'image' && logo.adminImageUrl) : (logo.type === 'image' && logo.imageUrl);
     const imageUrl = useCustom ? logo.adminImageUrl : logo.imageUrl;
+    const adminTitle = useCustom && logo.adminTitle ? logo.adminTitle : 'First Class Admin Portal';
+    const adminSubtitle = useCustom && logo.adminSubtitle ? logo.adminSubtitle : 'Manage your IELTS website content, gallery, courses & inquiries';
+    const adminIcon = useCustom && logo.adminIcon ? logo.adminIcon : (logo.icon || 'GraduationCap');
+    const adminBadgeColor = useCustom ? (logo.adminBadgeColor || 'bg-gradient-to-tr from-red-600 to-rose-600') : 'bg-gradient-to-tr from-red-600 to-rose-600';
 
     if (isImage) {
       return (
@@ -216,20 +240,11 @@ export default function BrandLogo({
               }}
             />
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">
-            {useCustom && logo.adminTitle ? logo.adminTitle : 'First Class Admin Portal'}
-          </h1>
-          <p className="text-xs text-slate-400">
-            {useCustom && logo.adminSubtitle ? logo.adminSubtitle : 'Manage your IELTS website content, gallery, courses & inquiries'}
-          </p>
+          <h1 className="text-2xl font-black text-white tracking-tight">{adminTitle}</h1>
+          <p className="text-xs text-slate-400">{adminSubtitle}</p>
         </div>
       );
     }
-
-    const adminTitle = useCustom && logo.adminTitle ? logo.adminTitle : 'First Class Admin Portal';
-    const adminSubtitle = useCustom && logo.adminSubtitle ? logo.adminSubtitle : 'Manage your IELTS website content, gallery, courses & inquiries';
-    const adminIcon = useCustom && logo.adminIcon ? logo.adminIcon : (logo.icon || 'GraduationCap');
-    const adminBadgeColor = useCustom ? (logo.adminBadgeColor || 'bg-gradient-to-tr from-red-600 to-rose-600') : 'bg-gradient-to-tr from-red-600 to-rose-600';
 
     return (
       <div className={`text-center space-y-2 ${className}`}>
@@ -245,22 +260,7 @@ export default function BrandLogo({
   // 4. NAVBAR / HEADER PLACEMENT (Default - Light Background)
   const isImage = logo.type === 'image' && logo.imageUrl;
   const height = logo.imageHeight || 40;
-
-  if (isImage) {
-    return (
-      <div className={`flex items-center ${className}`}>
-        <img
-          src={logo.imageUrl}
-          alt={settings?.instituteName || 'Logo'}
-          style={{ height: `${height}px` }}
-          className={`w-auto object-contain max-w-[180px] sm:max-w-[240px] ${imgClassName}`}
-          onError={(e) => {
-            e.target.style.display = 'none';
-          }}
-        />
-      </div>
-    );
-  }
+  const showTextWithImage = logo.showTextWithImage !== false; // defaults to true so text is always shown with image unless unchecked!
 
   const iconName = logo.icon || 'GraduationCap';
   const showIcon = logo.showIcon !== false;
@@ -273,6 +273,43 @@ export default function BrandLogo({
   const taglineText = logo.tagline !== undefined
     ? logo.tagline
     : (settings?.tagline !== undefined ? settings.tagline : 'Premier IELTS, PTE & Study Abroad Academy');
+
+  if (isImage) {
+    return (
+      <div className={`flex items-center gap-2.5 sm:gap-3 group ${className}`}>
+        <img
+          src={logo.imageUrl}
+          alt={settings?.instituteName || 'Logo'}
+          style={{ height: `${height}px` }}
+          className={`w-auto object-contain max-w-[170px] sm:max-w-[220px] shrink-0 ${imgClassName}`}
+          onError={(e) => {
+            e.target.style.display = 'none';
+          }}
+        />
+        {showTextWithImage && (textPart1 || textPart2 || taglineText) && (
+          <div>
+            <div className="flex items-center gap-1.5 leading-none">
+              {textPart1 && (
+                <span className={`text-base sm:text-lg font-black ${part1Class} tracking-tight ${activeTheme.hoverText} transition-colors whitespace-nowrap`}>
+                  {textPart1}
+                </span>
+              )}
+              {textPart2 && (
+                <span className={`text-base sm:text-lg font-black ${part2Class} whitespace-nowrap`}>
+                  {textPart2}
+                </span>
+              )}
+            </div>
+            {taglineText && taglineText.trim() ? (
+              <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight mt-0.5">
+                {taglineText}
+              </p>
+            ) : null}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={`flex items-center gap-2.5 sm:gap-3 group ${className}`}>

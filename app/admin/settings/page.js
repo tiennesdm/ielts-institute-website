@@ -72,6 +72,7 @@ export default function AdminSettingsPage() {
             type: 'text',
             imageUrl: '',
             imageHeight: 40,
+            showTextWithImage: true,
             textPart1: 'First Class',
             textPart2: 'Global Education',
             tagline: s.tagline !== undefined ? s.tagline : '',
@@ -85,6 +86,7 @@ export default function AdminSettingsPage() {
             footerType: 'text',
             footerImageUrl: '',
             footerImageHeight: 42,
+            footerShowText: true,
             footerText: s.instituteName || 'First Class Global Education',
             footerTagline: '',
             footerShowIcon: true,
@@ -94,6 +96,7 @@ export default function AdminSettingsPage() {
             adminType: 'text',
             adminImageUrl: '',
             adminImageHeight: 36,
+            adminShowText: true,
             adminTitle: 'First Class Admin',
             adminSubtitle: 'Content Management',
             adminShowIcon: true,
@@ -103,15 +106,18 @@ export default function AdminSettingsPage() {
         } else {
           if (s.logo.tagline === undefined && s.tagline !== undefined) s.logo.tagline = s.tagline;
           if (s.logo.imageHeight === undefined) s.logo.imageHeight = 40;
+          if (s.logo.showTextWithImage === undefined) s.logo.showTextWithImage = true;
           if (s.logo.icon === undefined) s.logo.icon = 'GraduationCap';
           if (s.logo.themeColor === undefined) s.logo.themeColor = 'blue-red';
           if (s.logo.footerUseCustom === undefined) s.logo.footerUseCustom = false;
           if (s.logo.footerType === undefined) s.logo.footerType = 'text';
           if (s.logo.footerImageHeight === undefined) s.logo.footerImageHeight = 42;
+          if (s.logo.footerShowText === undefined) s.logo.footerShowText = true;
           if (s.logo.footerText === undefined) s.logo.footerText = s.instituteName || 'First Class Global Education';
           if (s.logo.adminUseCustom === undefined) s.logo.adminUseCustom = false;
           if (s.logo.adminType === undefined) s.logo.adminType = 'text';
           if (s.logo.adminImageHeight === undefined) s.logo.adminImageHeight = 36;
+          if (s.logo.adminShowText === undefined) s.logo.adminShowText = true;
         }
         if (!s.navigation) {
           s.navigation = {
@@ -685,121 +691,160 @@ export default function AdminSettingsPage() {
                       className="w-full accent-red-600 cursor-pointer"
                     />
                   </div>
+
+                  {/* Toggle Display Text with Image */}
+                  <div className="pt-3 border-t border-slate-200">
+                    <label className="flex items-start sm:items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={settings.logo?.showTextWithImage !== false}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          logo: { ...prev.logo, showTextWithImage: e.target.checked }
+                        }))}
+                        className="w-4 h-4 text-red-600 rounded mt-0.5 sm:mt-0"
+                      />
+                      <div>
+                        <span className="text-xs font-bold text-slate-900 block">
+                          Display Brand Name & Tagline alongside Logo Image (Image + Text)
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          Keep this checked if your logo is an emblem/crest and you want your institute name & tagline beside it. Uncheck if your image is already a full banner graphic containing the institute text.
+                        </span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               )}
 
-              {/* Header Stylized Text Logo Fields */}
+              {/* Theme Gradient Color Preset */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-2">
+                  Brand Theme & Typography Color Palette
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {Object.entries(THEME_GRADIENTS).map(([key, val]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSettings(prev => ({
+                        ...prev,
+                        logo: {
+                          ...prev.logo,
+                          themeColor: key,
+                          badgeGradient: val.badge
+                        }
+                      }))}
+                      className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
+                        (settings.logo?.themeColor || 'blue-red') === key
+                          ? 'border-blue-900 ring-2 ring-blue-900/20 bg-blue-50/50'
+                          : 'border-slate-200 hover:border-slate-300 bg-white'
+                      }`}
+                    >
+                      <div className={`w-6 h-6 rounded-lg ${val.badge} shrink-0 shadow-sm`} />
+                      <span className="text-xs font-bold text-slate-800 truncate">{val.label.split('(')[0]}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Icon Selector (Only for stylized text mode) */}
               {settings.logo?.type !== 'image' && (
-                <div className="space-y-5">
-                  {/* Theme Gradient Color Preset */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Logo Theme & Badge Color Palette
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                      {Object.entries(THEME_GRADIENTS).map(([key, val]) => (
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-2">
+                    Choose Icon Badge Symbol
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    {Object.entries(LOGO_ICONS).map(([key, item]) => {
+                      const IconComp = item.component;
+                      const isSelected = (settings.logo?.icon || 'GraduationCap') === key;
+                      return (
                         <button
                           key={key}
                           type="button"
                           onClick={() => setSettings(prev => ({
                             ...prev,
-                            logo: {
-                              ...prev.logo,
-                              themeColor: key,
-                              badgeGradient: val.badge
-                            }
+                            logo: { ...prev.logo, icon: key }
                           }))}
-                          className={`p-2.5 rounded-xl border text-left flex items-center gap-2.5 transition-all ${
-                            (settings.logo?.themeColor || 'blue-red') === key
-                              ? 'border-blue-900 ring-2 ring-blue-900/20 bg-blue-50/50'
-                              : 'border-slate-200 hover:border-slate-300 bg-white'
+                          className={`p-2 rounded-xl border flex items-center gap-2 transition-all ${
+                            isSelected
+                              ? 'border-red-600 bg-red-50 text-red-600 font-bold'
+                              : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                           }`}
                         >
-                          <div className={`w-6 h-6 rounded-lg ${val.badge} shrink-0 shadow-sm`} />
-                          <span className="text-xs font-bold text-slate-800 truncate">{val.label.split('(')[0]}</span>
+                          <IconComp className="w-4 h-4 shrink-0" />
+                          <span className="text-xs truncate">{item.label}</span>
                         </button>
-                      ))}
-                    </div>
+                      );
+                    })}
                   </div>
+                </div>
+              )}
 
-                  {/* Icon Selector */}
+              {/* Brand Text Inputs (Always visible so user can edit Brand Name Part 1, Part 2, and Tagline!) */}
+              <div className="p-5 bg-white rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Choose Icon Badge Symbol
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                      {Object.entries(LOGO_ICONS).map(([key, item]) => {
-                        const IconComp = item.component;
-                        const isSelected = (settings.logo?.icon || 'GraduationCap') === key;
-                        return (
-                          <button
-                            key={key}
-                            type="button"
-                            onClick={() => setSettings(prev => ({
-                              ...prev,
-                              logo: { ...prev.logo, icon: key }
-                            }))}
-                            className={`p-2 rounded-xl border flex items-center gap-2 transition-all ${
-                              isSelected
-                                ? 'border-red-600 bg-red-50 text-red-600 font-bold'
-                                : 'border-slate-200 text-slate-700 hover:bg-slate-50'
-                            }`}
-                          >
-                            <IconComp className="w-4 h-4 shrink-0" />
-                            <span className="text-xs truncate">{item.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
+                    <h3 className="text-xs font-bold text-slate-900">Brand Name & Tagline Text</h3>
+                    <p className="text-[11px] text-slate-500">
+                      {settings.logo?.type === 'image'
+                        ? (settings.logo?.showTextWithImage !== false
+                            ? 'This text appears beside your custom logo emblem/image in the header navbar.'
+                            : 'Currently hidden on navbar because "Display Brand Name & Tagline alongside Logo Image" is unchecked.')
+                        : 'Configure the brand name typography and tagline for your institute.'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 1)</label>
+                    <input
+                      type="text"
+                      value={settings.logo?.textPart1 || ''}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        logo: { ...prev.logo, textPart1: e.target.value }
+                      }))}
+                      placeholder="First Class"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-900"
+                    />
+                    <span className="text-[10px] text-slate-400 mt-1 block">Usually the first word(s) in bold dark color</span>
                   </div>
 
-                  {/* Brand Text Inputs */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 1)</label>
-                      <input
-                        type="text"
-                        value={settings.logo?.textPart1 || ''}
-                        onChange={(e) => setSettings(prev => ({
-                          ...prev,
-                          logo: { ...prev.logo, textPart1: e.target.value }
-                        }))}
-                        placeholder="First Class"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-slate-900"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 2)</label>
+                    <input
+                      type="text"
+                      value={settings.logo?.textPart2 || ''}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        logo: { ...prev.logo, textPart2: e.target.value }
+                      }))}
+                      placeholder="Global Education"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-red-600"
+                    />
+                    <span className="text-[10px] text-slate-400 mt-1 block">Highlighted accent color text</span>
+                  </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Brand Name (Part 2)</label>
-                      <input
-                        type="text"
-                        value={settings.logo?.textPart2 || ''}
-                        onChange={(e) => setSettings(prev => ({
-                          ...prev,
-                          logo: { ...prev.logo, textPart2: e.target.value }
-                        }))}
-                        placeholder="Global Education"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-red-600"
-                      />
-                    </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Tagline / Subtext under Logo (Leave empty to hide completely)
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.logo?.tagline !== undefined ? settings.logo.tagline : (settings.tagline !== undefined ? settings.tagline : '')}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        tagline: e.target.value,
+                        logo: { ...prev.logo, tagline: e.target.value }
+                      }))}
+                      placeholder="e.g. Premier IELTS, PTE & Study Abroad Academy"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
+                    />
+                  </div>
 
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Tagline / Subtext under Logo (Leave empty to hide completely)
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.logo?.tagline !== undefined ? settings.logo.tagline : (settings.tagline !== undefined ? settings.tagline : '')}
-                        onChange={(e) => setSettings(prev => ({
-                          ...prev,
-                          tagline: e.target.value,
-                          logo: { ...prev.logo, tagline: e.target.value }
-                        }))}
-                        placeholder="e.g. Premier IELTS, PTE & Study Abroad Academy"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
-                      />
-                    </div>
-
+                  {settings.logo?.type !== 'image' && (
                     <div>
                       <label className="flex items-center gap-2 cursor-pointer pt-1">
                         <input
@@ -814,9 +859,9 @@ export default function AdminSettingsPage() {
                         <span className="text-xs font-bold text-slate-800">Show Icon Badge in Logo</span>
                       </label>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           )}
 
@@ -948,6 +993,62 @@ export default function AdminSettingsPage() {
                           className="w-full accent-blue-950 cursor-pointer"
                         />
                       </div>
+
+                      {/* Toggle Display Text with Footer Image */}
+                      <div className="pt-3 border-t border-slate-200">
+                        <label className="flex items-start sm:items-center gap-2.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={settings.logo?.footerShowText !== false}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, footerShowText: e.target.checked }
+                            }))}
+                            className="w-4 h-4 text-red-600 rounded mt-0.5 sm:mt-0"
+                          />
+                          <div>
+                            <span className="text-xs font-bold text-slate-900 block">
+                              Display Footer Brand Text alongside Image (Image + Text)
+                            </span>
+                            <span className="text-[11px] text-slate-500">
+                              Show your brand text and footer tagline beside the footer image.
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+
+                      {/* Footer Text inputs if text is shown with image */}
+                      {settings.logo?.footerShowText !== false && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1">Footer Brand Text</label>
+                            <input
+                              type="text"
+                              value={settings.logo?.footerText || ''}
+                              onChange={(e) => setSettings(prev => ({
+                                ...prev,
+                                logo: { ...prev.logo, footerText: e.target.value }
+                              }))}
+                              placeholder={settings.instituteName || 'First Class Global Education'}
+                              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1">Footer Tagline (Optional)</label>
+                            <input
+                              type="text"
+                              value={settings.logo?.footerTagline || ''}
+                              onChange={(e) => setSettings(prev => ({
+                                ...prev,
+                                logo: { ...prev.logo, footerTagline: e.target.value }
+                              }))}
+                              placeholder="e.g. Official Training Partner IDP & Cambridge"
+                              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -1149,6 +1250,62 @@ export default function AdminSettingsPage() {
                           className="w-full accent-red-600 cursor-pointer"
                         />
                       </div>
+
+                      {/* Toggle Display Text with Admin Image */}
+                      <div className="pt-3 border-t border-slate-200">
+                        <label className="flex items-start sm:items-center gap-2.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={settings.logo?.adminShowText !== false}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              logo: { ...prev.logo, adminShowText: e.target.checked }
+                            }))}
+                            className="w-4 h-4 text-red-600 rounded mt-0.5 sm:mt-0"
+                          />
+                          <div>
+                            <span className="text-xs font-bold text-slate-900 block">
+                              Display Admin Title & Subtitle alongside Image
+                            </span>
+                            <span className="text-[11px] text-slate-500">
+                              Show admin portal title and subtitle beside the logo image on the sidebar.
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+
+                      {/* Admin Text inputs if text is shown with image */}
+                      {settings.logo?.adminShowText !== false && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1">Admin Portal Title</label>
+                            <input
+                              type="text"
+                              value={settings.logo?.adminTitle || ''}
+                              onChange={(e) => setSettings(prev => ({
+                                ...prev,
+                                logo: { ...prev.logo, adminTitle: e.target.value }
+                              }))}
+                              placeholder="First Class Admin"
+                              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1">Admin Subtitle</label>
+                            <input
+                              type="text"
+                              value={settings.logo?.adminSubtitle || ''}
+                              onChange={(e) => setSettings(prev => ({
+                                ...prev,
+                                logo: { ...prev.logo, adminSubtitle: e.target.value }
+                              }))}
+                              placeholder="Content Management"
+                              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
