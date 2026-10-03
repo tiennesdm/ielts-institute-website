@@ -16,7 +16,7 @@ import {
   Zap
 } from 'lucide-react';
 
-export default function UniversitySection({ universities, onSelectUniversity }) {
+export default function UniversitySection({ universities, onSelectUniversity, config }) {
   const [activeFilter, setActiveFilter] = useState('ALL');
 
   const header = universities?.header || {
@@ -236,7 +236,7 @@ export default function UniversitySection({ universities, onSelectUniversity }) 
         {/* Continuous Marquee Ticker */}
         <div className="mt-14 pt-8 border-t border-slate-200">
           <div className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-            Representing 850+ Direct Global Partner Universities & Colleges
+            {config?.marqueeTitle || "Representing 850+ Direct Global Partner Universities & Colleges"}
           </div>
 
           <div className="relative overflow-hidden py-3 bg-white border border-slate-200 rounded-2xl shadow-inner">
@@ -263,13 +263,13 @@ export default function UniversitySection({ universities, onSelectUniversity }) 
             <div className="space-y-2 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/30 text-red-300 text-xs font-black uppercase tracking-wider border border-red-500/30">
                 <Zap className="w-3.5 h-3.5 text-yellow-400" />
-                <span>Fast-Track Admission & Spot Assessment</span>
+                <span>{config?.bannerBadge || "Fast-Track Admission & Spot Assessment"}</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight">
-                Confused About Which University & Country Fits Your Profile?
+                {config?.bannerTitle || "Confused About Which University & Country Fits Your Profile?"}
               </h3>
               <p className="text-slate-300 text-xs sm:text-sm font-medium max-w-2xl">
-                Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.
+                {config?.bannerDesc || "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities."}
               </p>
             </div>
 
@@ -278,7 +278,7 @@ export default function UniversitySection({ universities, onSelectUniversity }) 
               className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-xs sm:text-sm shadow-xl shadow-red-600/40 hover:scale-105 active:scale-95 transition-all shrink-0 whitespace-nowrap flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4 text-yellow-300" />
-              <span>Book Free 1-on-1 Profile Assessment</span>
+              <span>{config?.bannerCta || "Book Free 1-on-1 Profile Assessment"}</span>
             </button>
           </div>
         </div>

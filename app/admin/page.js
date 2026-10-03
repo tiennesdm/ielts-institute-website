@@ -14,7 +14,9 @@ import {
   AlertCircle,
   Sparkles,
   PlusCircle,
-  Settings
+  Settings,
+  GraduationCap,
+  HelpCircle
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
@@ -71,6 +73,7 @@ export default function AdminDashboardPage() {
   const galleryCount = data?.gallery?.length || 0;
   const resultsCount = data?.results?.length || 0;
   const universitiesCount = data?.universities?.items?.length || 0;
+  const faqsCount = data?.faqs?.length || 0;
   const totalLeads = leads.length;
   const newLeads = leads.filter(l => l.status === 'New').length;
 
@@ -89,6 +92,13 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-2.5 flex-wrap">
+          <Link
+            href="/admin/faqs"
+            className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+          >
+            <HelpCircle className="w-4 h-4 text-red-600" />
+            <span>Manage FAQs ({faqsCount})</span>
+          </Link>
           <Link
             href="/admin/universities"
             className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
@@ -179,55 +189,80 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick Action Navigation Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <Link
           href="/admin/settings"
-          className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-blue-400 hover:shadow-md transition-all group flex items-start gap-4"
+          className="bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-blue-400 hover:shadow-md transition-all group flex flex-col justify-between"
         >
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-            <Settings className="w-5 h-5" />
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <Settings className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 text-sm group-hover:text-blue-900">
+                Site Settings & Hero
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Customize titles, badges, WhatsApp, modal, and SEO.
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-blue-900">
-              Edit Institute Info & Hero Banner
-            </h3>
-            <p className="text-xs text-slate-500 mt-1">
-              Change institute name, phone, WhatsApp number, hero headline, and announcement ticker.
-            </p>
+        </Link>
+
+        <Link
+          href="/admin/faqs"
+          className="bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-red-400 hover:shadow-md transition-all group flex flex-col justify-between"
+        >
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <HelpCircle className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 text-sm group-hover:text-red-600">
+                Manage FAQs ({faqsCount})
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Add, edit, or remove questions & answers on the homepage.
+              </p>
+            </div>
           </div>
         </Link>
 
         <Link
           href="/admin/gallery"
-          className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-red-400 hover:shadow-md transition-all group flex items-start gap-4"
+          className="bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-purple-400 hover:shadow-md transition-all group flex flex-col justify-between"
         >
-          <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-            <ImageIcon className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-red-600">
-              Manage Photo Gallery
-            </h3>
-            <p className="text-xs text-slate-500 mt-1">
-              Upload photos directly from your computer into categories (Classrooms, Visas, Awards).
-            </p>
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <ImageIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 text-sm group-hover:text-purple-600">
+                Manage Photo Gallery
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Upload photos directly for Classrooms, Visas, and Labs.
+              </p>
+            </div>
           </div>
         </Link>
 
         <Link
           href="/admin/leads"
-          className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-emerald-400 hover:shadow-md transition-all group flex items-start gap-4"
+          className="bg-white p-5 rounded-2xl border border-slate-200/80 hover:border-emerald-400 hover:shadow-md transition-all group flex flex-col justify-between"
         >
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-            <Users className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="font-bold text-slate-900 text-sm group-hover:text-emerald-700">
-              Student Leads CRM ({totalLeads})
-            </h3>
-            <p className="text-xs text-slate-500 mt-1">
-              View student demo bookings, phone numbers, target bands, and update counseling status.
-            </p>
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <Users className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 text-sm group-hover:text-emerald-700">
+                Leads CRM ({totalLeads})
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                View student demo bookings, phone numbers & update status.
+              </p>
+            </div>
           </div>
         </Link>
       </div>

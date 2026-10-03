@@ -21,6 +21,7 @@ export default function HomeClient({ initialData }) {
   const [selectedCourse, setSelectedCourse] = useState('');
 
   const settings = initialData?.settings || {};
+  const sections = settings?.sections || {};
   const courses = initialData?.courses || [];
   const results = initialData?.results || [];
   const universities = initialData?.universities || {};
@@ -47,7 +48,7 @@ export default function HomeClient({ initialData }) {
       )}
 
       {/* Main Navbar */}
-      <Navbar settings={settings} onBookClick={() => handleOpenModal()} />
+      <Navbar settings={settings} onBookClick={() => handleOpenModal()} courses={courses} />
 
       {/* Main Content Sections */}
       <main className="flex-1">
@@ -65,47 +66,52 @@ export default function HomeClient({ initialData }) {
         <CoursesSection
           courses={courses}
           onSelectCourse={(courseTitle) => handleOpenModal(courseTitle)}
+          config={sections.courses}
         />
 
         {/* Hall of Fame / High Scorers */}
-        <ResultsSection results={results} />
+        <ResultsSection results={results} config={sections.results} />
 
         {/* Global University Tie-Ups Section */}
         <UniversitySection
           universities={universities}
           onSelectUniversity={(uniName) => handleOpenModal(uniName)}
+          config={sections.universities}
         />
 
         {/* Why Choose Us */}
         <WhyUsSection whyUs={settings.whyUs} onBookClick={() => handleOpenModal()} />
 
         {/* Dynamic Campus & Events Gallery */}
-        <GallerySection gallery={gallery} />
+        <GallerySection gallery={gallery} config={sections.gallery} />
 
         {/* Upcoming Batches Schedule */}
         <BatchesSection
           batches={batches}
           onBookClick={() => handleOpenModal()}
+          config={sections.batches}
         />
 
         {/* Student Testimonials */}
-        <TestimonialsSection testimonials={testimonials} />
+        <TestimonialsSection testimonials={testimonials} config={sections.testimonials} />
 
         {/* Frequently Asked Questions */}
-        <FaqSection faqs={faqs} />
+        <FaqSection faqs={faqs} config={sections.faqs} />
       </main>
 
       {/* Footer */}
       <Footer settings={settings} />
 
       {/* Floating WhatsApp Action Button */}
-      <WhatsAppButton whatsapp={settings.whatsapp} />
+      <WhatsAppButton whatsapp={settings.whatsapp} whatsappConfig={settings.whatsappConfig} />
 
       {/* Book Free Demo / Mock Test Modal */}
       <InquiryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         prefilledCourse={selectedCourse}
+        modalConfig={settings.modal}
+        courses={courses}
       />
     </div>
   );

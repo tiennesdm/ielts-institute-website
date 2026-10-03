@@ -20,7 +20,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-export default function Navbar({ settings, onBookClick }) {
+export default function Navbar({ settings, onBookClick, courses }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -64,14 +64,20 @@ export default function Navbar({ settings, onBookClick }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const courseList = [
-    { title: 'IELTS Academic Comprehensive', tag: '8+ Band Focus', desc: 'Complete 4-module mastery with daily mock drills' },
-    { title: 'IELTS General Training (PR)', tag: 'Canada & Aus', desc: 'CLB 9/10 targeted strategies for express entry' },
-    { title: 'Fast-Track 21-Day Crash Course', tag: 'Super Fast', desc: 'Exam shortcuts, band 8 templates & speaking cabins' },
-    { title: 'PTE Academic 79+ Guaranteed', tag: 'Pearson Lab', desc: 'AI software scoring lab with real headphones' },
-    { title: 'CD-IELTS Computer Delivered', tag: 'Computer Lab', desc: 'Official test interface replica & typing drills' },
-    { title: 'Spoken English & Fluency', tag: 'Fluency', desc: 'Grammar foundation & interview confidence' },
-  ];
+  const courseList = (courses && courses.length > 0)
+    ? courses.slice(0, 8).map(c => ({
+        title: c.title,
+        tag: c.tag || c.targetBand || '8+ Band Focus',
+        desc: c.description || (c.features && c.features[0]) || 'Complete module mastery with daily mock drills'
+      }))
+    : [
+        { title: 'IELTS Academic Comprehensive', tag: '8+ Band Focus', desc: 'Complete 4-module mastery with daily mock drills' },
+        { title: 'IELTS General Training (PR)', tag: 'Canada & Aus', desc: 'CLB 9/10 targeted strategies for express entry' },
+        { title: 'Fast-Track 21-Day Crash Course', tag: 'Super Fast', desc: 'Exam shortcuts, band 8 templates & speaking cabins' },
+        { title: 'PTE Academic 79+ Guaranteed', tag: 'Pearson Lab', desc: 'AI software scoring lab with real headphones' },
+        { title: 'CD-IELTS Computer Delivered', tag: 'Computer Lab', desc: 'Official test interface replica & typing drills' },
+        { title: 'Spoken English & Fluency', tag: 'Fluency', desc: 'Grammar foundation & interview confidence' },
+      ];
 
   return (
     <header

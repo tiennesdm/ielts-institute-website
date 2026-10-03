@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { BookOpen, Clock, Calendar, Check, Sparkles, ArrowRight } from 'lucide-react';
 
-export default function CoursesSection({ courses = [], onSelectCourse }) {
+export default function CoursesSection({ courses = [], onSelectCourse, config }) {
   const [filter, setFilter] = useState('ALL');
 
   const filteredCourses = courses.filter((course) => {
@@ -22,13 +22,13 @@ export default function CoursesSection({ courses = [], onSelectCourse }) {
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Target Band 8+ Programs</span>
+            <span>{config?.badge || "Target Band 8+ Programs"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Our Certified IELTS & English Programs
+            {config?.title || "Our Certified IELTS & English Programs"}
           </h2>
           <p className="text-base text-slate-600">
-            Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream.
+            {config?.subtitle || "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream."}
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export default function CoursesSection({ courses = [], onSelectCourse }) {
                       : 'bg-blue-900 hover:bg-blue-800 text-white shadow-blue-900/20'
                   }`}
                 >
-                  <span>Book Free Demo For This Course</span>
+                  <span>{config?.ctaText || "Book Free Demo For This Course"}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

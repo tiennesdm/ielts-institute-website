@@ -20,7 +20,16 @@ import {
   LayoutTemplate,
   ShieldCheck,
   UploadCloud,
-  Layers
+  Layers,
+  MessageCircle,
+  Search,
+  HelpCircle,
+  BookOpen,
+  Trophy,
+  Calendar,
+  Share2,
+  FileText,
+  Globe
 } from 'lucide-react';
 import { processAndUploadImage } from '@/lib/imageUtils';
 
@@ -91,6 +100,9 @@ export default function AdminSettingsPage() {
             phone: s.phone || '+91 98765 43210',
             email: s.email || 'info@firstclassglobaleducation.com',
             hours: s.workingHours || 'Mon - Sat: 7:00 AM - 8:30 PM | Sun: Special Mock Tests',
+            col2Title: 'Explore',
+            col3Title: 'Programs',
+            col4Title: 'Head Campus',
             programs: [
               'IELTS Academic Comprehensive',
               'IELTS General Training (PR)',
@@ -111,6 +123,127 @@ export default function AdminSettingsPage() {
             diagnosticText: 'Take our 45-minute Free Diagnostic Evaluation Test & get an accurate band score report from our Senior Head Examiner today.',
             diagnosticCta: 'Take Free Diagnostic Test',
             items: []
+          };
+        }
+
+        // Section Headings & Badges Customizer
+        if (!s.sections) {
+          s.sections = {
+            courses: {
+              badge: "Target Band 8+ Programs",
+              title: "Our Certified IELTS & English Programs",
+              subtitle: "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream.",
+              ctaText: "Book Free Demo For This Course"
+            },
+            results: {
+              badge: "Hall of Fame & High Achievers",
+              title: "Real Students, Real 8+ Band Results",
+              subtitle: "Hundreds of our students clear their target band scores on their first attempt every month and secure admissions in top Ivy League & Global Universities."
+            },
+            batches: {
+              badge: "Admissions Open",
+              title: "Upcoming IELTS & PTE Batches",
+              subtitle: "Small batch size (max 15 students per batch) to ensure individualized attention. Secure your preferred timing before seats fill out.",
+              ctaText: "Reserve Seat Now"
+            },
+            testimonials: {
+              badge: "Student Experiences",
+              title: "Loved By Thousands of Test Takers",
+              subtitle: "Read how our structured training, daily evaluations, and master feedback helped our students achieve their immigration and admission scores."
+            },
+            gallery: {
+              badge: "Campus & Life At Academy",
+              title: "Our Photo & Campus Gallery",
+              subtitle: "Take a look inside our high-tech computer simulation labs, acoustic 1-on-1 speaking cabins, visa celebrations, and student felicitation ceremonies."
+            },
+            faqs: {
+              badge: "Got Questions?",
+              title: "Frequently Asked Questions",
+              subtitle: "Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology."
+            },
+            universities: {
+              bannerBadge: "Fast-Track Admission & Spot Assessment",
+              bannerTitle: "Confused About Which University & Country Fits Your Profile?",
+              bannerDesc: "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
+              bannerCta: "Book Free 1-on-1 Profile Assessment",
+              marqueeTitle: "Representing 850+ Direct Global Partner Universities & Colleges"
+            }
+          };
+        }
+
+        // Hero sub-elements
+        if (!s.hero) s.hero = {};
+        if (!s.hero.highlights) {
+          s.hero.highlights = [
+            "Daily 1-on-1 Speaking with Certified Examiners",
+            "Daily Writing Task 1 & 2 Line Corrections",
+            "Official CD-IELTS Computer Simulation Lab",
+            "Cambridge Official Books (1-19) Study Kits"
+          ];
+        }
+        if (!s.hero.floatingBadge) {
+          s.hero.floatingBadge = {
+            score: "8.5",
+            label: "Top Achiever",
+            title: "Overall IELTS Band",
+            sub: "L: 9.0 • R: 9.0 • S: 8.5"
+          };
+        }
+        if (!s.hero.bottomPills) {
+          s.hero.bottomPills = [
+            { icon: "Award", text: "IDP & British Council" },
+            { icon: "Headphones", text: "Real Headset Lab" },
+            { icon: "Shield", text: "100% Guaranteed" }
+          ];
+        }
+        if (!s.hero.callbackBox) {
+          s.hero.callbackBox = {
+            placeholder: "Enter Mobile No for Instant Call",
+            buttonText: "Request Call",
+            successText: "Thank you! Our senior counselor will call you within 15 minutes."
+          };
+        }
+
+        // Modal Customizer
+        if (!s.modal) {
+          s.modal = {
+            badge: "Limited Free Slots Available",
+            title: "Book Free Demo & Mock Test",
+            subtitle: "Experience our 1-on-1 speaking session, software lab & diagnostic evaluation test without paying anything.",
+            buttonText: "Book Free 2-Hour Demo Class",
+            successTitle: "Seat Reserved Successfully!",
+            successMessage: "Thank you for contacting us. Our senior counseling mentor will call you within 30 minutes to confirm your demo timing and send the Cambridge preparation kit.",
+            footerNote: "🔒 100% Confidential. No spam. You will only be contacted by an academic counselor."
+          };
+        }
+
+        // WhatsApp Customizer
+        if (!s.whatsappConfig) {
+          s.whatsappConfig = {
+            enabled: true,
+            number: s.whatsapp || "919876543210",
+            buttonText: "Chat on WhatsApp",
+            prefilledMessage: "Hello First Class Global Education, I am interested in IELTS coaching and would like to know batch timings and fees."
+          };
+        }
+
+        // Social Profiles
+        if (!s.social) {
+          s.social = {
+            instagram: "https://instagram.com",
+            facebook: "https://facebook.com",
+            youtube: "https://youtube.com",
+            linkedin: "https://linkedin.com",
+            telegram: ""
+          };
+        }
+
+        // Dynamic SEO
+        if (!s.seo) {
+          s.seo = {
+            metaTitle: "First Class Global Education | 8+ Bands IELTS, PTE & Study Abroad Coaching",
+            metaDescription: "First Class Global Education - Premier IELTS, PTE & Spoken English Institute. Daily 1-on-1 speaking, CD-IELTS computer lab, Cambridge certified trainers and verified 8+ band results.",
+            keywords: "IELTS Coaching, PTE Academic, Study Abroad, Canada Visa, UK Student Visa, Chandigarh IELTS Institute, Band 8 Preparation"
           };
         }
 
@@ -282,7 +415,12 @@ export default function AdminSettingsPage() {
     { id: 'logo', label: '🏷️ Logo & Brand' },
     { id: 'navigation', label: '🧭 Navigation Menu' },
     { id: 'hero', label: '⭐ Hero Banner' },
+    { id: 'sections', label: '📑 Section Headings' },
+    { id: 'modal', label: '📝 Inquiry & Demo Popup' },
+    { id: 'whatsapp', label: '💬 WhatsApp & Callbacks' },
     { id: 'footer', label: '🦶 Footer & Bio' },
+    { id: 'social', label: '🌐 Social Links' },
+    { id: 'seo', label: '🔍 Dynamic SEO' },
     { id: 'announcement', label: '📢 Notice Bar' },
     { id: 'whyUs', label: '🌟 Why Choose Us' },
     { id: 'stats', label: '📊 Stats Counters' },
@@ -753,6 +891,193 @@ export default function AdminSettingsPage() {
                 </div>
               )}
             </div>
+
+            {/* 4 Feature Highlights Checkmarks */}
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Hero Feature Checkmarks (4 Highlights)
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {(settings.hero?.highlights || [
+                  "Daily 1-on-1 Speaking with Certified Examiners",
+                  "Daily Writing Task 1 & 2 Line Corrections",
+                  "Official CD-IELTS Computer Simulation Lab",
+                  "Cambridge Official Books (1-19) Study Kits"
+                ]).map((hl, idx) => (
+                  <div key={idx}>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Highlight #{idx + 1}</label>
+                    <input
+                      type="text"
+                      value={hl}
+                      onChange={(e) => {
+                        const updated = [...(settings.hero?.highlights || [])];
+                        updated[idx] = e.target.value;
+                        setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, highlights: updated }
+                        }));
+                      }}
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Floating Achiever Badge */}
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Floating Student Achiever Badge (On Hero Image)
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Band Score</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.floatingBadge?.score || '8.5'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        floatingBadge: { ...prev.hero?.floatingBadge, score: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-black text-amber-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Tag</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.floatingBadge?.label || 'Top Achiever'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        floatingBadge: { ...prev.hero?.floatingBadge, label: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Title</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.floatingBadge?.title || 'Overall IELTS Band'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        floatingBadge: { ...prev.hero?.floatingBadge, title: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Scores</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        floatingBadge: { ...prev.hero?.floatingBadge, sub: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-emerald-600"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Trust Pills */}
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Bottom Trust Pills (Inside Hero Image Banner)
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {(settings.hero?.bottomPills || [
+                  { icon: 'Award', text: 'IDP & British Council' },
+                  { icon: 'Headphones', text: 'Real Headset Lab' },
+                  { icon: 'Shield', text: '100% Guaranteed' }
+                ]).map((pill, idx) => (
+                  <div key={idx}>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill #{idx + 1}</label>
+                    <input
+                      type="text"
+                      value={pill.text}
+                      onChange={(e) => {
+                        const updated = [...(settings.hero?.bottomPills || [])];
+                        updated[idx] = { ...updated[idx], text: e.target.value };
+                        setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, bottomPills: updated }
+                        }));
+                      }}
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Instant Callback Form Box */}
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Hero Instant Callback Box
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Input Placeholder</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.callbackBox?.placeholder || 'Enter Mobile No for Instant Call'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        callbackBox: { ...prev.hero?.callbackBox, placeholder: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Text</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.callbackBox?.buttonText || 'Request Call'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        callbackBox: { ...prev.hero?.callbackBox, buttonText: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Success Message</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.callbackBox?.successText || 'Thank you! Our senior counselor will call you within 15 minutes.'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: {
+                        ...prev.hero,
+                        callbackBox: { ...prev.hero?.callbackBox, successText: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-emerald-700"
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
@@ -899,6 +1224,803 @@ export default function AdminSettingsPage() {
                   </span>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: SECTION HEADINGS & BADGES */}
+      {activeTab === 'sections' && (
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-8">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Layers className="w-5 h-5 text-red-600" />
+            <div>
+              <h2 className="text-base font-bold text-slate-900">Website Section Headers & Badges</h2>
+              <p className="text-xs text-slate-500">Edit titles, badges, subtitles, and button labels for every section on the homepage.</p>
+            </div>
+          </div>
+
+          {/* 1. Courses Section */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <BookOpen className="w-4 h-4 text-red-600" />
+              <span>1. Band 8+ Courses Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.courses?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      courses: { ...prev.sections?.courses, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.courses?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      courses: { ...prev.sections?.courses, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.courses?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      courses: { ...prev.sections?.courses, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Course Card Button Text</label>
+                <input
+                  type="text"
+                  value={settings.sections?.courses?.ctaText || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      courses: { ...prev.sections?.courses, ctaText: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold text-red-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Results Section */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <Trophy className="w-4 h-4 text-amber-600" />
+              <span>2. 8+ Band Results (Hall of Fame) Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.results?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      results: { ...prev.sections?.results, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.results?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      results: { ...prev.sections?.results, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.results?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      results: { ...prev.sections?.results, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Batches Section */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <Calendar className="w-4 h-4 text-emerald-600" />
+              <span>3. Upcoming Batches Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.batches?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      batches: { ...prev.sections?.batches, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.batches?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      batches: { ...prev.sections?.batches, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.batches?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      batches: { ...prev.sections?.batches, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Batch Button Text</label>
+                <input
+                  type="text"
+                  value={settings.sections?.batches?.ctaText || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      batches: { ...prev.sections?.batches, ctaText: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Testimonials Section */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <Sparkles className="w-4 h-4 text-yellow-500" />
+              <span>4. Student Testimonials & Reviews Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.testimonials?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      testimonials: { ...prev.sections?.testimonials, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.testimonials?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      testimonials: { ...prev.sections?.testimonials, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.testimonials?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      testimonials: { ...prev.sections?.testimonials, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Campus Photo Gallery */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <ImageIcon className="w-4 h-4 text-purple-600" />
+              <span>5. Campus & Events Gallery Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.gallery?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      gallery: { ...prev.sections?.gallery, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.gallery?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      gallery: { ...prev.sections?.gallery, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.gallery?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      gallery: { ...prev.sections?.gallery, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 6. FAQs Section */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <HelpCircle className="w-4 h-4 text-blue-600" />
+              <span>6. Frequently Asked Questions (FAQ) Section</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.faqs?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      faqs: { ...prev.sections?.faqs, badge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.faqs?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      faqs: { ...prev.sections?.faqs, title: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Subtitle</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.faqs?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      faqs: { ...prev.sections?.faqs, subtitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 7. Universities Section Extra Customizer */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+              <Globe className="w-4 h-4 text-red-600" />
+              <span>7. University Tie-ups Marquee & Callout Banner</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Marquee Ticker Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.marqueeTitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, marqueeTitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Banner Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.bannerBadge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, bannerBadge: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Banner Action Button Text</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.bannerCta || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, bannerCta: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold text-red-600"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Banner Title</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.bannerTitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, bannerTitle: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Banner Description</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.universities?.bannerDesc || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, bannerDesc: e.target.value }
+                    }
+                  }))}
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* TAB: INQUIRY MODAL / LEAD POPUP */}
+      {activeTab === 'modal' && (
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <FileText className="w-5 h-5 text-red-600" />
+            <div>
+              <h2 className="text-base font-bold text-slate-900">Inquiry & Demo Booking Popup Modal</h2>
+              <p className="text-xs text-slate-500">Customize the lead capture popup text, badges, button, and post-submission thank you message.</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Top Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.modal?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    modal: { ...prev.modal, badge: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Modal Heading</label>
+                <input
+                  type="text"
+                  value={settings.modal?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    modal: { ...prev.modal, title: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Modal Subtitle</label>
+              <textarea
+                rows={2}
+                value={settings.modal?.subtitle || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  modal: { ...prev.modal, subtitle: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-700"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Submit Button Text</label>
+                <input
+                  type="text"
+                  value={settings.modal?.buttonText || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    modal: { ...prev.modal, buttonText: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold text-red-600"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Confidentiality / Footer Note</label>
+                <input
+                  type="text"
+                  value={settings.modal?.footerNote || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    modal: { ...prev.modal, footerNote: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-500"
+                />
+              </div>
+            </div>
+
+            {/* Post submission success view */}
+            <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-3 mt-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+                Post-Submission Success Screen
+              </h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-emerald-900 mb-1">Success Title</label>
+                  <input
+                    type="text"
+                    value={settings.modal?.successTitle || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      modal: { ...prev.modal, successTitle: e.target.value }
+                    }))}
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-emerald-300 bg-white font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-emerald-900 mb-1">Success Message Description</label>
+                  <textarea
+                    rows={2}
+                    value={settings.modal?.successMessage || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      modal: { ...prev.modal, successMessage: e.target.value }
+                    }))}
+                    className="w-full px-3.5 py-2 text-xs rounded-xl border border-emerald-300 bg-white"
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* TAB: WHATSAPP CONFIG */}
+      {activeTab === 'whatsapp' && (
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5 text-emerald-600" />
+              <div>
+                <h2 className="text-base font-bold text-slate-900">WhatsApp Floating Widget & Settings</h2>
+                <p className="text-xs text-slate-500">Configure the bottom-right floating chat button and instant message templates.</p>
+              </div>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+              <input
+                type="checkbox"
+                checked={settings.whatsappConfig?.enabled ?? true}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  whatsappConfig: { ...prev.whatsappConfig, enabled: e.target.checked }
+                }))}
+                className="w-4 h-4 text-emerald-600 rounded"
+              />
+              <span className="text-xs font-bold text-slate-800">Enable Floating Widget</span>
+            </label>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  WhatsApp Number (with Country Code, e.g. 919876543210)
+                </label>
+                <input
+                  type="text"
+                  value={settings.whatsappConfig?.number || settings.whatsapp || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    whatsapp: e.target.value,
+                    whatsappConfig: { ...prev.whatsappConfig, number: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-900 text-xs sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Button Text
+                </label>
+                <input
+                  type="text"
+                  value={settings.whatsappConfig?.buttonText || 'Chat on WhatsApp'}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    whatsappConfig: { ...prev.whatsappConfig, buttonText: e.target.value }
+                  }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Default Pre-filled Chat Message (Sent when student clicks WhatsApp)
+              </label>
+              <textarea
+                rows={3}
+                value={settings.whatsappConfig?.prefilledMessage || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  whatsappConfig: { ...prev.whatsappConfig, prefilledMessage: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: SOCIAL MEDIA */}
+      {activeTab === 'social' && (
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Share2 className="w-5 h-5 text-blue-900" />
+            <div>
+              <h2 className="text-base font-bold text-slate-900">Social Media Profiles</h2>
+              <p className="text-xs text-slate-500">Provide direct links to your official academy social media channels.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Instagram URL</label>
+              <input
+                type="url"
+                placeholder="https://instagram.com/your-page"
+                value={settings.social?.instagram || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  social: { ...prev.social, instagram: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Facebook URL</label>
+              <input
+                type="url"
+                placeholder="https://facebook.com/your-page"
+                value={settings.social?.facebook || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  social: { ...prev.social, facebook: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">YouTube Channel URL</label>
+              <input
+                type="url"
+                placeholder="https://youtube.com/@your-channel"
+                value={settings.social?.youtube || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  social: { ...prev.social, youtube: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">LinkedIn Page URL</label>
+              <input
+                type="url"
+                placeholder="https://linkedin.com/company/your-company"
+                value={settings.social?.linkedin || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  social: { ...prev.social, linkedin: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Telegram Community (Optional)</label>
+              <input
+                type="url"
+                placeholder="https://t.me/your-channel"
+                value={settings.social?.telegram || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  social: { ...prev.social, telegram: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: SEO & META TAGS */}
+      {activeTab === 'seo' && (
+        <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
+          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
+            <Search className="w-5 h-5 text-red-600" />
+            <div>
+              <h2 className="text-base font-bold text-slate-900">Search Engine Optimization (SEO)</h2>
+              <p className="text-xs text-slate-500">Configure page titles, meta descriptions, and search rankings in Google.</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Homepage Browser Title (Meta Title)
+              </label>
+              <input
+                type="text"
+                value={settings.seo?.metaTitle || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  seo: { ...prev.seo, metaTitle: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-900 text-xs sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Meta Description (Summary shown in Google search results)
+              </label>
+              <textarea
+                rows={3}
+                value={settings.seo?.metaDescription || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  seo: { ...prev.seo, metaDescription: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                SEO Keywords (Comma separated)
+              </label>
+              <input
+                type="text"
+                value={settings.seo?.keywords || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  seo: { ...prev.seo, keywords: e.target.value }
+                }))}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-600"
+              />
             </div>
           </div>
         </div>

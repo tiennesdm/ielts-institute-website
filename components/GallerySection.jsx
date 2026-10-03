@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Image as ImageIcon, X, ZoomIn, Eye, Sparkles } from 'lucide-react';
 
-export default function GallerySection({ gallery = [] }) {
+export default function GallerySection({ gallery = [], config }) {
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -22,13 +22,13 @@ export default function GallerySection({ gallery = [] }) {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-wider">
             <ImageIcon className="w-3.5 h-3.5 text-blue-700" />
-            <span>Campus & Life At Academy</span>
+            <span>{config?.badge || "Campus & Life At Academy"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Our Photo & Campus Gallery
+            {config?.title || "Our Photo & Campus Gallery"}
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            Take a look inside our high-tech computer simulation labs, acoustic 1-on-1 speaking cabins, visa celebrations, and student felicitation ceremonies.
+            {config?.subtitle || "Take a look inside our high-tech computer simulation labs, acoustic 1-on-1 speaking cabins, visa celebrations, and student felicitation ceremonies."}
           </p>
         </div>
 

@@ -1,7 +1,7 @@
 'use client';
 import { Award, Trophy, Star, CheckCircle, GraduationCap } from 'lucide-react';
 
-export default function ResultsSection({ results = [] }) {
+export default function ResultsSection({ results = [], config }) {
   if (!results || results.length === 0) return null;
 
   return (
@@ -12,13 +12,13 @@ export default function ResultsSection({ results = [] }) {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">
             <Trophy className="w-3.5 h-3.5 text-amber-600" />
-            <span>Hall of Fame & High Achievers</span>
+            <span>{config?.badge || "Hall of Fame & High Achievers"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Real Students, Real 8+ Band Results
+            {config?.title || "Real Students, Real 8+ Band Results"}
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            Hundreds of our students clear their target band scores on their first attempt every month and secure admissions in top Ivy League & Global Universities.
+            {config?.subtitle || "Hundreds of our students clear their target band scores on their first attempt every month and secure admissions in top Ivy League & Global Universities."}
           </p>
         </div>
 

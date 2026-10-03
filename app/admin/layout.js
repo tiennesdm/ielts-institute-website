@@ -14,6 +14,7 @@ import {
   LogOut,
   ExternalLink,
   GraduationCap,
+  HelpCircle,
   Menu,
   X
 } from 'lucide-react';
@@ -78,6 +79,7 @@ export default function AdminLayout({ children }) {
     { label: '8+ Band Results', href: '/admin/results', icon: <Trophy className="w-5 h-5" /> },
     { label: 'Testimonials', href: '/admin/testimonials', icon: <MessageSquare className="w-5 h-5" /> },
     { label: 'Upcoming Batches', href: '/admin/batches', icon: <Calendar className="w-5 h-5" /> },
+    { label: 'Manage FAQs', href: '/admin/faqs', icon: <HelpCircle className="w-5 h-5" /> },
     { label: 'Leads & Inquiries CRM', href: '/admin/leads', icon: <Users className="w-5 h-5" /> },
   ];
 

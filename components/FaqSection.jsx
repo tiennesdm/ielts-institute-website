@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 
-export default function FaqSection({ faqs = [] }) {
+export default function FaqSection({ faqs = [], config }) {
   const [openIdx, setOpenIdx] = useState(0);
 
   if (!faqs || faqs.length === 0) return null;
@@ -15,13 +15,13 @@ export default function FaqSection({ faqs = [] }) {
         <div className="text-center space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-wider">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Got Questions?</span>
+            <span>{config?.badge || "Got Questions?"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Frequently Asked Questions
+            {config?.title || "Frequently Asked Questions"}
           </h2>
           <p className="text-sm text-slate-600">
-            Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology.
+            {config?.subtitle || "Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology."}
           </p>
         </div>
 

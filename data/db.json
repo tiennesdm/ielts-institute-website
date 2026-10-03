@@ -145,7 +145,38 @@
       "badge": "⭐ Rated 4.9/5 by 12,000+ Achievers • British Council Partner",
       "bannerImage": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop",
       "primaryCtaText": "Book Free Mock Test & Demo",
-      "secondaryCtaText": "Explore Band Courses"
+      "secondaryCtaText": "Explore Band Courses",
+      "highlights": [
+        "Daily 1-on-1 Speaking with Certified Examiners",
+        "Daily Writing Task 1 & 2 Line Corrections",
+        "Official CD-IELTS Computer Simulation Lab",
+        "Cambridge Official Books (1-19) Study Kits"
+      ],
+      "floatingBadge": {
+        "score": "8.5",
+        "label": "Top Achiever",
+        "title": "Overall IELTS Band",
+        "sub": "L: 9.0 • R: 9.0 • S: 8.5"
+      },
+      "bottomPills": [
+        {
+          "icon": "Award",
+          "text": "IDP & British Council"
+        },
+        {
+          "icon": "Headphones",
+          "text": "Real Headset Lab"
+        },
+        {
+          "icon": "Shield",
+          "text": "100% Guaranteed"
+        }
+      ],
+      "callbackBox": {
+        "placeholder": "Enter Mobile No for Instant Call",
+        "buttonText": "Request Call",
+        "successText": "Thank you! Our senior counselor will call you within 15 minutes."
+      }
     },
     "stats": [
       {
@@ -172,7 +203,75 @@
         "label": "Excellence Record",
         "subtext": "Certified Master Mentors"
       }
-    ]
+    ],
+    "sections": {
+      "courses": {
+        "badge": "Target Band 8+ Programs",
+        "title": "Our Certified IELTS & English Programs",
+        "subtitle": "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream.",
+        "ctaText": "Book Free Demo For This Course"
+      },
+      "results": {
+        "badge": "Hall of Fame & High Achievers",
+        "title": "Real Students, Real 8+ Band Results",
+        "subtitle": "Hundreds of our students clear their target band scores on their first attempt every month and secure admissions in top Ivy League & Global Universities."
+      },
+      "batches": {
+        "badge": "Admissions Open",
+        "title": "Upcoming IELTS & PTE Batches",
+        "subtitle": "Small batch size (max 15 students per batch) to ensure individualized attention. Secure your preferred timing before seats fill out.",
+        "ctaText": "Reserve Seat Now"
+      },
+      "testimonials": {
+        "badge": "Student Experiences",
+        "title": "Loved By Thousands of Test Takers",
+        "subtitle": "Read how our structured training, daily evaluations, and master feedback helped our students achieve their immigration and admission scores."
+      },
+      "gallery": {
+        "badge": "Campus & Life At Academy",
+        "title": "Our Photo & Campus Gallery",
+        "subtitle": "Take a look inside our high-tech computer simulation labs, acoustic 1-on-1 speaking cabins, visa celebrations, and student felicitation ceremonies."
+      },
+      "faqs": {
+        "badge": "Got Questions?",
+        "title": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology."
+      },
+      "universities": {
+        "bannerBadge": "Fast-Track Admission & Spot Assessment",
+        "bannerTitle": "Confused About Which University & Country Fits Your Profile?",
+        "bannerDesc": "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
+        "bannerCta": "Book Free 1-on-1 Profile Assessment",
+        "marqueeTitle": "Representing 850+ Direct Global Partner Universities & Colleges"
+      }
+    },
+    "modal": {
+      "badge": "Limited Free Slots Available",
+      "title": "Book Free Demo & Mock Test",
+      "subtitle": "Experience our 1-on-1 speaking session, software lab & diagnostic evaluation test without paying anything.",
+      "buttonText": "Book Free 2-Hour Demo Class",
+      "successTitle": "Seat Reserved Successfully!",
+      "successMessage": "Thank you for contacting us. Our senior counseling mentor will call you within 30 minutes to confirm your demo timing and send the Cambridge preparation kit.",
+      "footerNote": "🔒 100% Confidential. No spam. You will only be contacted by an academic counselor."
+    },
+    "whatsappConfig": {
+      "enabled": true,
+      "number": "919876543210",
+      "buttonText": "Chat on WhatsApp",
+      "prefilledMessage": "Hello First Class Global Education, I am interested in IELTS coaching and would like to know batch timings and fees."
+    },
+    "social": {
+      "instagram": "https://instagram.com",
+      "facebook": "https://facebook.com",
+      "youtube": "https://youtube.com",
+      "linkedin": "https://linkedin.com",
+      "telegram": ""
+    },
+    "seo": {
+      "metaTitle": "First Class Global Education | 8+ Bands IELTS, PTE & Study Abroad Coaching",
+      "metaDescription": "First Class Global Education - Premier IELTS, PTE & Spoken English Institute. Daily 1-on-1 speaking, CD-IELTS computer lab, Cambridge certified trainers and verified 8+ band results.",
+      "keywords": "IELTS Coaching, PTE Academic, Study Abroad, Canada Visa, UK Student Visa, Chandigarh IELTS Institute, Band 8 Preparation"
+    }
   },
   "courses": [
     {

@@ -1,7 +1,7 @@
 'use client';
 import { Star, Quote, CheckCircle2, MessageSquare } from 'lucide-react';
 
-export default function TestimonialsSection({ testimonials = [] }) {
+export default function TestimonialsSection({ testimonials = [], config }) {
   if (!testimonials || testimonials.length === 0) return null;
 
   return (
@@ -12,13 +12,13 @@ export default function TestimonialsSection({ testimonials = [] }) {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 text-amber-900 text-xs font-bold uppercase tracking-wider">
             <MessageSquare className="w-3.5 h-3.5 text-amber-600" />
-            <span>Student Experiences</span>
+            <span>{config?.badge || "Student Experiences"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Loved By Thousands of Test Takers
+            {config?.title || "Loved By Thousands of Test Takers"}
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            Read how our structured training, daily evaluations, and master feedback helped our students achieve their immigration and admission scores.
+            {config?.subtitle || "Read how our structured training, daily evaluations, and master feedback helped our students achieve their immigration and admission scores."}
           </p>
         </div>
 

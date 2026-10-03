@@ -67,22 +67,20 @@ export default function HeroSection({ hero, settings, onBookClick }) {
 
             {/* Key feature checkmarks */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Daily 1-on-1 Speaking with Certified Examiners</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Daily Writing Task 1 & 2 Line Corrections</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Official CD-IELTS Computer Simulation Lab</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Cambridge Official Books (1-19) Study Kits</span>
-              </div>
+              {(hero?.highlights && hero.highlights.length > 0
+                ? hero.highlights
+                : [
+                    "Daily 1-on-1 Speaking with Certified Examiners",
+                    "Daily Writing Task 1 & 2 Line Corrections",
+                    "Official CD-IELTS Computer Simulation Lab",
+                    "Cambridge Official Books (1-19) Study Kits"
+                  ]
+              ).map((highlight, idx) => (
+                <div key={idx} className="flex items-center gap-2.5 text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>{highlight}</span>
+                </div>
+              ))}
             </div>
 
             {/* Action Buttons */}
@@ -108,7 +106,7 @@ export default function HeroSection({ hero, settings, onBookClick }) {
               <form onSubmit={handleQuickSubmit} className="flex items-center gap-2 bg-white/5 border border-white/10 p-1.5 rounded-xl backdrop-blur-md">
                 <input
                   type="tel"
-                  placeholder="Enter Mobile No for Instant Call"
+                  placeholder={hero?.callbackBox?.placeholder || "Enter Mobile No for Instant Call"}
                   value={quickPhone}
                   onChange={(e) => setQuickPhone(e.target.value)}
                   required
@@ -119,12 +117,12 @@ export default function HeroSection({ hero, settings, onBookClick }) {
                   disabled={loading || submitted}
                   className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold px-3.5 py-2 rounded-lg text-xs transition-colors shrink-0 disabled:opacity-50"
                 >
-                  {loading ? 'Sending...' : submitted ? '✓ Callback Booked' : 'Request Call'}
+                  {loading ? 'Sending...' : submitted ? '✓ Callback Booked' : (hero?.callbackBox?.buttonText || 'Request Call')}
                 </button>
               </form>
               {submitted && (
                 <p className="text-xs text-emerald-400 mt-1.5 pl-1">
-                  Thank you! Our senior counselor will call you within 15 minutes.
+                  {hero?.callbackBox?.successText || 'Thank you! Our senior counselor will call you within 15 minutes.'}
                 </p>
               )}
             </div>
@@ -144,30 +142,42 @@ export default function HeroSection({ hero, settings, onBookClick }) {
               {/* Floating Band 8.5 Badge */}
               <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md text-slate-900 p-3 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3 animate-bounce">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center font-black text-white text-lg shadow-md">
-                  8.5
+                  {hero?.floatingBadge?.score || '8.5'}
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Top Achiever</div>
-                  <div className="text-xs font-extrabold text-slate-900">Overall IELTS Band</div>
-                  <div className="text-[10px] text-emerald-600 font-bold">L: 9.0 • R: 9.0 • S: 8.5</div>
+                  <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                    {hero?.floatingBadge?.label || 'Top Achiever'}
+                  </div>
+                  <div className="text-xs font-extrabold text-slate-900">
+                    {hero?.floatingBadge?.title || 'Overall IELTS Band'}
+                  </div>
+                  <div className="text-[10px] text-emerald-600 font-bold">
+                    {hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
+                  </div>
                 </div>
               </div>
 
               {/* Bottom Feature Bar */}
               <div className="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-xl border border-white/10">
                 <div className="flex items-center justify-between text-xs text-slate-300">
-                  <div className="flex items-center gap-1.5">
-                    <Award className="w-4 h-4 text-yellow-400" />
-                    <span className="font-semibold text-white">IDP & British Council</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Headphones className="w-4 h-4 text-rose-400" />
-                    <span>Real Headset Lab</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Shield className="w-4 h-4 text-emerald-400" />
-                    <span>100% Guaranteed</span>
-                  </div>
+                  {(hero?.bottomPills && hero.bottomPills.length > 0
+                    ? hero.bottomPills
+                    : [
+                        { icon: 'Award', text: 'IDP & British Council' },
+                        { icon: 'Headphones', text: 'Real Headset Lab' },
+                        { icon: 'Shield', text: '100% Guaranteed' }
+                      ]
+                  ).map((pill, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5">
+                      {pill.icon === 'Award' && <Award className="w-4 h-4 text-yellow-400" />}
+                      {pill.icon === 'Headphones' && <Headphones className="w-4 h-4 text-rose-400" />}
+                      {pill.icon === 'Shield' && <Shield className="w-4 h-4 text-emerald-400" />}
+                      {!['Award', 'Headphones', 'Shield'].includes(pill.icon) && (
+                        <Award className="w-4 h-4 text-yellow-400" />
+                      )}
+                      <span className={idx === 0 ? "font-semibold text-white" : ""}>{pill.text}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
