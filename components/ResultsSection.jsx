@@ -2,7 +2,8 @@
 import { Award, Trophy, Star, CheckCircle, GraduationCap } from 'lucide-react';
 
 export default function ResultsSection({ results = [], config }) {
-  if (config?.show === false || !results || results.length === 0) return null;
+  const activeResults = (results || []).filter(item => item.isActive !== false);
+  if (config?.show === false || activeResults.length === 0) return null;
 
   return (
     <section id="results" className="py-14 sm:py-20 bg-white">
@@ -24,7 +25,7 @@ export default function ResultsSection({ results = [], config }) {
 
         {/* Results Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12">
-          {results.map((item) => (
+          {activeResults.map((item) => (
             <div
               key={item.id}
               className="bg-slate-50 rounded-2xl border border-slate-200/80 p-5 sm:p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 relative group overflow-hidden"

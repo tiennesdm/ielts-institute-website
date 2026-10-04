@@ -505,7 +505,8 @@
       "flag": "🇨🇦",
       "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=500&auto=format&fit=crop",
       "quote": "The 1-on-1 speaking sessions and writing critiques by First Class faculty are unmatched. They pointed out subtle lexical errors that no other coaching could fix.",
-      "admitted": "Fall Intake 2025"
+      "admitted": "Fall Intake 2025",
+      "isActive": true
     },
     {
       "id": "res-2",
@@ -522,7 +523,8 @@
       "flag": "🇦🇺",
       "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop",
       "quote": "I was stuck at 6.5 bands in writing for 2 attempts. Within 4 weeks at First Class, my score jumped straight to 8.0 overall! Forever grateful.",
-      "admitted": "Master of Data Science"
+      "admitted": "Master of Data Science",
+      "isActive": true
     },
     {
       "id": "res-3",
@@ -539,7 +541,8 @@
       "flag": "🇨🇦",
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
       "quote": "Needed 8-7-7-7 for Canada PR CRS score. The tips for Reading True/False/Not Given saved me 15 minutes in the real exam.",
-      "admitted": "Canada Permanent Resident"
+      "admitted": "Canada Permanent Resident",
+      "isActive": true
     },
     {
       "id": "res-4",
@@ -556,7 +559,8 @@
       "flag": "🇬🇧",
       "photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=500&auto=format&fit=crop",
       "quote": "The computer-delivered mock test software here is an exact clone of the real IDP exam. I felt zero nervousness on exam day!",
-      "admitted": "MSc Biomedical Engineering"
+      "admitted": "MSc Biomedical Engineering",
+      "isActive": true
     },
     {
       "id": "res-5",
@@ -573,7 +577,8 @@
       "flag": "🇦🇺",
       "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500&auto=format&fit=crop",
       "quote": "Their AI PTE software scoring and templates for Describe Image and Retell Lecture work like magic. Scored 86 overall!",
-      "admitted": "Master of IT"
+      "admitted": "Master of IT",
+      "isActive": true
     },
     {
       "id": "res-6",
@@ -590,7 +595,8 @@
       "flag": "🇨🇦",
       "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop",
       "quote": "The friendly faculty and daily mock interview room helped me overcome my speaking hesitation completely.",
-      "admitted": "Bachelor of Commerce"
+      "admitted": "Bachelor of Commerce",
+      "isActive": true
     }
   ],
   "gallery": [
