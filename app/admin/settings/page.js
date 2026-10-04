@@ -32,6 +32,7 @@ import {
   FileText,
   Globe,
   Eye,
+  EyeOff,
   RefreshCw,
   Sliders,
   Palette,
@@ -78,6 +79,10 @@ export default function AdminSettingsPage() {
 
   // New program input for footer
   const [newProgram, setNewProgram] = useState('');
+
+  // New footer quick link inputs
+  const [newFooterLabel, setNewFooterLabel] = useState('');
+  const [newFooterHref, setNewFooterHref] = useState('');
 
   useEffect(() => {
     async function loadSettings() {
@@ -236,6 +241,42 @@ export default function AdminSettingsPage() {
             }
           };
         }
+
+        // Ensure default footer quick links if empty
+        if (!s.footer.links || s.footer.links.length === 0) {
+          s.footer.links = [
+            { id: 'foot-1', label: 'Band 8+ Courses', href: '#courses' },
+            { id: 'foot-2', label: 'Hall of Fame & Results', href: '#results' },
+            { id: 'foot-uni', label: 'University Tie-ups', href: '#universities' },
+            { id: 'foot-3', label: 'Campus Photo Gallery', href: '#gallery' },
+            { id: 'foot-4', label: 'Upcoming Batches', href: '#batches' },
+            { id: 'foot-5', label: 'Why Choose Us', href: '#why-us' },
+            { id: 'foot-6', label: 'Student Reviews', href: '#testimonials' },
+            { id: 'foot-7', label: 'Frequently Asked Questions', href: '#faqs' },
+          ];
+        }
+
+        // Section Visibility Defaults
+        if (!s.sections.courses) s.sections.courses = {};
+        if (s.sections.courses.show === undefined) s.sections.courses.show = true;
+        if (!s.sections.results) s.sections.results = {};
+        if (s.sections.results.show === undefined) s.sections.results.show = true;
+        if (!s.sections.batches) s.sections.batches = {};
+        if (s.sections.batches.show === undefined) s.sections.batches.show = true;
+        if (!s.sections.testimonials) s.sections.testimonials = {};
+        if (s.sections.testimonials.show === undefined) s.sections.testimonials.show = true;
+        if (!s.sections.gallery) s.sections.gallery = {};
+        if (s.sections.gallery.show === undefined) s.sections.gallery.show = true;
+        if (!s.sections.faqs) s.sections.faqs = {};
+        if (s.sections.faqs.show === undefined) s.sections.faqs.show = true;
+        if (!s.sections.universities) s.sections.universities = {};
+        if (s.sections.universities.show === undefined) s.sections.universities.show = true;
+        if (!s.sections.whyUs) s.sections.whyUs = {};
+        if (s.sections.whyUs.show === undefined) s.sections.whyUs.show = true;
+        if (s.whyUs && s.whyUs.show === undefined) s.whyUs.show = true;
+        if (s.showStats === undefined) s.showStats = true;
+        if (s.hero && s.hero.show === undefined) s.hero.show = true;
+        if (s.showFooter === undefined) s.showFooter = true;
 
         // Hero sub-elements
         if (!s.hero) s.hero = {};
@@ -488,6 +529,93 @@ export default function AdminSettingsPage() {
     }));
   };
 
+  // Footer quick link helpers (Column 2: Explore)
+  const handleAddFooterLink = () => {
+    if (!newFooterLabel.trim()) return;
+    const newLink = {
+      id: `foot-${Date.now()}`,
+      label: newFooterLabel.trim(),
+      href: newFooterHref.trim() || '#'
+    };
+    setSettings(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        links: [...(prev.footer?.links || []), newLink]
+      }
+    }));
+    setNewFooterLabel('');
+    setNewFooterHref('');
+  };
+
+  const handleDeleteFooterLink = (id) => {
+    setSettings(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        links: (prev.footer?.links || []).filter(l => l.id !== id)
+      }
+    }));
+  };
+
+  const handleCopyNavToFooter = () => {
+    if (!settings.navigation?.links || settings.navigation.links.length === 0) return;
+    const copied = settings.navigation.links.map((link, idx) => ({
+      id: `foot-copy-${Date.now()}-${idx}`,
+      label: link.label,
+      href: link.href
+    }));
+    setSettings(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        links: copied
+      }
+    }));
+  };
+
+  // Homepage Section Visibility Toggler
+  const toggleSectionVisibility = (sectionKey) => {
+    if (sectionKey === 'hero') {
+      setSettings(prev => ({
+        ...prev,
+        hero: { ...prev.hero, show: prev.hero?.show === false ? true : false }
+      }));
+      return;
+    }
+    if (sectionKey === 'stats') {
+      setSettings(prev => ({
+        ...prev,
+        showStats: prev.showStats === false ? true : false
+      }));
+      return;
+    }
+    if (sectionKey === 'whyUs') {
+      const currentVal = (settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false);
+      const nextVal = !currentVal;
+      setSettings(prev => ({
+        ...prev,
+        whyUs: { ...prev.whyUs, show: nextVal },
+        sections: {
+          ...prev.sections,
+          whyUs: { ...prev.sections?.whyUs, show: nextVal }
+        }
+      }));
+      return;
+    }
+    const currentVal = settings.sections?.[sectionKey]?.show !== false;
+    setSettings(prev => ({
+      ...prev,
+      sections: {
+        ...prev.sections,
+        [sectionKey]: {
+          ...prev.sections?.[sectionKey],
+          show: !currentVal
+        }
+      }
+    }));
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -500,7 +628,7 @@ export default function AdminSettingsPage() {
     { id: 'logo', label: '🏷️ Logo & Brand' },
     { id: 'navigation', label: '🧭 Navigation Menu' },
     { id: 'hero', label: '⭐ Hero Banner & Stats' },
-    { id: 'sections', label: '📑 Section Headings' },
+    { id: 'sections', label: '📑 Sections & Visibility' },
     { id: 'modal', label: '📝 Inquiry & Demo Popup' },
     { id: 'whatsapp', label: '💬 WhatsApp & Callbacks' },
     { id: 'footer', label: '🦶 Footer & Bio' },
@@ -1429,6 +1557,26 @@ export default function AdminSettingsPage() {
             <div className="flex items-center gap-2">
               <Compass className="w-5 h-5 text-blue-900" />
               <h2 className="text-base font-bold text-slate-900">Header Navigation Menu Links</h2>
+            </div>
+          </div>
+
+          {/* Helpful Guidance Notice */}
+          <div className="p-4 bg-blue-50/80 border border-blue-200/80 rounded-2xl flex items-start gap-3">
+            <Compass className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
+            <div className="space-y-1 text-xs text-blue-900 leading-relaxed">
+              <span className="font-bold text-blue-950">Independent Header Navigation Controls:</span>
+              <p>
+                Removing or editing links here <strong>only affects the top header navigation bar</strong>. Removing a link here will <em>not</em> delete or hide the section from your public homepage, and will not alter your footer links.
+              </p>
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('sections')}
+                  className="font-bold text-red-600 hover:text-red-700 underline inline-flex items-center gap-1"
+                >
+                  <span>Go to Homepage Sections & Visibility Controls →</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -2791,7 +2939,7 @@ export default function AdminSettingsPage() {
 
             {/* Footer Programs Column */}
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Footer Programs List</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Footer Programs List (Column 3)</h3>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -2824,6 +2972,131 @@ export default function AdminSettingsPage() {
                 ))}
               </div>
             </div>
+
+            {/* Footer Quick Links Manager (Column 2: Explore) - Fully Independent */}
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/80">
+                <div>
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5 text-blue-700" />
+                    <span>Footer Quick Links (Column 2: Explore)</span>
+                  </h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Manage links displayed in the footer Explore column. Operates independently from top header navigation.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyNavToFooter}
+                  className="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1.5 shadow-sm"
+                  title="Copy all links from header navigation to footer"
+                >
+                  <RefreshCw className="w-3 h-3 text-slate-500" />
+                  <span>Copy from Header Menu</span>
+                </button>
+              </div>
+
+              {/* Column 2 Title */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Column 2 Heading</label>
+                <input
+                  type="text"
+                  value={settings.footer?.col2Title || 'Explore'}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    footer: { ...prev.footer, col2Title: e.target.value }
+                  }))}
+                  placeholder="Explore"
+                  className="w-full sm:w-64 px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-bold bg-white"
+                />
+              </div>
+
+              {/* Add New Footer Link Form */}
+              <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-2">
+                <span className="text-[11px] font-bold text-slate-600 block">Add New Footer Link</span>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    placeholder="Link Label (e.g. Band 8+ Courses)"
+                    value={newFooterLabel}
+                    onChange={(e) => setNewFooterLabel(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50 focus:bg-white"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Target URL / Anchor (e.g. #courses)"
+                    value={newFooterHref}
+                    onChange={(e) => setNewFooterHref(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50 focus:bg-white font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddFooterLink}
+                    className="px-4 py-2 bg-blue-900 hover:bg-blue-800 text-white rounded-xl text-xs font-bold shrink-0 flex items-center justify-center gap-1"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Link</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Existing Footer Links List */}
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                  Current Footer Links ({settings.footer?.links?.length || 0})
+                </span>
+                <div className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden bg-white">
+                  {(settings.footer?.links || []).map((link, idx) => (
+                    <div key={link.id || idx} className="p-2.5 sm:p-3 flex items-center justify-between gap-3 hover:bg-slate-50 transition-colors">
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center justify-center shrink-0">
+                          {idx + 1}
+                        </span>
+                        <input
+                          type="text"
+                          value={link.label}
+                          onChange={(e) => {
+                            const updated = [...(settings.footer.links || [])];
+                            updated[idx].label = e.target.value;
+                            setSettings(prev => ({
+                              ...prev,
+                              footer: { ...prev.footer, links: updated }
+                            }));
+                          }}
+                          className="px-2 py-1 border border-slate-200 rounded-lg text-xs font-bold text-slate-900 w-32 sm:w-44"
+                        />
+                        <input
+                          type="text"
+                          value={link.href}
+                          onChange={(e) => {
+                            const updated = [...(settings.footer.links || [])];
+                            updated[idx].href = e.target.value;
+                            setSettings(prev => ({
+                              ...prev,
+                              footer: { ...prev.footer, links: updated }
+                            }));
+                          }}
+                          className="px-2 py-1 border border-slate-200 rounded-lg text-xs text-slate-600 font-mono flex-1 min-w-0"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteFooterLink(link.id)}
+                        className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                        title="Delete Footer Link"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                  {(!settings.footer?.links || settings.footer.links.length === 0) && (
+                    <div className="p-4 text-center text-xs text-slate-400">
+                      No footer links configured. Click "Copy from Header Menu" to import your navigation links.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -2834,16 +3107,115 @@ export default function AdminSettingsPage() {
           <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
             <Layers className="w-5 h-5 text-red-600" />
             <div>
-              <h2 className="text-base font-bold text-slate-900">Website Section Headers & Badges</h2>
-              <p className="text-xs text-slate-500">Edit titles, badges, subtitles, and button labels for every section on the homepage.</p>
+              <h2 className="text-base font-bold text-slate-900">Website Section Headers & Visibility</h2>
+              <p className="text-xs text-slate-500">Show, hide, or customize titles, badges, subtitles, and button labels for every section on the homepage.</p>
+            </div>
+          </div>
+
+          {/* Master Section Visibility Controller */}
+          <div className="p-5 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl text-white space-y-4 shadow-md">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-wider text-white flex items-center gap-2">
+                  <Sliders className="w-4 h-4 text-red-400" />
+                  <span>Homepage Section Display & Visibility Toggles</span>
+                </h3>
+                <p className="text-xs text-slate-300 mt-0.5">
+                  Turn entire sections ON or OFF on the public homepage with 1-click. Hiding a section keeps all data intact without deleting navigation or footer links.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                { key: 'courses', label: '1. Band 8+ Courses', anchor: '#courses', icon: BookOpen, isVisible: settings.sections?.courses?.show !== false },
+                { key: 'results', label: '2. 8+ Band Results', anchor: '#results', icon: Trophy, isVisible: settings.sections?.results?.show !== false },
+                { key: 'batches', label: '3. Upcoming Batches', anchor: '#batches', icon: Calendar, isVisible: settings.sections?.batches?.show !== false },
+                { key: 'testimonials', label: '4. Student Reviews', anchor: '#testimonials', icon: Sparkles, isVisible: settings.sections?.testimonials?.show !== false },
+                { key: 'gallery', label: '5. Campus Gallery', anchor: '#gallery', icon: ImageIcon, isVisible: settings.sections?.gallery?.show !== false },
+                { key: 'faqs', label: '6. Frequently Asked Questions', anchor: '#faqs', icon: HelpCircle, isVisible: settings.sections?.faqs?.show !== false },
+                { key: 'universities', label: '7. University Tie-ups', anchor: '#universities', icon: Globe, isVisible: settings.sections?.universities?.show !== false },
+                { key: 'whyUs', label: '8. Why Choose Us', anchor: '#why-us', icon: ShieldCheck, isVisible: (settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false) },
+                { key: 'stats', label: '9. Stats Counters Bar', anchor: 'Floating Counters', icon: Sliders, isVisible: settings.showStats !== false },
+                { key: 'hero', label: '10. Hero Banner Section', anchor: 'Top Header Area', icon: Sparkles, isVisible: settings.hero?.show !== false },
+              ].map(sec => {
+                const Icon = sec.icon;
+                return (
+                  <div
+                    key={sec.key}
+                    className={`p-3 rounded-xl border transition-all flex items-center justify-between gap-2.5 ${
+                      sec.isVisible
+                        ? 'bg-white/10 border-white/20 hover:border-emerald-400/50'
+                        : 'bg-black/30 border-white/5 opacity-70 hover:opacity-90'
+                    }`}
+                  >
+                    <div className="min-w-0 flex items-center gap-2">
+                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                        sec.isVisible ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-500'
+                      }`}>
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="block text-xs font-bold text-white truncate">{sec.label}</span>
+                        <span className="block text-[10px] text-slate-400 font-mono truncate">{sec.anchor}</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => toggleSectionVisibility(sec.key)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-black shrink-0 transition-all flex items-center gap-1 ${
+                        sec.isVisible
+                          ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm'
+                          : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                      }`}
+                      title={sec.isVisible ? 'Click to hide this section from homepage' : 'Click to display this section on homepage'}
+                    >
+                      {sec.isVisible ? (
+                        <>
+                          <Eye className="w-3 h-3" />
+                          <span>Visible</span>
+                        </>
+                      ) : (
+                        <>
+                          <EyeOff className="w-3 h-3" />
+                          <span>Hidden</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           {/* 1. Courses Section */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <BookOpen className="w-4 h-4 text-red-600" />
-              <span>1. Band 8+ Courses Section</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <BookOpen className="w-4 h-4 text-red-600" />
+                <span>1. Band 8+ Courses Section</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.courses?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.courses?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('courses')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.courses?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.courses?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -2911,9 +3283,31 @@ export default function AdminSettingsPage() {
 
           {/* 2. Results Section */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <Trophy className="w-4 h-4 text-amber-600" />
-              <span>2. 8+ Band Results (Hall of Fame) Section</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <Trophy className="w-4 h-4 text-amber-600" />
+                <span>2. 8+ Band Results (Hall of Fame) Section</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.results?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.results?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('results')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.results?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.results?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -2966,9 +3360,31 @@ export default function AdminSettingsPage() {
 
           {/* 3. Batches Section */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <Calendar className="w-4 h-4 text-emerald-600" />
-              <span>3. Upcoming Batches Section</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <Calendar className="w-4 h-4 text-emerald-600" />
+                <span>3. Upcoming Batches Section</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.batches?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.batches?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('batches')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.batches?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.batches?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -3036,9 +3452,31 @@ export default function AdminSettingsPage() {
 
           {/* 4. Testimonials Section */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <Sparkles className="w-4 h-4 text-yellow-500" />
-              <span>4. Student Testimonials & Reviews Section</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <Sparkles className="w-4 h-4 text-yellow-500" />
+                <span>4. Student Testimonials & Reviews Section</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.testimonials?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.testimonials?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('testimonials')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.testimonials?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.testimonials?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -3091,9 +3529,31 @@ export default function AdminSettingsPage() {
 
           {/* 5. Campus Photo Gallery */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <ImageIcon className="w-4 h-4 text-purple-600" />
-              <span>5. Campus & Events Gallery Section</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <ImageIcon className="w-4 h-4 text-purple-600" />
+                <span>5. Campus & Events Gallery Section</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.gallery?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.gallery?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('gallery')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.gallery?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.gallery?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -3146,17 +3606,39 @@ export default function AdminSettingsPage() {
 
           {/* 6. FAQs Section */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
               <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
                 <HelpCircle className="w-4 h-4 text-blue-600" />
                 <span>6. Frequently Asked Questions (FAQ) Section</span>
               </div>
-              <Link
-                href="/admin/faqs"
-                className="text-xs text-red-600 hover:text-red-700 font-bold flex items-center gap-1 hover:underline"
-              >
-                <span>Open Dedicated FAQ & Support Customizer &rarr;</span>
-              </Link>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    settings.sections?.faqs?.show !== false
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : 'bg-slate-200 text-slate-700'
+                  }`}>
+                    {settings.sections?.faqs?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleSectionVisibility('faqs')}
+                    className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                      settings.sections?.faqs?.show !== false
+                        ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                        : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                    }`}
+                  >
+                    {settings.sections?.faqs?.show !== false ? 'Hide Section' : 'Show Section'}
+                  </button>
+                </div>
+                <Link
+                  href="/admin/faqs"
+                  className="text-xs text-red-600 hover:text-red-700 font-bold flex items-center gap-1 hover:underline"
+                >
+                  <span>Open Dedicated FAQ Customizer &rarr;</span>
+                </Link>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -3256,9 +3738,31 @@ export default function AdminSettingsPage() {
 
           {/* 7. Universities Section Extra Customizer */}
           <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
-              <Globe className="w-4 h-4 text-red-600" />
-              <span>7. University Tie-ups Marquee & Callout Banner</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
+                <Globe className="w-4 h-4 text-red-600" />
+                <span>7. University Tie-ups Marquee & Callout Banner</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  settings.sections?.universities?.show !== false
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : 'bg-slate-200 text-slate-700'
+                }`}>
+                  {settings.sections?.universities?.show !== false ? '● Visible on Page' : '○ Hidden from Page'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionVisibility('universities')}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                    settings.sections?.universities?.show !== false
+                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                  }`}
+                >
+                  {settings.sections?.universities?.show !== false ? 'Hide Section' : 'Show Section'}
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="sm:col-span-2">
@@ -3717,9 +4221,31 @@ export default function AdminSettingsPage() {
       {/* TAB 6: WHY CHOOSE US */}
       {activeTab === 'whyUs' && (
         <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
-            <h2 className="text-base font-bold text-slate-900">Why Choose Us Section</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              <h2 className="text-base font-bold text-slate-900">Why Choose Us Section</h2>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                (settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false)
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'bg-slate-200 text-slate-700'
+              }`}>
+                {(settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false) ? '● Visible on Page' : '○ Hidden from Page'}
+              </span>
+              <button
+                type="button"
+                onClick={() => toggleSectionVisibility('whyUs')}
+                className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                  (settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false)
+                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                    : 'bg-slate-200 hover:bg-slate-300 text-slate-800'
+                }`}
+              >
+                {(settings.whyUs?.show !== false && settings.sections?.whyUs?.show !== false) ? 'Hide Section' : 'Show Section'}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

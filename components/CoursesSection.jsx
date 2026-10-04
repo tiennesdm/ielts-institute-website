@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { BookOpen, Clock, Calendar, Check, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function CoursesSection({ courses = [], onSelectCourse, config }) {
+  if (config?.show === false) return null;
   const [filter, setFilter] = useState('ALL');
 
   const filteredCourses = courses.filter((course) => {

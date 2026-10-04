@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Image as ImageIcon, X, ZoomIn, Eye, Sparkles } from 'lucide-react';
 
 export default function GallerySection({ gallery = [], config }) {
+  if (config?.show === false || !gallery || gallery.length === 0) return null;
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [selectedImage, setSelectedImage] = useState(null);
 

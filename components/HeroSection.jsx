@@ -90,6 +90,7 @@ export const HERO_BANNER_BORDERS = {
 };
 
 export default function HeroSection({ hero, settings, onBookClick }) {
+  if (hero?.show === false) return null;
   const [quickPhone, setQuickPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

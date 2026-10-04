@@ -53,59 +53,79 @@ export default function HomeClient({ initialData }) {
       {/* Main Content Sections */}
       <main className="flex-1">
         {/* Hero Section */}
-        <HeroSection
-          hero={settings.hero}
-          settings={settings}
-          onBookClick={() => handleOpenModal()}
-        />
+        {settings.hero?.show !== false && (
+          <HeroSection
+            hero={settings.hero}
+            settings={settings}
+            onBookClick={() => handleOpenModal()}
+          />
+        )}
 
         {/* Floating Stats Counters */}
-        <StatsSection stats={settings.stats} show={settings.showStats !== false} />
+        {settings.showStats !== false && (
+          <StatsSection stats={settings.stats} show={true} />
+        )}
 
         {/* Band 8+ Courses Catalog */}
-        <CoursesSection
-          courses={courses}
-          onSelectCourse={(courseTitle) => handleOpenModal(courseTitle)}
-          config={sections.courses}
-        />
+        {sections.courses?.show !== false && (
+          <CoursesSection
+            courses={courses}
+            onSelectCourse={(courseTitle) => handleOpenModal(courseTitle)}
+            config={sections.courses}
+          />
+        )}
 
         {/* Hall of Fame / High Scorers */}
-        <ResultsSection results={results} config={sections.results} />
+        {sections.results?.show !== false && (
+          <ResultsSection results={results} config={sections.results} />
+        )}
 
         {/* Global University Tie-Ups Section */}
-        <UniversitySection
-          universities={universities}
-          onSelectUniversity={(uniName) => handleOpenModal(uniName)}
-          config={sections.universities}
-        />
+        {sections.universities?.show !== false && (
+          <UniversitySection
+            universities={universities}
+            onSelectUniversity={(uniName) => handleOpenModal(uniName)}
+            config={sections.universities}
+          />
+        )}
 
         {/* Why Choose Us */}
-        <WhyUsSection whyUs={settings.whyUs} onBookClick={() => handleOpenModal()} />
+        {(sections.whyUs?.show !== false && settings.whyUs?.show !== false) && (
+          <WhyUsSection whyUs={settings.whyUs} onBookClick={() => handleOpenModal()} />
+        )}
 
         {/* Dynamic Campus & Events Gallery */}
-        <GallerySection gallery={gallery} config={sections.gallery} />
+        {sections.gallery?.show !== false && (
+          <GallerySection gallery={gallery} config={sections.gallery} />
+        )}
 
         {/* Upcoming Batches Schedule */}
-        <BatchesSection
-          batches={batches}
-          onBookClick={() => handleOpenModal()}
-          config={sections.batches}
-        />
+        {sections.batches?.show !== false && (
+          <BatchesSection
+            batches={batches}
+            onBookClick={() => handleOpenModal()}
+            config={sections.batches}
+          />
+        )}
 
         {/* Student Testimonials */}
-        <TestimonialsSection testimonials={testimonials} config={sections.testimonials} />
+        {sections.testimonials?.show !== false && (
+          <TestimonialsSection testimonials={testimonials} config={sections.testimonials} />
+        )}
 
         {/* Frequently Asked Questions */}
-        <FaqSection
-          faqs={faqs}
-          config={sections?.faqs}
-          settings={settings}
-          onBookClick={() => handleOpenModal()}
-        />
+        {sections?.faqs?.show !== false && (
+          <FaqSection
+            faqs={faqs}
+            config={sections?.faqs}
+            settings={settings}
+            onBookClick={() => handleOpenModal()}
+          />
+        )}
       </main>
 
       {/* Footer */}
-      <Footer settings={settings} />
+      {settings.showFooter !== false && <Footer settings={settings} />}
 
       {/* Floating WhatsApp Action Button */}
       <WhatsAppButton whatsapp={settings.whatsapp} whatsappConfig={settings.whatsappConfig} />

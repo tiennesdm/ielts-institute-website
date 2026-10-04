@@ -28,14 +28,22 @@ export default function Footer({ settings }) {
   ];
 
   const programs = footerConfig.programs && footerConfig.programs.length > 0 ? footerConfig.programs : defaultPrograms;
-  const navLinks = settings?.navigation?.links || [
-    { label: 'Band 8+ Courses', href: '#courses' },
-    { label: 'Hall of Fame & Results', href: '#results' },
-    { label: 'Campus Photo Gallery', href: '#gallery' },
-    { label: 'Upcoming Batches', href: '#batches' },
-    { label: 'Student Reviews', href: '#testimonials' },
-    { label: 'Frequently Asked Questions', href: '#faqs' },
+
+  const defaultFooterLinks = [
+    { id: 'foot-1', label: 'Band 8+ Courses', href: '#courses' },
+    { id: 'foot-2', label: 'Hall of Fame & Results', href: '#results' },
+    { id: 'foot-uni', label: 'University Tie-ups', href: '#universities' },
+    { id: 'foot-3', label: 'Campus Photo Gallery', href: '#gallery' },
+    { id: 'foot-4', label: 'Upcoming Batches', href: '#batches' },
+    { id: 'foot-5', label: 'Why Choose Us', href: '#why-us' },
+    { id: 'foot-6', label: 'Student Reviews', href: '#testimonials' },
+    { id: 'foot-7', label: 'Frequently Asked Questions', href: '#faqs' },
   ];
+
+  // Independent footer quick links: prefer footerConfig.links; fallback to defaultFooterLinks (or navigation.links if legacy)
+  const footerLinks = (footerConfig.links && footerConfig.links.length > 0)
+    ? footerConfig.links
+    : (settings?.navigation?.links && settings.navigation.links.length > 0 ? settings.navigation.links : defaultFooterLinks);
 
   return (
     <footer id="contact" className="bg-slate-950 text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-slate-800">
@@ -122,7 +130,7 @@ export default function Footer({ settings }) {
               {footerConfig.col2Title || 'Explore'}
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-400">
-              {navLinks.slice(0, 6).map((link) => (
+              {footerLinks.map((link) => (
                 <li key={link.id || link.label}>
                   <a href={link.href} className="hover:text-white transition-colors flex items-center gap-1.5">
                     <ArrowRight className="w-3 h-3 text-red-500" />

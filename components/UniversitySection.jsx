@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 
 export default function UniversitySection({ universities, onSelectUniversity, config }) {
+  if (config?.show === false) return null;
   const [activeFilter, setActiveFilter] = useState('ALL');
 
   const header = universities?.header || {

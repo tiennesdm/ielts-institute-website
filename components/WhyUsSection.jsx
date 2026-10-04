@@ -2,6 +2,7 @@
 import { Mic, Edit3, Monitor, Award, BookCheck, LineChart, ShieldCheck } from 'lucide-react';
 
 export default function WhyUsSection({ whyUs = {}, onBookClick }) {
+  if (whyUs?.show === false) return null;
   const iconList = [
     <Mic key="0" className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />,
     <Edit3 key="1" className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />,

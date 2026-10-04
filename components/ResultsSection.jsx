@@ -2,7 +2,7 @@
 import { Award, Trophy, Star, CheckCircle, GraduationCap } from 'lucide-react';
 
 export default function ResultsSection({ results = [], config }) {
-  if (!results || results.length === 0) return null;
+  if (config?.show === false || !results || results.length === 0) return null;
 
   return (
     <section id="results" className="py-14 sm:py-20 bg-white">

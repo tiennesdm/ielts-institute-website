@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function FaqSection({ faqs = [], config = {}, settings = {}, onBookClick }) {
+  if (config?.show === false) return null;
   const [openIds, setOpenIds] = useState(() => (faqs && faqs.length > 0 ? [faqs[0].id || 'faq-0'] : []));
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');

@@ -2,7 +2,7 @@
 import { Star, Quote, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export default function TestimonialsSection({ testimonials = [], config }) {
-  if (!testimonials || testimonials.length === 0) return null;
+  if (config?.show === false || !testimonials || testimonials.length === 0) return null;
 
   return (
     <section id="testimonials" className="py-14 sm:py-20 bg-white">

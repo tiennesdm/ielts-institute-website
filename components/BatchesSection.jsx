@@ -2,7 +2,7 @@
 import { Calendar, Clock, Users, ArrowRight, Flame } from 'lucide-react';
 
 export default function BatchesSection({ batches = [], onBookClick, config }) {
-  if (!batches || batches.length === 0) return null;
+  if (config?.show === false || !batches || batches.length === 0) return null;
 
   return (
     <section id="batches" className="py-14 sm:py-20 bg-slate-50 border-t border-slate-200/80">
