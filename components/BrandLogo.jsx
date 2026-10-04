@@ -276,32 +276,32 @@ export default function BrandLogo({
 
   if (isImage) {
     return (
-      <div className={`flex items-center gap-2.5 sm:gap-3 group ${className}`}>
+      <div className={`flex items-center gap-2 sm:gap-3 group min-w-0 ${className}`}>
         <img
           src={logo.imageUrl}
           alt={settings?.instituteName || 'Logo'}
-          style={{ height: `${height}px` }}
-          className={`w-auto object-contain max-w-[170px] sm:max-w-[220px] shrink-0 ${imgClassName}`}
+          style={{ maxHeight: `${height}px` }}
+          className={`h-7 xs:h-8 sm:h-auto w-auto object-contain max-w-[110px] xs:max-w-[150px] sm:max-w-[220px] shrink-0 ${imgClassName}`}
           onError={(e) => {
             e.target.style.display = 'none';
           }}
         />
         {showTextWithImage && (textPart1 || textPart2 || taglineText) && (
-          <div>
-            <div className="flex items-center gap-1.5 leading-none">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1 sm:gap-1.5 leading-none">
               {textPart1 && (
-                <span className={`text-base sm:text-lg font-black ${part1Class} tracking-tight ${activeTheme.hoverText} transition-colors whitespace-nowrap`}>
+                <span className={`text-xs xs:text-sm sm:text-base md:text-lg font-black ${part1Class} tracking-tight ${activeTheme.hoverText} transition-colors truncate`}>
                   {textPart1}
                 </span>
               )}
               {textPart2 && (
-                <span className={`text-base sm:text-lg font-black ${part2Class} whitespace-nowrap`}>
+                <span className={`text-xs xs:text-sm sm:text-base md:text-lg font-black ${part2Class} truncate`}>
                   {textPart2}
                 </span>
               )}
             </div>
             {taglineText && taglineText.trim() ? (
-              <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight mt-0.5">
+              <p className="text-[9px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[180px] xl:max-w-[260px] leading-tight mt-0.5">
                 {taglineText}
               </p>
             ) : null}
@@ -312,23 +312,23 @@ export default function BrandLogo({
   }
 
   return (
-    <div className={`flex items-center gap-2.5 sm:gap-3 group ${className}`}>
+    <div className={`flex items-center gap-2 sm:gap-3 group min-w-0 ${className}`}>
       {showIcon && (
-        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${badgeClass} flex items-center justify-center text-white shadow-md ${activeTheme.shadow} group-hover:scale-105 transition-transform shrink-0`}>
-          {renderIcon(iconName, 'w-5 h-5 sm:w-5.5 sm:h-5.5')}
+        <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl ${badgeClass} flex items-center justify-center text-white shadow-md ${activeTheme.shadow} group-hover:scale-105 transition-transform shrink-0`}>
+          {renderIcon(iconName, 'w-4 h-4 sm:w-5.5 sm:h-5.5')}
         </div>
       )}
-      <div>
-        <div className="flex items-center gap-1.5 leading-none">
-          <span className={`text-base sm:text-lg font-black ${part1Class} tracking-tight ${activeTheme.hoverText} transition-colors whitespace-nowrap`}>
+      <div className="min-w-0">
+        <div className="flex items-center gap-1 sm:gap-1.5 leading-none">
+          <span className={`text-xs xs:text-sm sm:text-base md:text-lg font-black ${part1Class} tracking-tight ${activeTheme.hoverText} transition-colors truncate`}>
             {textPart1}
           </span>
-          <span className={`text-base sm:text-lg font-black ${part2Class} whitespace-nowrap`}>
+          <span className={`text-xs xs:text-sm sm:text-base md:text-lg font-black ${part2Class} truncate`}>
             {textPart2}
           </span>
         </div>
         {taglineText && taglineText.trim() ? (
-          <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[200px] xl:max-w-[260px] leading-tight mt-0.5">
+          <p className="text-[9px] sm:text-[11px] text-slate-500 font-medium hidden sm:block truncate max-w-[180px] xl:max-w-[260px] leading-tight mt-0.5">
             {taglineText}
           </p>
         ) : null}

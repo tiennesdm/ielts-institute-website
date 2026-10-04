@@ -9,17 +9,17 @@ export default function NoticeBar({ announcement, phone, show = true, onBookClic
 
   return (
     <aside aria-label="Announcement" className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white text-xs sm:text-sm py-2 px-3 sm:px-4 shadow-sm relative z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 flex-1 overflow-hidden">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/20 shrink-0 animate-pulse">
             <Megaphone className="w-3 h-3 text-white" />
           </span>
-          <p className="truncate font-medium tracking-wide">
+          <p className="truncate font-medium tracking-wide text-[11px] sm:text-xs md:text-sm">
             {announcement}
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {phone && (
             <a
               href={`tel:${phone.replace(/\s+/g, '')}`}
@@ -31,7 +31,7 @@ export default function NoticeBar({ announcement, phone, show = true, onBookClic
           )}
           <button
             onClick={onBookClick}
-            className="inline-flex items-center bg-yellow-400 text-slate-950 font-bold px-3 py-1 rounded-full text-xs hover:bg-yellow-300 transition-colors shadow-sm"
+            className="hidden xs:inline-flex items-center bg-yellow-400 text-slate-950 font-bold px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs hover:bg-yellow-300 transition-colors shadow-sm whitespace-nowrap"
           >
             Claim Free Demo
           </button>

@@ -53,33 +53,33 @@ export default function InquiryModal({ isOpen, onClose, prefilledCourse = '', mo
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 min-h-screen">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-slate-100 animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col my-auto">
         
         {/* Header gradient bar */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-red-600 p-6 text-white relative">
+        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-red-600 p-4 sm:p-6 text-white relative shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-1.5 rounded-full transition-colors"
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-1.5 rounded-full transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-yellow-300 text-xs font-bold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-white/10 text-yellow-300 text-[11px] sm:text-xs font-bold mb-1.5 sm:mb-2">
+            <Sparkles className="w-3.5 h-3.5 shrink-0" />
             <span>{modalConfig?.badge || "Limited Free Slots Available"}</span>
           </div>
 
-          <h3 className="text-2xl font-black tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-tight">
             {modalConfig?.title || "Book Free Demo & Mock Test"}
           </h3>
-          <p className="text-xs text-slate-200 mt-1">
+          <p className="text-xs text-slate-200 mt-1 leading-normal">
             {modalConfig?.subtitle || "Experience our 1-on-1 speaking session, software lab & diagnostic evaluation test without paying anything."}
           </p>
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           {submitted ? (
             <div className="text-center py-8 space-y-4">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">

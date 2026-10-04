@@ -3,12 +3,12 @@ import { Mic, Edit3, Monitor, Award, BookCheck, LineChart, ShieldCheck } from 'l
 
 export default function WhyUsSection({ whyUs = {}, onBookClick }) {
   const iconList = [
-    <Mic key="0" className="w-6 h-6 text-red-600" />,
-    <Edit3 key="1" className="w-6 h-6 text-blue-600" />,
-    <Monitor key="2" className="w-6 h-6 text-indigo-600" />,
-    <Award key="3" className="w-6 h-6 text-amber-600" />,
-    <BookCheck key="4" className="w-6 h-6 text-emerald-600" />,
-    <LineChart key="5" className="w-6 h-6 text-purple-600" />
+    <Mic key="0" className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />,
+    <Edit3 key="1" className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />,
+    <Monitor key="2" className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />,
+    <Award key="3" className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />,
+    <BookCheck key="4" className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />,
+    <LineChart key="5" className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
   ];
 
   const defaultItems = [
@@ -48,7 +48,7 @@ export default function WhyUsSection({ whyUs = {}, onBookClick }) {
   const diagnosticCta = whyUs?.diagnosticCta || 'Take Free Diagnostic Test';
 
   return (
-    <section id="why-us" className="py-20 bg-white">
+    <section id="why-us" className="py-14 sm:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -57,47 +57,49 @@ export default function WhyUsSection({ whyUs = {}, onBookClick }) {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>{badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             {title}
           </h2>
-          <p className="text-sm sm:text-base text-slate-600">
+          <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
             {subtitle}
           </p>
         </div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12">
           {items.map((feat, idx) => (
             <div
               key={feat.id || idx}
-              className="bg-slate-50 rounded-2xl p-6 border border-slate-200/80 hover:bg-white hover:shadow-xl hover:border-red-200 transition-all duration-300 group"
+              className="bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-200/80 hover:bg-white hover:shadow-xl hover:border-red-200 transition-all duration-300 group flex flex-col justify-between"
             >
-              <div className="w-12 h-12 rounded-xl bg-white shadow-md flex items-center justify-center mb-5 group-hover:scale-110 transition-transform border border-slate-100">
-                {iconList[idx % iconList.length]}
+              <div>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white shadow-md flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform border border-slate-100">
+                  {iconList[idx % iconList.length]}
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
+                  {feat.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 mt-2 sm:mt-2.5 leading-relaxed">
+                  {feat.description}
+                </p>
               </div>
-              <h3 className="text-lg font-bold text-slate-900 group-hover:text-red-600 transition-colors">
-                {feat.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
-                {feat.description}
-              </p>
             </div>
           ))}
         </div>
 
         {/* Bottom Banner Bar */}
-        <div className="mt-14 bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-2xl p-8 sm:p-10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-10 sm:mt-14 bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
-            <h3 className="text-xl sm:text-2xl font-black">
+            <h3 className="text-lg sm:text-2xl font-black">
               {diagnosticTitle}
             </h3>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
+            <p className="text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed">
               {diagnosticText}
             </p>
           </div>
           <button
             onClick={onBookClick}
-            className="px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-sm rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 shrink-0"
+            className="w-full md:w-auto px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 shrink-0 text-center"
           >
             {diagnosticCta}
           </button>

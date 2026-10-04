@@ -38,11 +38,11 @@ export default function Footer({ settings }) {
   ];
 
   return (
-    <footer id="contact" className="bg-slate-950 text-slate-300 pt-16 pb-12 border-t border-slate-800">
+    <footer id="contact" className="bg-slate-950 text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main 4-column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-slate-800">
           
           {/* Col 1: Brand & Bio */}
           <div className="space-y-4">
@@ -187,9 +187,9 @@ export default function Footer({ settings }) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 text-center sm:text-left">
           <p>© {new Date().getFullYear()} {instituteName}. {copyright}</p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6">
             <span>{partnerText}</span>
           </div>
         </div>

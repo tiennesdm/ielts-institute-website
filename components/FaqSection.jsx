@@ -74,24 +74,24 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
   const cleanWhatsapp = supportWhatsapp.replace(/[^\d]/g, '');
 
   return (
-    <section id="faqs" className="py-20 lg:py-28 bg-slate-50 border-t border-slate-200/80 relative overflow-hidden">
+    <section id="faqs" className="py-14 sm:py-20 lg:py-28 bg-slate-50 border-t border-slate-200/80 relative overflow-hidden">
       {/* Subtle background decoration */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="absolute top-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-red-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
+      <div className="absolute bottom-0 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-blue-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-wider shadow-sm">
+        <div className="text-center space-y-3 mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-blue-100 text-blue-900 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-sm">
             <HelpCircle className="w-3.5 h-3.5 text-blue-800" />
             <span>{config?.badge || 'Got Questions?'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
             {config?.title || 'Frequently Asked Questions'}
           </h2>
 
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             {config?.subtitle ||
               'Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology.'}
           </p>
@@ -99,9 +99,9 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
 
         {/* Search Bar */}
         {config?.showSearch !== false && (
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <div className="relative max-w-2xl mx-auto">
-              <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder={
@@ -110,7 +110,7 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                 }
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-10 py-3.5 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 shadow-sm focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/10 transition-all"
+                className="w-full pl-10 pr-9 py-2.5 sm:py-3.5 bg-white border border-slate-200/90 rounded-xl sm:rounded-2xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 shadow-sm focus:outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/10 transition-all"
               />
               {searchQuery && (
                 <button
@@ -289,18 +289,18 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
 
         {/* Still Have Questions? / Helpdesk Support Card */}
         {config?.showSupportCard !== false && (
-          <div className="mt-12 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="mt-10 sm:mt-12 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white shadow-xl relative overflow-hidden">
             {/* Background glowing circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/15 rounded-full blur-2xl pointer-events-none" />
 
             <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2 max-w-xl">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-red-400 text-xs font-bold tracking-wide backdrop-blur-sm border border-white/10">
+              <div className="space-y-2 max-w-xl text-center md:text-left">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-red-400 text-[11px] sm:text-xs font-bold tracking-wide backdrop-blur-sm border border-white/10">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{config?.supportBadge || 'Still Have Questions?'}</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-tight">
                   {config?.supportTitle || 'Need Personalized Guidance for Your Target Band?'}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -310,12 +310,12 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
               </div>
 
               {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 shrink-0">
                 {/* Book Demo Button */}
                 {config?.supportCtaAction === 'url' && config?.supportCtaUrl ? (
                   <a
                     href={config.supportCtaUrl}
-                    className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30"
+                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center"
                   >
                     <span>{config?.supportCtaText || 'Book Free 1-on-1 Demo'}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -329,7 +329,7 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30"
+                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center"
                   >
                     <span>{config?.supportCtaText || 'Book Free 1-on-1 Demo'}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -339,7 +339,7 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                 {/* Direct Call Button */}
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all border border-white/10"
+                  className="px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all border border-white/10 text-center"
                 >
                   <Phone className="w-4 h-4 text-emerald-400" />
                   <span>{config?.supportPhoneText || 'Call Admissions'}</span>
@@ -352,7 +352,7 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20"
+                  className="px-4 py-2.5 sm:py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20 text-center"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>{config?.supportWhatsappText || 'WhatsApp'}</span>

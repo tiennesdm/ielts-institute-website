@@ -7,33 +7,33 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
 
   const filteredCourses = courses.filter((course) => {
     if (filter === 'ALL') return true;
-    if (filter === 'ACADEMIC') return course.title.toLowerCase().includes('academic') && !course.title.toLowerCase().includes('pte');
-    if (filter === 'GENERAL') return course.title.toLowerCase().includes('general');
-    if (filter === 'PTE') return course.title.toLowerCase().includes('pte');
-    if (filter === 'SPOKEN') return course.title.toLowerCase().includes('spoken');
+    if (filter === 'ACADEMIC') return course.title?.toLowerCase().includes('academic') && !course.title?.toLowerCase().includes('pte');
+    if (filter === 'GENERAL') return course.title?.toLowerCase().includes('general');
+    if (filter === 'PTE') return course.title?.toLowerCase().includes('pte');
+    if (filter === 'SPOKEN') return course.title?.toLowerCase().includes('spoken');
     return true;
   });
 
   return (
-    <section id="courses" className="py-20 bg-slate-50 border-t border-slate-200/60">
+    <section id="courses" className="py-14 sm:py-20 bg-slate-50 border-t border-slate-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider">
             <BookOpen className="w-3.5 h-3.5" />
             <span>{config?.badge || "Target Band 8+ Programs"}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             {config?.title || "Our Certified IELTS & English Programs"}
           </h2>
-          <p className="text-base text-slate-600">
+          <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
             {config?.subtitle || "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream."}
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
           {[
             { id: 'ALL', label: 'All Courses' },
             { id: 'ACADEMIC', label: 'IELTS Academic' },
@@ -44,7 +44,7 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
                 filter === tab.id
                   ? 'bg-blue-900 text-white shadow-md'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -56,7 +56,7 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12">
           {filteredCourses.map((course) => (
             <div
               key={course.id}
@@ -66,8 +66,8 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
             >
               {/* Popular Badge */}
               {course.tag && (
-                <div className="absolute top-4 right-4 z-10">
-                  <span className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider shadow-md ${
+                <div className="absolute top-3.5 right-3.5 z-10">
+                  <span className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-wider shadow-md ${
                     course.popular
                       ? 'bg-red-600 text-white'
                       : 'bg-blue-900 text-white'
@@ -78,49 +78,49 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
               )}
 
               {/* Course Thumbnail */}
-              <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+              <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
                 <img
                   src={course.image || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop'}
                   alt={course.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
-                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold">
-                  <span className="bg-yellow-400 text-slate-950 px-2.5 py-0.5 rounded-md font-bold">
+                <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between text-white text-xs font-semibold">
+                  <span className="bg-yellow-400 text-slate-950 px-2 sm:px-2.5 py-0.5 rounded-md font-bold text-[11px] sm:text-xs">
                     {course.targetBand}
                   </span>
-                  <span className="text-slate-200">
+                  <span className="text-slate-200 text-[11px] sm:text-xs">
                     {course.mode}
                   </span>
                 </div>
               </div>
 
               {/* Content Body */}
-              <div className="p-6 flex-1 flex flex-col justify-between">
+              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-900">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-blue-900 leading-snug">
                     {course.title}
                   </h3>
-                  <p className="text-xs text-slate-600 mt-2 line-clamp-2">
+                  <p className="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
                     {course.description}
                   </p>
 
                   {/* Duration & Fee metadata */}
-                  <div className="flex items-center justify-between py-3 my-4 border-y border-slate-100 text-xs">
+                  <div className="flex items-center justify-between py-2.5 sm:py-3 my-3 sm:my-4 border-y border-slate-100 text-xs">
                     <div className="flex items-center gap-1.5 text-slate-600">
-                      <Clock className="w-4 h-4 text-blue-800" />
+                      <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-800" />
                       <span className="font-semibold">{course.duration}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs text-slate-400 font-medium">Course Fee: </span>
-                      <span className="text-base font-extrabold text-red-600">{course.fee}</span>
+                      <span className="text-[11px] sm:text-xs text-slate-400 font-medium">Course Fee: </span>
+                      <span className="text-sm sm:text-base font-extrabold text-red-600">{course.fee}</span>
                     </div>
                   </div>
 
                   {/* Bullet Features */}
-                  <ul className="space-y-2 mb-6">
+                  <ul className="space-y-2 mb-5 sm:mb-6">
                     {course.features?.slice(0, 4).map((feat, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 leading-normal">
                         <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </li>
@@ -131,7 +131,7 @@ export default function CoursesSection({ courses = [], onSelectCourse, config })
                 {/* Enroll / Inquire CTA Button */}
                 <button
                   onClick={() => onSelectCourse(course.title)}
-                  className={`w-full py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
+                  className={`w-full py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
                     course.popular
                       ? 'bg-red-600 hover:bg-red-700 text-white shadow-red-600/20'
                       : 'bg-blue-900 hover:bg-blue-800 text-white shadow-blue-900/20'

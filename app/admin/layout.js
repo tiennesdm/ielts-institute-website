@@ -96,7 +96,7 @@ export default function AdminLayout({ children }) {
     <div className="min-h-screen bg-slate-100 flex flex-col lg:flex-row">
       
       {/* Mobile Top Header */}
-      <div className="lg:hidden bg-slate-900 text-white px-4 py-3 flex items-center justify-between shadow-md">
+      <div className="lg:hidden bg-slate-900 text-white px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-30">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white">
             <GraduationCap className="w-5 h-5" />
@@ -105,17 +105,26 @@ export default function AdminLayout({ children }) {
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 text-slate-300 hover:text-white"
+          className="p-2 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800"
+          aria-label="Toggle Admin Sidebar"
         >
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-black/60 lg:hidden backdrop-blur-xs"
+        />
+      )}
+
       {/* Sidebar Navigation */}
       <aside
-        className={`${
-          sidebarOpen ? 'block' : 'hidden'
-        } lg:block w-full lg:w-64 bg-slate-900 text-slate-300 flex-shrink-0 min-h-screen flex flex-col justify-between border-r border-slate-800 z-40`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 lg:static lg:z-auto lg:w-64 bg-slate-900 text-slate-300 flex-shrink-0 min-h-screen flex flex-col justify-between border-r border-slate-800 transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'
+        }`}
       >
         <div>
           {/* Logo & Header */}
@@ -123,10 +132,16 @@ export default function AdminLayout({ children }) {
             <Link href="/admin" className="flex items-center">
               <BrandLogo placement="admin" settings={settings} />
             </Link>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-1.5 text-slate-400 hover:text-white rounded-lg"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Nav List */}
-          <nav className="p-4 space-y-1.5">
+          <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-180px)]">
             {menuItems.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -172,7 +187,7 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl overflow-y-auto">
+      <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full min-w-0 overflow-y-auto">
         {children}
       </main>
 
