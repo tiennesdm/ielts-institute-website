@@ -60,7 +60,7 @@ export default function HomeClient({ initialData }) {
         />
 
         {/* Floating Stats Counters */}
-        <StatsSection stats={settings.stats} />
+        <StatsSection stats={settings.stats} show={settings.showStats !== false} />
 
         {/* Band 8+ Courses Catalog */}
         <CoursesSection

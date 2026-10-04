@@ -33,12 +33,14 @@ import {
 } from 'lucide-react';
 import { processAndUploadImage } from '@/lib/imageUtils';
 import BrandLogo, { LOGO_ICONS, THEME_GRADIENTS } from '@/components/BrandLogo';
+import { HERO_PILL_ICONS } from '@/components/HeroSection';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
   const [adminPassword, setAdminPassword] = useState('');
   const [activeTab, setActiveTab] = useState('logo');
   const [logoSubTab, setLogoSubTab] = useState('navbar');
+  const [heroSubTab, setHeroSubTab] = useState('banner');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
@@ -219,6 +221,16 @@ export default function AdminSettingsPage() {
 
         // Hero sub-elements
         if (!s.hero) s.hero = {};
+        if (s.hero.showBadge === undefined) s.hero.showBadge = true;
+        if (s.hero.showHighlights === undefined) s.hero.showHighlights = true;
+        if (s.hero.showPrimaryCta === undefined) s.hero.showPrimaryCta = true;
+        if (s.hero.primaryCtaType === undefined) s.hero.primaryCtaType = 'modal';
+        if (s.hero.primaryCtaLink === undefined) s.hero.primaryCtaLink = '';
+        if (s.hero.showSecondaryCta === undefined) s.hero.showSecondaryCta = true;
+        if (s.hero.secondaryCtaLink === undefined) s.hero.secondaryCtaLink = '#courses';
+        if (s.hero.showCallbackBox === undefined) s.hero.showCallbackBox = true;
+        if (s.hero.showFloatingBadge === undefined) s.hero.showFloatingBadge = true;
+        if (s.hero.showBottomPills === undefined) s.hero.showBottomPills = true;
         if (!s.hero.highlights) {
           s.hero.highlights = [
             "Daily 1-on-1 Speaking with Certified Examiners",
@@ -248,6 +260,15 @@ export default function AdminSettingsPage() {
             buttonText: "Request Call",
             successText: "Thank you! Our senior counselor will call you within 15 minutes."
           };
+        }
+        if (s.showStats === undefined) s.showStats = true;
+        if (!s.stats || s.stats.length === 0) {
+          s.stats = [
+            { id: "stat-1", value: "98.4%", label: "Success Rate", subtext: "7+ Bands in first attempt" },
+            { id: "stat-2", value: "12,500+", label: "Students Trained", subtext: "Across 25+ countries" },
+            { id: "stat-3", value: "3,400+", label: "8+ Band Achievers", subtext: "Academic & General" },
+            { id: "stat-4", value: "15+ Yrs", label: "Excellence Record", subtext: "Certified Master Mentors" }
+          ];
         }
 
         // Modal Customizer
@@ -460,7 +481,7 @@ export default function AdminSettingsPage() {
   const tabs = [
     { id: 'logo', label: '🏷️ Logo & Brand' },
     { id: 'navigation', label: '🧭 Navigation Menu' },
-    { id: 'hero', label: '⭐ Hero Banner' },
+    { id: 'hero', label: '⭐ Hero Banner & Stats' },
     { id: 'sections', label: '📑 Section Headings' },
     { id: 'modal', label: '📝 Inquiry & Demo Popup' },
     { id: 'whatsapp', label: '💬 WhatsApp & Callbacks' },
@@ -1505,314 +1526,741 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
-      {/* TAB 3: HERO BANNER */}
+      {/* TAB 3: HERO BANNER & STATS */}
       {activeTab === 'hero' && (
         <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <Sparkles className="w-5 h-5 text-yellow-500" />
-            <h2 className="text-base font-bold text-slate-900">Hero Section & Banner</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Hero Section & Stats Customizer</h2>
+                <p className="text-xs text-slate-500">Edit headline, highlights, CTA buttons, callback box, hero media, and metric counter cards.</p>
+              </div>
+            </div>
+
+            {/* Sub-tab switcher */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setHeroSubTab('banner')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  heroSubTab === 'banner'
+                    ? 'bg-white text-blue-950 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                ⭐ Hero Banner
+              </button>
+              <button
+                type="button"
+                onClick={() => setHeroSubTab('stats')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  heroSubTab === 'stats'
+                    ? 'bg-white text-blue-950 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                📊 Stats Counter Cards ({settings.stats?.length || 0})
+              </button>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Top Pill Badge</label>
-              <input
-                type="text"
-                value={settings.hero?.badge || ''}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  hero: { ...prev.hero, badge: e.target.value }
-                }))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Main Headline</label>
-              <input
-                type="text"
-                value={settings.hero?.headline || ''}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  hero: { ...prev.hero, headline: e.target.value }
-                }))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-black text-slate-900"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Sub-headline Description</label>
-              <textarea
-                rows={3}
-                value={settings.hero?.subheadline || ''}
-                onChange={(e) => setSettings(prev => ({
-                  ...prev,
-                  hero: { ...prev.hero, subheadline: e.target.value }
-                }))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Primary CTA Button</label>
-                <input
-                  type="text"
-                  value={settings.hero?.primaryCtaText || 'Book Free Mock Test & Demo'}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    hero: { ...prev.hero, primaryCtaText: e.target.value }
-                  }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-red-600"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Secondary Button</label>
-                <input
-                  type="text"
-                  value={settings.hero?.secondaryCtaText || 'Explore Band Courses'}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    hero: { ...prev.hero, secondaryCtaText: e.target.value }
-                  }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700"
-                />
-              </div>
-            </div>
-
-            {/* Banner Image Upload */}
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-700">
-                Hero Banner Image (Upload File from Device or Paste URL)
-              </label>
-              <div className="flex flex-col sm:flex-row items-center gap-3">
-                <input
-                  type="text"
-                  placeholder="Paste Image URL"
-                  value={settings.hero?.bannerImage || ''}
-                  onChange={(e) => setSettings(prev => ({
-                    ...prev,
-                    hero: { ...prev.hero, bannerImage: e.target.value }
-                  }))}
-                  className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
-                />
-                <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm">
-                  <UploadCloud className="w-4 h-4 inline mr-1.5" />
-                  <span>{uploadingHero ? 'Uploading...' : 'Upload Image File'}</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleUploadImage(
-                      e.target.files?.[0],
-                      (url) => setSettings(prev => ({ ...prev, hero: { ...prev.hero, bannerImage: url } })),
-                      setUploadingHero
-                    )}
-                    className="hidden"
-                    disabled={uploadingHero}
-                  />
-                </label>
-              </div>
-
-              {settings.hero?.bannerImage && (
-                <div className="pt-2">
-                  <span className="text-[11px] text-slate-400 font-bold block mb-1">Preview:</span>
-                  <img
-                    src={settings.hero.bannerImage}
-                    alt="Hero banner preview"
-                    className="h-32 w-56 object-cover rounded-xl border shadow-sm"
-                  />
+          {heroSubTab === 'banner' && (
+            <div className="space-y-6">
+              {/* Card 1: Top Pill Badge & Main Typography */}
+              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-700">Top Rating Badge & Main Typography</span>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={settings.hero?.showBadge !== false}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        hero: { ...prev.hero, showBadge: e.target.checked }
+                      }))}
+                      className="w-4 h-4 text-red-600 rounded"
+                    />
+                    <span>Show Top Pill Badge</span>
+                  </label>
                 </div>
-              )}
-            </div>
 
-            {/* 4 Feature Highlights Checkmarks */}
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Hero Feature Checkmarks (4 Highlights)
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {(settings.hero?.highlights || [
-                  "Daily 1-on-1 Speaking with Certified Examiners",
-                  "Daily Writing Task 1 & 2 Line Corrections",
-                  "Official CD-IELTS Computer Simulation Lab",
-                  "Cambridge Official Books (1-19) Study Kits"
-                ]).map((hl, idx) => (
-                  <div key={idx}>
-                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Highlight #{idx + 1}</label>
+                {settings.hero?.showBadge !== false && (
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Top Pill Badge Text</label>
                     <input
                       type="text"
-                      value={hl}
-                      onChange={(e) => {
-                        const updated = [...(settings.hero?.highlights || [])];
-                        updated[idx] = e.target.value;
+                      placeholder="e.g. ⭐ Rated 4.9/5 by 12,000+ Achievers • British Council Partner"
+                      value={settings.hero?.badge || ''}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        hero: { ...prev.hero, badge: e.target.value }
+                      }))}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold bg-white text-amber-700"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Main Headline</label>
+                  <input
+                    type="text"
+                    value={settings.hero?.headline || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: { ...prev.hero, headline: e.target.value }
+                    }))}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-base font-black text-slate-900 bg-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Sub-headline Description</label>
+                  <textarea
+                    rows={3}
+                    value={settings.hero?.subheadline || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      hero: { ...prev.hero, subheadline: e.target.value }
+                    }))}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 bg-white"
+                  />
+                </div>
+              </div>
+
+              {/* Card 2: Feature Highlights (Checkmarks) */}
+              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">Feature Highlights (Checkmarks)</span>
+                    <span className="text-[11px] text-slate-500">Bullet points shown below sub-headline on hero</span>
+                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={settings.hero?.showHighlights !== false}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        hero: { ...prev.hero, showHighlights: e.target.checked }
+                      }))}
+                      className="w-4 h-4 text-red-600 rounded"
+                    />
+                    <span>Show Checkmarks</span>
+                  </label>
+                </div>
+
+                {settings.hero?.showHighlights !== false && (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {(settings.hero?.highlights || []).map((hl, idx) => (
+                        <div key={idx} className="flex items-center gap-2 bg-white p-2.5 border border-slate-200 rounded-xl shadow-xs">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                          <input
+                            type="text"
+                            value={hl}
+                            onChange={(e) => {
+                              const updated = [...(settings.hero?.highlights || [])];
+                              updated[idx] = e.target.value;
+                              setSettings(prev => ({
+                                ...prev,
+                                hero: { ...prev.hero, highlights: updated }
+                              }));
+                            }}
+                            className="flex-1 text-xs text-slate-800 bg-transparent focus:outline-none font-medium"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = (settings.hero?.highlights || []).filter((_, i) => i !== idx);
+                              setSettings(prev => ({
+                                ...prev,
+                                hero: { ...prev.hero, highlights: updated }
+                              }));
+                            }}
+                            className="text-slate-400 hover:text-red-600 p-1 transition-colors"
+                            title="Delete this highlight"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = [...(settings.hero?.highlights || []), 'New Training Advantage Feature'];
                         setSettings(prev => ({
                           ...prev,
                           hero: { ...prev.hero, highlights: updated }
                         }));
                       }}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
-                    />
+                      className="px-3.5 py-2 text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors flex items-center gap-1.5"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Highlight Bullet</span>
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
-            </div>
 
-            {/* Floating Achiever Badge */}
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Floating Student Achiever Badge (On Hero Image)
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Band Score</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.floatingBadge?.score || '8.5'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        floatingBadge: { ...prev.hero?.floatingBadge, score: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-black text-amber-600"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Tag</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.floatingBadge?.label || 'Top Achiever'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        floatingBadge: { ...prev.hero?.floatingBadge, label: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Title</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.floatingBadge?.title || 'Overall IELTS Band'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        floatingBadge: { ...prev.hero?.floatingBadge, title: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Scores</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        floatingBadge: { ...prev.hero?.floatingBadge, sub: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-emerald-600"
-                  />
+              {/* Card 3: Call-To-Action (CTA) Buttons */}
+              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-4">
+                <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">Hero Call-To-Action Buttons</span>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {/* Primary CTA */}
+                  <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-red-600">Primary Button (Red Gradient)</span>
+                      <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-slate-600">
+                        <input
+                          type="checkbox"
+                          checked={settings.hero?.showPrimaryCta !== false}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, showPrimaryCta: e.target.checked }
+                          }))}
+                          className="w-3.5 h-3.5 text-red-600 rounded"
+                        />
+                        <span>Show</span>
+                      </label>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Text</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.primaryCtaText || 'Book Free Mock Test & Demo'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, primaryCtaText: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border rounded-xl text-xs font-bold text-slate-900"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1.5">Action on Click</label>
+                      <div className="space-y-2">
+                        <label className="flex items-center gap-2 cursor-pointer text-xs">
+                          <input
+                            type="radio"
+                            name="primaryCtaType"
+                            value="modal"
+                            checked={(settings.hero?.primaryCtaType || 'modal') === 'modal'}
+                            onChange={() => setSettings(prev => ({
+                              ...prev,
+                              hero: { ...prev.hero, primaryCtaType: 'modal' }
+                            }))}
+                            className="text-red-600"
+                          />
+                          <span className="text-slate-700 font-medium">Open Free Demo & Inquiry Popup Modal</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer text-xs">
+                          <input
+                            type="radio"
+                            name="primaryCtaType"
+                            value="link"
+                            checked={settings.hero?.primaryCtaType === 'link'}
+                            onChange={() => setSettings(prev => ({
+                              ...prev,
+                              hero: { ...prev.hero, primaryCtaType: 'link' }
+                            }))}
+                            className="text-red-600"
+                          />
+                          <span className="text-slate-700 font-medium">Redirect to Custom Web URL or Section</span>
+                        </label>
+                      </div>
+                      {settings.hero?.primaryCtaType === 'link' && (
+                        <input
+                          type="text"
+                          placeholder="e.g. #courses or https://..."
+                          value={settings.hero?.primaryCtaLink || ''}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, primaryCtaLink: e.target.value }
+                          }))}
+                          className="mt-2 w-full px-3 py-1.5 border rounded-lg text-xs"
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Secondary CTA */}
+                  <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-800">Secondary Button (Glass / Outline)</span>
+                      <label className="flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-slate-600">
+                        <input
+                          type="checkbox"
+                          checked={settings.hero?.showSecondaryCta !== false}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, showSecondaryCta: e.target.checked }
+                          }))}
+                          className="w-3.5 h-3.5 text-red-600 rounded"
+                        />
+                        <span>Show</span>
+                      </label>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Text</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.secondaryCtaText || 'Explore Band Courses'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, secondaryCtaText: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border rounded-xl text-xs font-bold text-slate-800"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Link (Anchor or URL)</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.secondaryCtaLink || '#courses'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, secondaryCtaLink: e.target.value }
+                        }))}
+                        placeholder="e.g. #courses"
+                        className="w-full px-3 py-2 border rounded-xl text-xs"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Bottom Trust Pills */}
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Bottom Trust Pills (Inside Hero Image Banner)
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {(settings.hero?.bottomPills || [
-                  { icon: 'Award', text: 'IDP & British Council' },
-                  { icon: 'Headphones', text: 'Real Headset Lab' },
-                  { icon: 'Shield', text: '100% Guaranteed' }
-                ]).map((pill, idx) => (
-                  <div key={idx}>
-                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Pill #{idx + 1}</label>
+              {/* Card 4: Hero Right Visual Media Card */}
+              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-5">
+                <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">Hero Right Visual Media Card</span>
+
+                {/* Banner Image */}
+                <div className="space-y-3 bg-white p-4 border border-slate-200 rounded-xl">
+                  <label className="block text-xs font-bold text-slate-700">
+                    Hero Banner Image (Upload File from Device or Paste URL)
+                  </label>
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
                     <input
                       type="text"
-                      value={pill.text}
-                      onChange={(e) => {
-                        const updated = [...(settings.hero?.bottomPills || [])];
-                        updated[idx] = { ...updated[idx], text: e.target.value };
-                        setSettings(prev => ({
-                          ...prev,
-                          hero: { ...prev.hero, bottomPills: updated }
-                        }));
-                      }}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                      placeholder="Paste Image URL"
+                      value={settings.hero?.bannerImage || ''}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        hero: { ...prev.hero, bannerImage: e.target.value }
+                      }))}
+                      className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
                     />
+                    <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
+                      <UploadCloud className="w-4 h-4" />
+                      <span>{uploadingHero ? 'Uploading...' : 'Upload Image File'}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleUploadImage(
+                          e.target.files?.[0],
+                          (url) => setSettings(prev => ({ ...prev, hero: { ...prev.hero, bannerImage: url } })),
+                          setUploadingHero
+                        )}
+                        className="hidden"
+                        disabled={uploadingHero}
+                      />
+                    </label>
                   </div>
-                ))}
+
+                  {settings.hero?.bannerImage && (
+                    <div className="pt-1">
+                      <span className="text-[11px] text-slate-400 font-bold block mb-1">Preview:</span>
+                      <img
+                        src={settings.hero.bannerImage}
+                        alt="Hero banner preview"
+                        className="h-28 w-48 object-cover rounded-xl border shadow-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Floating Student Achiever Badge */}
+                <div className="bg-white p-4 border border-slate-200 rounded-xl space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-slate-800 block">Floating Student Achiever Badge</span>
+                      <span className="text-[11px] text-slate-500">Animated badge shown on top-right of image</span>
+                    </div>
+                    <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={settings.hero?.showFloatingBadge !== false}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, showFloatingBadge: e.target.checked }
+                        }))}
+                        className="w-4 h-4 text-red-600 rounded"
+                      />
+                      <span>Show Badge</span>
+                    </label>
+                  </div>
+
+                  {settings.hero?.showFloatingBadge !== false && (
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-1">
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Band Score</label>
+                        <input
+                          type="text"
+                          value={settings.hero?.floatingBadge?.score || '8.5'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: {
+                              ...prev.hero,
+                              floatingBadge: { ...prev.hero?.floatingBadge, score: e.target.value }
+                            }
+                          }))}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-black text-amber-600"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Tag</label>
+                        <input
+                          type="text"
+                          value={settings.hero?.floatingBadge?.label || 'Top Achiever'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: {
+                              ...prev.hero,
+                              floatingBadge: { ...prev.hero?.floatingBadge, label: e.target.value }
+                            }
+                          }))}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Title</label>
+                        <input
+                          type="text"
+                          value={settings.hero?.floatingBadge?.title || 'Overall IELTS Band'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: {
+                              ...prev.hero,
+                              floatingBadge: { ...prev.hero?.floatingBadge, title: e.target.value }
+                            }
+                          }))}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Scores</label>
+                        <input
+                          type="text"
+                          value={settings.hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: {
+                              ...prev.hero,
+                              floatingBadge: { ...prev.hero?.floatingBadge, sub: e.target.value }
+                            }
+                          }))}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-emerald-600"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Trust Feature Pills */}
+                <div className="bg-white p-4 border border-slate-200 rounded-xl space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-slate-800 block">Bottom Trust Feature Pills (Inside Image)</span>
+                      <span className="text-[11px] text-slate-500">Horizontal bar at bottom of hero image</span>
+                    </div>
+                    <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={settings.hero?.showBottomPills !== false}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, showBottomPills: e.target.checked }
+                        }))}
+                        className="w-4 h-4 text-red-600 rounded"
+                      />
+                      <span>Show Pills Bar</span>
+                    </label>
+                  </div>
+
+                  {settings.hero?.showBottomPills !== false && (
+                    <div className="space-y-3 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {(settings.hero?.bottomPills || []).map((pill, idx) => (
+                          <div key={idx} className="p-3 bg-slate-50 border rounded-xl space-y-2 relative group">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-bold text-slate-500 uppercase">Pill #{idx + 1}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const updated = (settings.hero?.bottomPills || []).filter((_, i) => i !== idx);
+                                  setSettings(prev => ({
+                                    ...prev,
+                                    hero: { ...prev.hero, bottomPills: updated }
+                                  }));
+                                }}
+                                className="text-slate-400 hover:text-red-600 p-0.5"
+                                title="Remove Pill"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-600 mb-1">Choose Icon</label>
+                              <select
+                                value={pill.icon || 'Award'}
+                                onChange={(e) => {
+                                  const updated = [...(settings.hero?.bottomPills || [])];
+                                  updated[idx] = { ...updated[idx], icon: e.target.value };
+                                  setSettings(prev => ({
+                                    ...prev,
+                                    hero: { ...prev.hero, bottomPills: updated }
+                                  }));
+                                }}
+                                className="w-full px-2.5 py-1.5 text-xs bg-white border rounded-lg"
+                              >
+                                {Object.entries(HERO_PILL_ICONS).map(([k, item]) => (
+                                  <option key={k} value={k}>{item.label}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-600 mb-1">Pill Text</label>
+                              <input
+                                type="text"
+                                value={pill.text}
+                                onChange={(e) => {
+                                  const updated = [...(settings.hero?.bottomPills || [])];
+                                  updated[idx] = { ...updated[idx], text: e.target.value };
+                                  setSettings(prev => ({
+                                    ...prev,
+                                    hero: { ...prev.hero, bottomPills: updated }
+                                  }));
+                                }}
+                                className="w-full px-2.5 py-1.5 text-xs bg-white border rounded-lg font-medium"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = [...(settings.hero?.bottomPills || []), { icon: 'Award', text: 'Verified Partner' }];
+                          setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, bottomPills: updated }
+                          }));
+                        }}
+                        className="px-3.5 py-2 text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors flex items-center gap-1.5"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Trust Pill</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Card 5: Instant Phone Callback Form Box */}
+              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">Instant Phone Callback Request Box</span>
+                    <span className="text-[11px] text-slate-500">Quick lead capture bar inside hero</span>
+                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={settings.hero?.showCallbackBox !== false}
+                      onChange={(e) => setSettings(prev => ({
+                        ...prev,
+                        hero: { ...prev.hero, showCallbackBox: e.target.checked }
+                      }))}
+                      className="w-4 h-4 text-red-600 rounded"
+                    />
+                    <span>Show Callback Form</span>
+                  </label>
+                </div>
+
+                {settings.hero?.showCallbackBox !== false && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Input Placeholder</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.callbackBox?.placeholder || 'Enter Mobile No for Instant Call'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: {
+                            ...prev.hero,
+                            callbackBox: { ...prev.hero?.callbackBox, placeholder: e.target.value }
+                          }
+                        }))}
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Text</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.callbackBox?.buttonText || 'Request Call'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: {
+                            ...prev.hero,
+                            callbackBox: { ...prev.hero?.callbackBox, buttonText: e.target.value }
+                          }
+                        }))}
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Success Message</label>
+                      <input
+                        type="text"
+                        value={settings.hero?.callbackBox?.successText || 'Thank you! Our senior counselor will call you within 15 minutes.'}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: {
+                            ...prev.hero,
+                            callbackBox: { ...prev.hero?.callbackBox, successText: e.target.value }
+                          }
+                        }))}
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-emerald-700"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
+          )}
 
-            {/* Instant Callback Form Box */}
-            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <label className="block text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Hero Instant Callback Box
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {/* Sub-tab 2: Stats Counter Bar */}
+          {heroSubTab === 'stats' && (
+            <div className="space-y-5">
+              <div className="p-4 bg-purple-50/60 border border-purple-200 rounded-xl flex items-center justify-between">
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Input Placeholder</label>
+                  <h3 className="text-xs font-bold text-purple-950">Homepage Stats Counter Bar (4 Metric Cards)</h3>
+                  <p className="text-[11px] text-purple-800/80">These white cards display directly below the Hero Section banner on the homepage.</p>
+                </div>
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-purple-950">
                   <input
-                    type="text"
-                    value={settings.hero?.callbackBox?.placeholder || 'Enter Mobile No for Instant Call'}
+                    type="checkbox"
+                    checked={settings.showStats !== false}
                     onChange={(e) => setSettings(prev => ({
                       ...prev,
-                      hero: {
-                        ...prev.hero,
-                        callbackBox: { ...prev.hero?.callbackBox, placeholder: e.target.value }
-                      }
+                      showStats: e.target.checked
                     }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                    className="w-4 h-4 text-purple-600 rounded"
                   />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Button Text</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.callbackBox?.buttonText || 'Request Call'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        callbackBox: { ...prev.hero?.callbackBox, buttonText: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Success Message</label>
-                  <input
-                    type="text"
-                    value={settings.hero?.callbackBox?.successText || 'Thank you! Our senior counselor will call you within 15 minutes.'}
-                    onChange={(e) => setSettings(prev => ({
-                      ...prev,
-                      hero: {
-                        ...prev.hero,
-                        callbackBox: { ...prev.hero?.callbackBox, successText: e.target.value }
-                      }
-                    }))}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-emerald-700"
-                  />
-                </div>
+                  <span>Show Stats Bar</span>
+                </label>
               </div>
-            </div>
 
-          </div>
+              {settings.showStats !== false && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {(settings.stats || []).map((stat, idx) => (
+                      <div key={stat.id || idx} className="p-4 bg-white border border-slate-200/80 rounded-2xl shadow-sm space-y-3 relative group">
+                        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-wider">Stat Card #{idx + 1}</span>
+                          {(settings.stats || []).length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const updated = settings.stats.filter((_, i) => i !== idx);
+                                setSettings({ ...settings, stats: updated });
+                              }}
+                              className="text-slate-400 hover:text-red-600 p-1 transition-colors"
+                              title="Delete this Stat Card"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Metric Value (e.g. 98.4%, 12,500+)
+                          </label>
+                          <input
+                            type="text"
+                            value={stat.value}
+                            onChange={(e) => {
+                              const updated = [...settings.stats];
+                              updated[idx] = { ...updated[idx], value: e.target.value };
+                              setSettings({ ...settings, stats: updated });
+                            }}
+                            className="w-full px-3.5 py-2 border rounded-xl text-sm font-black text-red-600 bg-slate-50 focus:bg-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Metric Title / Label (e.g. Success Rate)
+                          </label>
+                          <input
+                            type="text"
+                            value={stat.label}
+                            onChange={(e) => {
+                              const updated = [...settings.stats];
+                              updated[idx] = { ...updated[idx], label: e.target.value };
+                              setSettings({ ...settings, stats: updated });
+                            }}
+                            className="w-full px-3.5 py-2 border rounded-xl text-xs font-bold text-slate-800 bg-slate-50 focus:bg-white"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Subtext Description (e.g. 7+ Bands in first attempt)
+                          </label>
+                          <input
+                            type="text"
+                            value={stat.subtext || ''}
+                            onChange={(e) => {
+                              const updated = [...settings.stats];
+                              updated[idx] = { ...updated[idx], subtext: e.target.value };
+                              setSettings({ ...settings, stats: updated });
+                            }}
+                            className="w-full px-3.5 py-2 border rounded-xl text-xs text-slate-600 bg-slate-50 focus:bg-white"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newId = `stat-${Date.now()}`;
+                      const updated = [...(settings.stats || []), { id: newId, value: '100%', label: 'Metric Title', subtext: 'Supporting details' }];
+                      setSettings({ ...settings, stats: updated });
+                    }}
+                    className="px-4 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add New Stat Counter Card</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
       )}
 
@@ -2895,57 +3343,115 @@ export default function AdminSettingsPage() {
       {/* TAB 7: STATS COUNTERS */}
       {activeTab === 'stats' && (
         <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <Layers className="w-5 h-5 text-purple-600" />
-            <h2 className="text-base font-bold text-slate-900">Homepage Stats Counter Cards</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <Layers className="w-5 h-5 text-purple-600" />
+              <div>
+                <h2 className="text-base font-bold text-slate-900">Homepage Stats Counter Cards</h2>
+                <p className="text-xs text-slate-500">Metric cards that appear directly below the hero banner.</p>
+              </div>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-purple-950">
+              <input
+                type="checkbox"
+                checked={settings.showStats !== false}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  showStats: e.target.checked
+                }))}
+                className="w-4 h-4 text-purple-600 rounded"
+              />
+              <span>Show Stats Bar on Homepage</span>
+            </label>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {settings.stats?.map((stat, idx) => (
-              <div key={stat.id || idx} className="p-4 bg-slate-50 border rounded-xl space-y-2">
-                <span className="text-[10px] font-bold uppercase text-slate-400">Card #{idx + 1}</span>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600">Metric Value (e.g. 98.4%)</label>
-                  <input
-                    type="text"
-                    value={stat.value}
-                    onChange={(e) => {
-                      const updated = [...settings.stats];
-                      updated[idx].value = e.target.value;
-                      setSettings({ ...settings, stats: updated });
-                    }}
-                    className="w-full px-3 py-1.5 border rounded-lg text-sm font-black text-red-600"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600">Label (e.g. Success Rate)</label>
-                  <input
-                    type="text"
-                    value={stat.label}
-                    onChange={(e) => {
-                      const updated = [...settings.stats];
-                      updated[idx].label = e.target.value;
-                      setSettings({ ...settings, stats: updated });
-                    }}
-                    className="w-full px-3 py-1.5 border rounded-lg text-xs font-bold text-slate-800"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-600">Subtext</label>
-                  <input
-                    type="text"
-                    value={stat.subtext}
-                    onChange={(e) => {
-                      const updated = [...settings.stats];
-                      updated[idx].subtext = e.target.value;
-                      setSettings({ ...settings, stats: updated });
-                    }}
-                    className="w-full px-3 py-1.5 border rounded-lg text-xs text-slate-500"
-                  />
-                </div>
+          {settings.showStats !== false && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {(settings.stats || []).map((stat, idx) => (
+                  <div key={stat.id || idx} className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-3 relative group">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                      <span className="text-xs font-black uppercase text-slate-400">Card #{idx + 1}</span>
+                      {(settings.stats || []).length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = settings.stats.filter((_, i) => i !== idx);
+                            setSettings({ ...settings, stats: updated });
+                          }}
+                          className="text-slate-400 hover:text-red-600 p-1 transition-colors"
+                          title="Delete this Stat Card"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                        Metric Value (e.g. 98.4%, 12,500+)
+                      </label>
+                      <input
+                        type="text"
+                        value={stat.value}
+                        onChange={(e) => {
+                          const updated = [...settings.stats];
+                          updated[idx] = { ...updated[idx], value: e.target.value };
+                          setSettings({ ...settings, stats: updated });
+                        }}
+                        className="w-full px-3.5 py-2 border rounded-xl text-sm font-black text-red-600 bg-white"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                        Label / Title (e.g. Success Rate)
+                      </label>
+                      <input
+                        type="text"
+                        value={stat.label}
+                        onChange={(e) => {
+                          const updated = [...settings.stats];
+                          updated[idx] = { ...updated[idx], label: e.target.value };
+                          setSettings({ ...settings, stats: updated });
+                        }}
+                        className="w-full px-3.5 py-2 border rounded-xl text-xs font-bold text-slate-800 bg-white"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                        Subtext Description (e.g. 7+ Bands in first attempt)
+                      </label>
+                      <input
+                        type="text"
+                        value={stat.subtext || ''}
+                        onChange={(e) => {
+                          const updated = [...settings.stats];
+                          updated[idx] = { ...updated[idx], subtext: e.target.value };
+                          setSettings({ ...settings, stats: updated });
+                        }}
+                        className="w-full px-3.5 py-2 border rounded-xl text-xs text-slate-600 bg-white"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const newId = `stat-${Date.now()}`;
+                  const updated = [...(settings.stats || []), { id: newId, value: '100%', label: 'Metric Title', subtext: 'Supporting details' }];
+                  setSettings({ ...settings, stats: updated });
+                }}
+                className="px-4 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Stat Counter Card</span>
+              </button>
+            </div>
+          )}
         </div>
       )}
 
