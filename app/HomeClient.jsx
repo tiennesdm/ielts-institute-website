@@ -96,7 +96,12 @@ export default function HomeClient({ initialData }) {
         <TestimonialsSection testimonials={testimonials} config={sections.testimonials} />
 
         {/* Frequently Asked Questions */}
-        <FaqSection faqs={faqs} config={sections.faqs} />
+        <FaqSection
+          faqs={faqs}
+          config={sections?.faqs}
+          settings={settings}
+          onBookClick={() => handleOpenModal()}
+        />
       </main>
 
       {/* Footer */}
