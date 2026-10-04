@@ -35,6 +35,60 @@ export const HERO_PILL_ICONS = {
   Heart: { label: 'Loved / Trust', component: Heart },
 };
 
+export const HERO_ICON_COLORS = {
+  yellow: { label: 'Gold / Yellow', class: 'text-yellow-400' },
+  rose: { label: 'Rose / Pink', class: 'text-rose-400' },
+  emerald: { label: 'Emerald / Green', class: 'text-emerald-400' },
+  sky: { label: 'Sky / Blue', class: 'text-sky-400' },
+  amber: { label: 'Amber / Orange', class: 'text-amber-400' },
+  purple: { label: 'Purple / Violet', class: 'text-purple-400' },
+  white: { label: 'Crisp White', class: 'text-white' },
+};
+
+export const HERO_BADGE_THEMES = {
+  amber: { label: 'Amber / Gold Gradient', class: 'bg-gradient-to-tr from-amber-500 to-yellow-400 text-white' },
+  crimson: { label: 'Crimson / Red Gradient', class: 'bg-gradient-to-tr from-red-600 to-rose-500 text-white' },
+  blue: { label: 'Navy / Blue Gradient', class: 'bg-gradient-to-tr from-blue-600 to-indigo-600 text-white' },
+  emerald: { label: 'Emerald / Green Gradient', class: 'bg-gradient-to-tr from-emerald-600 to-teal-500 text-white' },
+  purple: { label: 'Purple / Fuchsia Gradient', class: 'bg-gradient-to-tr from-purple-600 to-pink-500 text-white' },
+  dark: { label: 'Sleek Dark Slate', class: 'bg-gradient-to-tr from-slate-900 to-slate-800 text-white' },
+};
+
+export const HERO_BADGE_POSITIONS = {
+  'top-right': { label: 'Top-Right (Default)', class: 'top-3 right-3 sm:top-4 sm:right-4' },
+  'top-left': { label: 'Top-Left', class: 'top-3 left-3 sm:top-4 sm:left-4' },
+  'bottom-right': { label: 'Bottom-Right (Above Bar)', class: 'bottom-16 right-3 sm:bottom-20 sm:right-4' },
+  'bottom-left': { label: 'Bottom-Left (Above Bar)', class: 'bottom-16 left-3 sm:bottom-20 sm:left-4' },
+};
+
+export const HERO_PILLS_STYLES = {
+  'dark-glass': { label: 'Translucent Dark Glass (Default)', class: 'bg-slate-900/85 backdrop-blur-md border border-white/10 text-slate-300' },
+  'navy-glass': { label: 'Midnight Navy Glass', class: 'bg-blue-950/85 backdrop-blur-md border border-blue-400/20 text-blue-100' },
+  'light-glass': { label: 'Frost Light Glass', class: 'bg-white/90 backdrop-blur-md text-slate-800 border border-slate-200/80 shadow-lg' },
+  'black-solid': { label: 'Deep Solid Black', class: 'bg-black/90 border border-slate-800 text-slate-300' },
+};
+
+export const HERO_OVERLAY_STYLES = {
+  'dark': { label: 'Cinematic Bottom Dark (Default)', class: 'bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent' },
+  'soft': { label: 'Soft Slate Shadow', class: 'bg-gradient-to-t from-slate-950/70 to-transparent' },
+  'navy': { label: 'Midnight Blue Hue', class: 'bg-gradient-to-t from-blue-950 via-slate-900/40 to-transparent' },
+  'warm': { label: 'Warm Sunset Amber', class: 'bg-gradient-to-t from-amber-950/80 via-slate-950/30 to-transparent' },
+  'none': { label: 'No Overlay (Clean Photo)', class: 'hidden' },
+};
+
+export const HERO_BANNER_HEIGHTS = {
+  'standard': { label: 'Standard (420px Desktop)', class: 'w-full h-72 sm:h-96 lg:h-[420px]' },
+  'tall': { label: 'Tall / Portrait (500px Desktop)', class: 'w-full h-80 sm:h-[460px] lg:h-[500px]' },
+  'compact': { label: 'Compact (360px Desktop)', class: 'w-full h-64 sm:h-80 lg:h-[360px]' },
+};
+
+export const HERO_BANNER_BORDERS = {
+  'glass': { label: 'Glass Accent (Default)', class: 'border-4 border-white/10' },
+  'amber': { label: 'Gold Glow', class: 'border-4 border-amber-400/30' },
+  'crimson': { label: 'Crimson Glow', class: 'border-4 border-red-500/30' },
+  'subtle': { label: 'Minimalist Subtle', class: 'border border-white/20' },
+};
+
 export default function HeroSection({ hero, settings, onBookClick }) {
   const [quickPhone, setQuickPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -188,64 +242,115 @@ export default function HeroSection({ hero, settings, onBookClick }) {
 
           {/* Right Visual Image & Live Student Result Card */}
           <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 group">
-              <img
-                src={bannerImage}
-                alt="IELTS Institute Class and Training"
-                className="w-full h-72 sm:h-96 lg:h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-transparent"></div>
-
-              {/* Floating Band 8.5 Badge */}
-              {hero?.showFloatingBadge !== false && (
-                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white/95 backdrop-blur-md text-slate-900 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border border-white/50 flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center font-black text-white text-sm sm:text-lg shadow-md shrink-0">
-                    {hero?.floatingBadge?.score || '8.5'}
-                  </div>
-                  <div>
-                    <div className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-500 tracking-wider">
-                      {hero?.floatingBadge?.label || 'Top Achiever'}
-                    </div>
-                    <div className="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">
-                      {hero?.floatingBadge?.title || 'Overall IELTS Band'}
-                    </div>
-                    <div className="text-[9px] sm:text-[10px] text-emerald-600 font-bold">
-                      {hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Bottom Feature Bar */}
-              {hero?.showBottomPills !== false && (
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-slate-900/85 backdrop-blur-md p-2.5 sm:p-4 rounded-xl border border-white/10">
-                  <div className="flex flex-wrap sm:flex-nowrap items-center justify-around sm:justify-between gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-slate-300">
-                    {(hero?.bottomPills && hero.bottomPills.length > 0
-                      ? hero.bottomPills
-                      : [
-                          { icon: 'Award', text: 'IDP & British Council' },
-                          { icon: 'Headphones', text: 'Real Headset Lab' },
-                          { icon: 'Shield', text: '100% Guaranteed' }
-                        ]
-                    ).map((pill, idx) => {
-                      const IconData = HERO_PILL_ICONS[pill.icon];
-                      const IconComp = IconData ? IconData.component : Award;
-                      const iconColor = idx === 0 ? 'text-yellow-400' : idx === 1 ? 'text-rose-400' : 'text-emerald-400';
-                      return (
-                        <div key={idx} className="flex items-center gap-1 sm:gap-1.5">
-                          <IconComp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${iconColor} shrink-0`} />
-                          <span className={idx === 0 ? "font-semibold text-white" : ""}>{pill.text}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
+            <HeroVisualCard hero={hero} />
           </div>
 
         </div>
       </div>
     </section>
+  );
+}
+
+export function HeroVisualCard({ hero, isPreview = false }) {
+  const bannerImage = hero?.bannerImage || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop';
+  const bannerAlt = hero?.bannerAlt || 'IELTS Institute Class and Training';
+
+  // Sizing & Frame Styles
+  const heightClass = HERO_BANNER_HEIGHTS[hero?.bannerHeight]?.class || HERO_BANNER_HEIGHTS['standard'].class;
+  const borderClass = HERO_BANNER_BORDERS[hero?.bannerBorder]?.class || HERO_BANNER_BORDERS['glass'].class;
+  const overlayClass = HERO_OVERLAY_STYLES[hero?.bannerOverlay]?.class || HERO_OVERLAY_STYLES['dark'].class;
+
+  // Floating Badge Styles
+  const badgePositionClass = HERO_BADGE_POSITIONS[hero?.floatingBadge?.position]?.class || HERO_BADGE_POSITIONS['top-right'].class;
+  const badgeThemeClass = HERO_BADGE_THEMES[hero?.floatingBadge?.theme]?.class || HERO_BADGE_THEMES['amber'].class;
+  const isDarkBadgeStyle = hero?.floatingBadge?.style === 'glass-dark';
+  const badgeContainerClass = isDarkBadgeStyle
+    ? 'bg-slate-900/95 backdrop-blur-md text-white border border-white/15 shadow-2xl'
+    : 'bg-white/95 backdrop-blur-md text-slate-900 border border-white/50 shadow-xl';
+
+  const badgeSubColorClass =
+    hero?.floatingBadge?.subColor === 'amber' ? 'text-amber-500' :
+    hero?.floatingBadge?.subColor === 'blue' ? 'text-sky-400' :
+    hero?.floatingBadge?.subColor === 'rose' ? 'text-rose-500' :
+    hero?.floatingBadge?.subColor === 'slate' ? (isDarkBadgeStyle ? 'text-slate-300' : 'text-slate-500') :
+    'text-emerald-600';
+
+  // Bottom Pills Bar Styles
+  const pillsContainerClass = HERO_PILLS_STYLES[hero?.pillsStyle]?.class || HERO_PILLS_STYLES['dark-glass'].class;
+  const isLightPills = hero?.pillsStyle === 'light-glass';
+
+  // Normalized Pills List with Safe Non-Empty Text Fallbacks
+  const rawPills = (hero?.bottomPills && hero.bottomPills.length > 0)
+    ? hero.bottomPills
+    : [
+        { icon: 'Award', text: 'IDP & British Council', iconColor: 'yellow', highlight: true },
+        { icon: 'Headphones', text: 'Real Headset Lab', iconColor: 'rose', highlight: false },
+        { icon: 'Shield', text: '100% Guaranteed', iconColor: 'emerald', highlight: false }
+      ];
+
+  return (
+    <div className={`relative rounded-2xl overflow-hidden shadow-2xl ${borderClass} group`}>
+      <img
+        src={bannerImage}
+        alt={bannerAlt}
+        className={`object-cover group-hover:scale-105 transition-transform duration-700 ${heightClass}`}
+      />
+      
+      {/* Overlay Gradient */}
+      <div className={`absolute inset-0 ${overlayClass}`}></div>
+
+      {/* Floating Achiever Band Badge */}
+      {hero?.showFloatingBadge !== false && (
+        <div className={`absolute ${badgePositionClass} ${badgeContainerClass} p-2 sm:p-3 rounded-xl sm:rounded-2xl flex items-center gap-2 sm:gap-3 transition-all duration-300`}>
+          <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl ${badgeThemeClass} flex items-center justify-center font-black text-sm sm:text-lg shadow-md shrink-0`}>
+            {hero?.floatingBadge?.score || '8.5'}
+          </div>
+          <div>
+            <div className={`text-[9px] sm:text-[10px] uppercase font-bold tracking-wider ${isDarkBadgeStyle ? 'text-slate-400' : 'text-slate-500'}`}>
+              {hero?.floatingBadge?.label || 'Top Achiever'}
+            </div>
+            <div className={`text-[11px] sm:text-xs font-extrabold leading-tight ${isDarkBadgeStyle ? 'text-white' : 'text-slate-900'}`}>
+              {hero?.floatingBadge?.title || 'Overall IELTS Band'}
+            </div>
+            <div className={`text-[9px] sm:text-[10px] font-bold ${badgeSubColorClass}`}>
+              {hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bottom Feature Trust Pills Bar */}
+      {hero?.showBottomPills !== false && (
+        <div className={`absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 ${pillsContainerClass} p-2.5 sm:p-3.5 rounded-xl`}>
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-around sm:justify-between gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+            {rawPills.map((pill, idx) => {
+              const IconData = HERO_PILL_ICONS[pill.icon];
+              const IconComp = IconData ? IconData.component : Award;
+              
+              // Safe fallback for text so it is NEVER blank
+              const defaultPillTexts = ['IDP & British Council', 'Real Headset Lab', '100% Guaranteed', 'Cambridge Partner'];
+              const pillText = (pill.text && pill.text.trim()) ? pill.text : (defaultPillTexts[idx] || 'Certified Excellence');
+              
+              // Color selection
+              const defaultColor = idx === 0 ? 'yellow' : idx === 1 ? 'rose' : idx === 2 ? 'emerald' : 'sky';
+              const iconColorKey = pill.iconColor || defaultColor;
+              const iconColorClass = HERO_ICON_COLORS[iconColorKey]?.class || 'text-yellow-400';
+
+              const isHighlighted = pill.highlight ?? (idx === 0);
+              const textHighlightClass = isHighlighted
+                ? (isLightPills ? 'font-bold text-slate-950' : 'font-bold text-white')
+                : (isLightPills ? 'font-medium text-slate-700' : 'font-normal text-slate-300');
+
+              return (
+                <div key={idx} className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                  <IconComp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${iconColorClass} shrink-0`} />
+                  <span className={textHighlightClass}>{pillText}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

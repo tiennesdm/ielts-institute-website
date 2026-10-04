@@ -30,11 +30,28 @@ import {
   Calendar,
   Share2,
   FileText,
-  Globe
+  Globe,
+  Eye,
+  RefreshCw,
+  Sliders,
+  Palette,
+  Check,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react';
 import { processAndUploadImage } from '@/lib/imageUtils';
 import BrandLogo, { LOGO_ICONS, THEME_GRADIENTS } from '@/components/BrandLogo';
-import { HERO_PILL_ICONS } from '@/components/HeroSection';
+import {
+  HERO_PILL_ICONS,
+  HERO_ICON_COLORS,
+  HERO_BADGE_THEMES,
+  HERO_BADGE_POSITIONS,
+  HERO_PILLS_STYLES,
+  HERO_OVERLAY_STYLES,
+  HERO_BANNER_HEIGHTS,
+  HERO_BANNER_BORDERS,
+  HeroVisualCard
+} from '@/components/HeroSection';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
@@ -1837,61 +1854,198 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
 
-              {/* Card 4: Hero Right Visual Media Card */}
-              <div className="p-5 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-5">
-                <span className="text-xs font-black uppercase tracking-wider text-slate-700 block">Hero Right Visual Media Card</span>
-
-                {/* Banner Image */}
-                <div className="space-y-3 bg-white p-4 border border-slate-200 rounded-xl">
-                  <label className="block text-xs font-bold text-slate-700">
-                    Hero Banner Image (Upload File from Device or Paste URL)
-                  </label>
-                  <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <input
-                      type="text"
-                      placeholder="Paste Image URL"
-                      value={settings.hero?.bannerImage || ''}
-                      onChange={(e) => setSettings(prev => ({
-                        ...prev,
-                        hero: { ...prev.hero, bannerImage: e.target.value }
-                      }))}
-                      className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs"
-                    />
-                    <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
-                      <UploadCloud className="w-4 h-4" />
-                      <span>{uploadingHero ? 'Uploading...' : 'Upload Image File'}</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleUploadImage(
-                          e.target.files?.[0],
-                          (url) => setSettings(prev => ({ ...prev, hero: { ...prev.hero, bannerImage: url } })),
-                          setUploadingHero
-                        )}
-                        className="hidden"
-                        disabled={uploadingHero}
-                      />
-                    </label>
+              {/* Card 4: Hero Right Visual Media Card Customizer */}
+              <div className="p-5 sm:p-6 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/60">
+                  <div>
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-amber-500" />
+                      <span>Hero Right Visual Media Card & Student Achiever Badge</span>
+                    </span>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Fully customize the hero banner image, floating score badge, and bottom trust feature pills with real-time live preview.
+                    </p>
                   </div>
-
-                  {settings.hero?.bannerImage && (
-                    <div className="pt-1">
-                      <span className="text-[11px] text-slate-400 font-bold block mb-1">Preview:</span>
-                      <img
-                        src={settings.hero.bannerImage}
-                        alt="Hero banner preview"
-                        className="h-28 w-48 object-cover rounded-xl border shadow-sm"
-                      />
-                    </div>
-                  )}
                 </div>
 
-                {/* Floating Student Achiever Badge */}
-                <div className="bg-white p-4 border border-slate-200 rounded-xl space-y-3">
+                {/* 4.0: REAL-TIME INTERACTIVE LIVE PREVIEW */}
+                <div className="bg-slate-950 p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-xl space-y-3">
                   <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-600/30 text-red-300 border border-red-500/30">
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Live Card Preview (As Seen on Homepage)</span>
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">Updates in real-time as you edit below</span>
+                  </div>
+
+                  {/* Render the actual HeroVisualCard component */}
+                  <div className="max-w-md mx-auto pt-2">
+                    <HeroVisualCard hero={settings.hero} isPreview={true} />
+                  </div>
+                </div>
+
+                {/* 4.1: BANNER IMAGE & STYLING */}
+                <div className="space-y-4 bg-white p-5 border border-slate-200 rounded-xl shadow-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                      <ImageIcon className="w-4 h-4 text-blue-600" />
+                      <span>1. Hero Banner Image & Framing</span>
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="block text-xs font-bold text-slate-700">
+                      Banner Image Source (Upload File from Device or Paste Image URL)
+                    </label>
+                    <div className="flex flex-col sm:flex-row items-center gap-3">
+                      <input
+                        type="text"
+                        placeholder="Paste Image URL (https://...)"
+                        value={settings.hero?.bannerImage || ''}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, bannerImage: e.target.value }
+                        }))}
+                        className="flex-1 w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono text-slate-800"
+                      />
+                      <label className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold cursor-pointer shrink-0 transition-colors shadow-sm flex items-center gap-1.5">
+                        <UploadCloud className="w-4 h-4" />
+                        <span>{uploadingHero ? 'Uploading...' : 'Upload Device Image'}</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleUploadImage(
+                            e.target.files?.[0],
+                            (url) => setSettings(prev => ({ ...prev, hero: { ...prev.hero, bannerImage: url } })),
+                            setUploadingHero
+                          )}
+                          className="hidden"
+                          disabled={uploadingHero}
+                        />
+                      </label>
+                    </div>
+
+                    {/* Quick Preset Images */}
                     <div>
-                      <span className="text-xs font-bold text-slate-800 block">Floating Student Achiever Badge</span>
-                      <span className="text-[11px] text-slate-500">Animated badge shown on top-right of image</span>
+                      <span className="text-[11px] font-bold text-slate-500 block mb-1.5">
+                        ✨ Or Choose 1-Click High-Res Education Photo Preset:
+                      </span>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {[
+                          {
+                            label: '📚 Library Study',
+                            url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop'
+                          },
+                          {
+                            label: '🎓 Achievers Group',
+                            url: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1600&auto=format&fit=crop'
+                          },
+                          {
+                            label: '💻 CD-IELTS Lab',
+                            url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1600&auto=format&fit=crop'
+                          },
+                          {
+                            label: '👨‍🏫 Masterclass Room',
+                            url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1600&auto=format&fit=crop'
+                          }
+                        ].map((preset, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSettings(prev => ({
+                              ...prev,
+                              hero: { ...prev.hero, bannerImage: preset.url }
+                            }))}
+                            className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold border transition-all text-left truncate ${
+                              settings.hero?.bannerImage === preset.url
+                                ? 'bg-blue-900 text-white border-blue-900 shadow-sm'
+                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'
+                            }`}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Sizing, Height, Overlay & Border Style Controls */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Card Height / Aspect</label>
+                        <select
+                          value={settings.hero?.bannerHeight || 'standard'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, bannerHeight: e.target.value }
+                          }))}
+                          className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                        >
+                          {Object.entries(HERO_BANNER_HEIGHTS).map(([k, item]) => (
+                            <option key={k} value={k}>{item.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Bottom Dark Overlay</label>
+                        <select
+                          value={settings.hero?.bannerOverlay || 'dark'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, bannerOverlay: e.target.value }
+                          }))}
+                          className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                        >
+                          {Object.entries(HERO_OVERLAY_STYLES).map(([k, item]) => (
+                            <option key={k} value={k}>{item.label}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Frame Border Glow</label>
+                        <select
+                          value={settings.hero?.bannerBorder || 'glass'}
+                          onChange={(e) => setSettings(prev => ({
+                            ...prev,
+                            hero: { ...prev.hero, bannerBorder: e.target.value }
+                          }))}
+                          className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                        >
+                          {Object.entries(HERO_BANNER_BORDERS).map(([k, item]) => (
+                            <option key={k} value={k}>{item.label}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-600 mb-1">Image Alt Text (SEO)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. IELTS Coaching Institute Class & High Scorers"
+                        value={settings.hero?.bannerAlt || ''}
+                        onChange={(e) => setSettings(prev => ({
+                          ...prev,
+                          hero: { ...prev.hero, bannerAlt: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4.2: FLOATING STUDENT ACHIEVER BADGE */}
+                <div className="bg-white p-5 border border-slate-200 rounded-xl space-y-4 shadow-xs">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <div>
+                      <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                        <Trophy className="w-4 h-4 text-amber-500" />
+                        <span>2. Floating Student Achiever Badge</span>
+                      </span>
+                      <span className="text-[11px] text-slate-500">
+                        Overlay pill showing top band result, category, and sub-score breakdown
+                      </span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
                       <input
@@ -1908,9 +2062,89 @@ export default function AdminSettingsPage() {
                   </div>
 
                   {settings.hero?.showFloatingBadge !== false && (
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-1">
+                    <div className="space-y-4 pt-1">
+                      {/* Position & Color Theme & Surface Style */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Position</label>
+                          <select
+                            value={settings.hero?.floatingBadge?.position || 'top-right'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, position: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                          >
+                            {Object.entries(HERO_BADGE_POSITIONS).map(([k, item]) => (
+                              <option key={k} value={k}>{item.label}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Score Box Theme</label>
+                          <select
+                            value={settings.hero?.floatingBadge?.theme || 'amber'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, theme: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                          >
+                            {Object.entries(HERO_BADGE_THEMES).map(([k, item]) => (
+                              <option key={k} value={k}>{item.label}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Surface Style</label>
+                          <select
+                            value={settings.hero?.floatingBadge?.style || 'glass-light'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, style: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                          >
+                            <option value="glass-light">Light Glass (White / Translucent)</option>
+                            <option value="glass-dark">Dark Glass (Midnight / Translucent)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Score Number & Quick Preset Chips */}
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Band Score</label>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-[11px] font-bold text-slate-600">Band Score / Result Number</label>
+                          <div className="flex items-center gap-1">
+                            {['8.5', '9.0', '8.0', '7.5+', '100%'].map((chip) => (
+                              <button
+                                key={chip}
+                                type="button"
+                                onClick={() => setSettings(prev => ({
+                                  ...prev,
+                                  hero: {
+                                    ...prev.hero,
+                                    floatingBadge: { ...prev.hero?.floatingBadge, score: chip }
+                                  }
+                                }))}
+                                className="px-1.5 py-0.5 text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded transition-colors"
+                              >
+                                {chip}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                         <input
                           type="text"
                           value={settings.hero?.floatingBadge?.score || '8.5'}
@@ -1921,64 +2155,99 @@ export default function AdminSettingsPage() {
                               floatingBadge: { ...prev.hero?.floatingBadge, score: e.target.value }
                             }
                           }))}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-black text-amber-600"
+                          className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white font-black text-amber-600"
                         />
                       </div>
-                      <div>
-                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Tag</label>
-                        <input
-                          type="text"
-                          value={settings.hero?.floatingBadge?.label || 'Top Achiever'}
-                          onChange={(e) => setSettings(prev => ({
-                            ...prev,
-                            hero: {
-                              ...prev.hero,
-                              floatingBadge: { ...prev.hero?.floatingBadge, label: e.target.value }
-                            }
-                          }))}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Title</label>
-                        <input
-                          type="text"
-                          value={settings.hero?.floatingBadge?.title || 'Overall IELTS Band'}
-                          onChange={(e) => setSettings(prev => ({
-                            ...prev,
-                            hero: {
-                              ...prev.hero,
-                              floatingBadge: { ...prev.hero?.floatingBadge, title: e.target.value }
-                            }
-                          }))}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Scores</label>
-                        <input
-                          type="text"
-                          value={settings.hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
-                          onChange={(e) => setSettings(prev => ({
-                            ...prev,
-                            hero: {
-                              ...prev.hero,
-                              floatingBadge: { ...prev.hero?.floatingBadge, sub: e.target.value }
-                            }
-                          }))}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium text-emerald-600"
-                        />
+
+                      {/* Tag, Title, Subtitle Scores & SubColor */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Tag / Category</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. TOP ACHIEVER"
+                            value={settings.hero?.floatingBadge?.label || 'Top Achiever'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, label: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-medium"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Badge Title</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Overall IELTS Band"
+                            value={settings.hero?.floatingBadge?.title || 'Overall IELTS Band'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, title: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Breakdown</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. L: 9.0 • R: 9.0 • S: 8.5"
+                            value={settings.hero?.floatingBadge?.sub || 'L: 9.0 • R: 9.0 • S: 8.5'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, sub: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-1">Sectional Text Color</label>
+                          <select
+                            value={settings.hero?.floatingBadge?.subColor || 'emerald'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                floatingBadge: { ...prev.hero?.floatingBadge, subColor: e.target.value }
+                              }
+                            }))}
+                            className="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl font-medium"
+                          >
+                            <option value="emerald">Emerald Green (Recommended)</option>
+                            <option value="amber">Amber / Gold</option>
+                            <option value="blue">Sky Blue</option>
+                            <option value="rose">Rose Red</option>
+                            <option value="slate">Subtle Grey</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Bottom Trust Feature Pills */}
-                <div className="bg-white p-4 border border-slate-200 rounded-xl space-y-3">
-                  <div className="flex items-center justify-between">
+                {/* 4.3: BOTTOM TRUST FEATURE PILLS */}
+                <div className="bg-white p-5 border border-slate-200 rounded-xl space-y-4 shadow-xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-100">
                     <div>
-                      <span className="text-xs font-bold text-slate-800 block">Bottom Trust Feature Pills (Inside Image)</span>
-                      <span className="text-[11px] text-slate-500">Horizontal bar at bottom of hero image</span>
+                      <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                        <span>3. Bottom Trust Feature Pills (Inside Hero Image)</span>
+                      </span>
+                      <span className="text-[11px] text-slate-500">
+                        Horizontal pill bar across the bottom of the hero banner image
+                      </span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
                       <input
@@ -1995,52 +2264,177 @@ export default function AdminSettingsPage() {
                   </div>
 
                   {settings.hero?.showBottomPills !== false && (
-                    <div className="space-y-3 pt-1">
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {(settings.hero?.bottomPills || []).map((pill, idx) => (
-                          <div key={idx} className="p-3 bg-slate-50 border rounded-xl space-y-2 relative group">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-bold text-slate-500 uppercase">Pill #{idx + 1}</span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const updated = (settings.hero?.bottomPills || []).filter((_, i) => i !== idx);
-                                  setSettings(prev => ({
-                                    ...prev,
-                                    hero: { ...prev.hero, bottomPills: updated }
-                                  }));
-                                }}
-                                className="text-slate-400 hover:text-red-600 p-0.5"
-                                title="Remove Pill"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                    <div className="space-y-4 pt-1">
+                      {/* Bar Style & 1-Click Reset Toolbar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200/80">
+                        <div className="flex-1">
+                          <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                            Pills Bar Background Style
+                          </label>
+                          <select
+                            value={settings.hero?.pillsStyle || 'dark-glass'}
+                            onChange={(e) => setSettings(prev => ({
+                              ...prev,
+                              hero: { ...prev.hero, pillsStyle: e.target.value }
+                            }))}
+                            className="w-full sm:w-auto px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg font-medium"
+                          >
+                            {Object.entries(HERO_PILLS_STYLES).map(([k, item]) => (
+                              <option key={k} value={k}>{item.label}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSettings(prev => ({
+                              ...prev,
+                              hero: {
+                                ...prev.hero,
+                                bottomPills: [
+                                  { icon: 'Award', text: 'IDP & British Council', iconColor: 'yellow', highlight: true },
+                                  { icon: 'Headphones', text: 'Real Headset Lab', iconColor: 'rose', highlight: false },
+                                  { icon: 'Shield', text: '100% Guaranteed', iconColor: 'emerald', highlight: false }
+                                ]
+                              }
+                            }));
+                          }}
+                          className="px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-blue-900 bg-white hover:bg-blue-50 border border-slate-200 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs"
+                          title="Restore original 3 feature pills"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Reset to 3 Classic Pills</span>
+                        </button>
+                      </div>
+
+                      {/* Pill Cards Grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        {(settings.hero?.bottomPills || [
+                          { icon: 'Award', text: 'IDP & British Council', iconColor: 'yellow', highlight: true },
+                          { icon: 'Headphones', text: 'Real Headset Lab', iconColor: 'rose', highlight: false },
+                          { icon: 'Shield', text: '100% Guaranteed', iconColor: 'emerald', highlight: false }
+                        ]).map((pill, idx) => (
+                          <div key={idx} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5 relative group hover:border-slate-300 transition-colors">
+                            <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/60">
+                              <span className="text-[11px] font-black text-slate-700 uppercase tracking-wider flex items-center gap-1">
+                                <span>Pill #{idx + 1}</span>
+                                {pill.highlight && (
+                                  <span className="px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 text-[9px] font-bold">Bold</span>
+                                )}
+                              </span>
+
+                              <div className="flex items-center gap-1">
+                                {/* Move Left / Up */}
+                                {idx > 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const pills = [...(settings.hero?.bottomPills || [])];
+                                      const temp = pills[idx - 1];
+                                      pills[idx - 1] = pills[idx];
+                                      pills[idx] = temp;
+                                      setSettings(prev => ({
+                                        ...prev,
+                                        hero: { ...prev.hero, bottomPills: pills }
+                                      }));
+                                    }}
+                                    className="p-1 text-slate-400 hover:text-slate-800 rounded hover:bg-slate-200 transition-colors"
+                                    title="Move Left"
+                                  >
+                                    <ArrowUp className="w-3.5 h-3.5 rotate-[-90deg]" />
+                                  </button>
+                                )}
+
+                                {/* Move Right / Down */}
+                                {idx < (settings.hero?.bottomPills || []).length - 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const pills = [...(settings.hero?.bottomPills || [])];
+                                      const temp = pills[idx + 1];
+                                      pills[idx + 1] = pills[idx];
+                                      pills[idx] = temp;
+                                      setSettings(prev => ({
+                                        ...prev,
+                                        hero: { ...prev.hero, bottomPills: pills }
+                                      }));
+                                    }}
+                                    className="p-1 text-slate-400 hover:text-slate-800 rounded hover:bg-slate-200 transition-colors"
+                                    title="Move Right"
+                                  >
+                                    <ArrowDown className="w-3.5 h-3.5 rotate-[-90deg]" />
+                                  </button>
+                                )}
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = (settings.hero?.bottomPills || []).filter((_, i) => i !== idx);
+                                    setSettings(prev => ({
+                                      ...prev,
+                                      hero: { ...prev.hero, bottomPills: updated }
+                                    }));
+                                  }}
+                                  className="text-slate-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                  title="Delete this pill"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
 
-                            <div>
-                              <label className="block text-[10px] font-bold text-slate-600 mb-1">Choose Icon</label>
-                              <select
-                                value={pill.icon || 'Award'}
-                                onChange={(e) => {
-                                  const updated = [...(settings.hero?.bottomPills || [])];
-                                  updated[idx] = { ...updated[idx], icon: e.target.value };
-                                  setSettings(prev => ({
-                                    ...prev,
-                                    hero: { ...prev.hero, bottomPills: updated }
-                                  }));
-                                }}
-                                className="w-full px-2.5 py-1.5 text-xs bg-white border rounded-lg"
-                              >
-                                {Object.entries(HERO_PILL_ICONS).map(([k, item]) => (
-                                  <option key={k} value={k}>{item.label}</option>
-                                ))}
-                              </select>
+                            {/* Icon & Color Row */}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="block text-[10px] font-bold text-slate-600 mb-1">Icon</label>
+                                <select
+                                  value={pill.icon || 'Award'}
+                                  onChange={(e) => {
+                                    const updated = [...(settings.hero?.bottomPills || [])];
+                                    updated[idx] = { ...updated[idx], icon: e.target.value };
+                                    setSettings(prev => ({
+                                      ...prev,
+                                      hero: { ...prev.hero, bottomPills: updated }
+                                    }));
+                                  }}
+                                  className="w-full px-2 py-1.5 text-xs bg-white border border-slate-200 rounded-lg font-medium"
+                                >
+                                  {Object.entries(HERO_PILL_ICONS).map(([k, item]) => (
+                                    <option key={k} value={k}>{item.label}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              <div>
+                                <label className="block text-[10px] font-bold text-slate-600 mb-1">Icon Color</label>
+                                <select
+                                  value={pill.iconColor || (idx === 0 ? 'yellow' : idx === 1 ? 'rose' : 'emerald')}
+                                  onChange={(e) => {
+                                    const updated = [...(settings.hero?.bottomPills || [])];
+                                    updated[idx] = { ...updated[idx], iconColor: e.target.value };
+                                    setSettings(prev => ({
+                                      ...prev,
+                                      hero: { ...prev.hero, bottomPills: updated }
+                                    }));
+                                  }}
+                                  className="w-full px-2 py-1.5 text-xs bg-white border border-slate-200 rounded-lg font-medium"
+                                >
+                                  {Object.entries(HERO_ICON_COLORS).map(([k, item]) => (
+                                    <option key={k} value={k}>{item.label}</option>
+                                  ))}
+                                </select>
+                              </div>
                             </div>
 
+                            {/* Pill Text Input */}
                             <div>
-                              <label className="block text-[10px] font-bold text-slate-600 mb-1">Pill Text</label>
+                              <label className="block text-[10px] font-bold text-slate-600 mb-1">
+                                Pill Text (e.g. IDP & British Council)
+                              </label>
                               <input
                                 type="text"
+                                placeholder={idx === 0 ? 'IDP & British Council' : idx === 1 ? 'Real Headset Lab' : '100% Guaranteed'}
                                 value={pill.text}
                                 onChange={(e) => {
                                   const updated = [...(settings.hero?.bottomPills || [])];
@@ -2050,26 +2444,48 @@ export default function AdminSettingsPage() {
                                     hero: { ...prev.hero, bottomPills: updated }
                                   }));
                                 }}
-                                className="w-full px-2.5 py-1.5 text-xs bg-white border rounded-lg font-medium"
+                                className="w-full px-2.5 py-1.5 text-xs bg-white border border-slate-200 rounded-lg font-bold text-slate-800"
                               />
                             </div>
+
+                            {/* Highlight toggle */}
+                            <label className="flex items-center gap-2 cursor-pointer pt-1">
+                              <input
+                                type="checkbox"
+                                checked={pill.highlight ?? (idx === 0)}
+                                onChange={(e) => {
+                                  const updated = [...(settings.hero?.bottomPills || [])];
+                                  updated[idx] = { ...updated[idx], highlight: e.target.checked };
+                                  setSettings(prev => ({
+                                    ...prev,
+                                    hero: { ...prev.hero, bottomPills: updated }
+                                  }));
+                                }}
+                                className="w-3.5 h-3.5 text-red-600 rounded"
+                              />
+                              <span className="text-[11px] font-semibold text-slate-700">Make Text Bold / Highlighted</span>
+                            </label>
                           </div>
                         ))}
                       </div>
 
+                      {/* Add New Pill Button */}
                       <button
                         type="button"
                         onClick={() => {
-                          const updated = [...(settings.hero?.bottomPills || []), { icon: 'Award', text: 'Verified Partner' }];
+                          const updated = [
+                            ...(settings.hero?.bottomPills || []),
+                            { icon: 'CheckCircle2', text: 'Verified Facility', iconColor: 'sky', highlight: false }
+                          ];
                           setSettings(prev => ({
                             ...prev,
                             hero: { ...prev.hero, bottomPills: updated }
                           }));
                         }}
-                        className="px-3.5 py-2 text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors flex items-center gap-1.5"
+                        className="px-4 py-2.5 text-xs font-bold text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors flex items-center gap-1.5 shadow-xs"
                       >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Add Trust Pill</span>
+                        <Plus className="w-4 h-4" />
+                        <span>Add New Feature Pill</span>
                       </button>
                     </div>
                   )}

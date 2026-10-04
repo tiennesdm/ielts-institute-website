@@ -8,7 +8,7 @@
     "leadEmail": "Info@firstclassglobaleducation.com",
     "address": "SCO 42-45, 2nd & 3rd Floor, Education Hub, Sector 17, Chandigarh, India",
     "workingHours": "Mon - Sat: 7:00 AM - 8:30 PM | Sun: Special Mock Tests",
-    "announcement": "🔥 New Super-Fast 8+ Band Batches starting this Monday! Free Cambridge Study Kit with every enrollment. Call +91 98765 43210 to reserve your seat.",
+    "announcement": "\ud83d\udd25 New Super-Fast 8+ Band Batches starting this Monday! Free Cambridge Study Kit with every enrollment. Call +91 98765 43210 to reserve your seat.",
     "showAnnouncement": true,
     "logo": {
       "type": "image",
@@ -151,7 +151,7 @@
     "hero": {
       "headline": "Achieve Your Dream 8+ Band in IELTS on First Try",
       "subheadline": "Certified British Council & IDP Master Faculty. Daily 1-on-1 Speaking, line-by-line Writing evaluations, and official Computer-Delivered IELTS simulation labs.",
-      "badge": "⭐ Rated 4.9/5 by 12,000+ Achievers • British Council Partner",
+      "badge": "\u2b50 Rated 4.9/5 by 12,000+ Achievers \u2022 British Council Partner",
       "bannerImage": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop",
       "primaryCtaText": "Book Free Mock Test & Demo",
       "secondaryCtaText": "Explore Band Courses",
@@ -165,27 +165,42 @@
         "score": "8.5",
         "label": "Top Achiever",
         "title": "Overall IELTS Band",
-        "sub": "L: 9.0 • R: 9.0 • S: 8.5"
+        "sub": "L: 9.0 \u2022 R: 9.0 \u2022 S: 8.5",
+        "position": "top-right",
+        "theme": "amber",
+        "style": "glass-light",
+        "subColor": "emerald"
       },
       "bottomPills": [
         {
           "icon": "Award",
-          "text": ""
+          "text": "IDP & British Council",
+          "iconColor": "yellow",
+          "highlight": true
         },
         {
           "icon": "Headphones",
-          "text": ""
+          "text": "Real Headset Lab",
+          "iconColor": "rose",
+          "highlight": false
         },
         {
           "icon": "Shield",
-          "text": ""
+          "text": "100% Guaranteed",
+          "iconColor": "emerald",
+          "highlight": false
         }
       ],
       "callbackBox": {
         "placeholder": "Enter Mobile No for Instant Call",
         "buttonText": "Request Call",
         "successText": "Thank you! Our senior counselor will call you within 15 minutes."
-      }
+      },
+      "bannerAlt": "IELTS Institute Class and Training",
+      "bannerHeight": "standard",
+      "bannerOverlay": "dark",
+      "bannerBorder": "glass",
+      "pillsStyle": "dark-glass"
     },
     "stats": [
       {
@@ -276,7 +291,7 @@
       "buttonText": "Book Free 2-Hour Demo Class",
       "successTitle": "Seat Reserved Successfully!",
       "successMessage": "Thank you for contacting us. Our senior counseling mentor will call you within 30 minutes to confirm your demo timing and send the Cambridge preparation kit.",
-      "footerNote": "🔒 100% Confidential. No spam. You will only be contacted by an academic counselor."
+      "footerNote": "\ud83d\udd12 100% Confidential. No spam. You will only be contacted by an academic counselor."
     },
     "whatsappConfig": {
       "enabled": true,
@@ -305,7 +320,7 @@
       "badgeColor": "red",
       "targetBand": "Target 7.5 - 8.5 Bands",
       "duration": "8 Weeks (Daily 3 Hours)",
-      "fee": "₹14,999",
+      "fee": "\u20b914,999",
       "mode": "Offline & Live Online",
       "description": "Complete rigorous preparation designed for students aiming for top tier universities in Canada, UK, USA, Australia and Germany.",
       "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop",
@@ -325,7 +340,7 @@
       "badgeColor": "blue",
       "targetBand": "Target CLB 9 & 10 (8777)",
       "duration": "6 Weeks (Flexible Timings)",
-      "fee": "₹13,499",
+      "fee": "\u20b913,499",
       "mode": "Offline / Online / Weekend Batches",
       "description": "Tailored for immigration & work visa candidates targeting Canada Express Entry (CLB 9/10), Australia PR, and UK Skilled Worker.",
       "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop",
@@ -345,7 +360,7 @@
       "badgeColor": "amber",
       "targetBand": "Target 7+ Bands Fast",
       "duration": "3 Weeks (Intensive 4 Hours/day)",
-      "fee": "₹9,999",
+      "fee": "\u20b99,999",
       "mode": "Crash Course (Daily)",
       "description": "Short on time before your exam date? Master proven scoring shortcuts, high-frequency repeated questions and time management.",
       "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop",
@@ -365,7 +380,7 @@
       "badgeColor": "teal",
       "targetBand": "Target 79+ Score (8+ IELTS Equivalent)",
       "duration": "4 to 6 Weeks",
-      "fee": "₹12,999",
+      "fee": "\u20b912,999",
       "mode": "Air-Conditioned Computer Lab Practice",
       "description": "Hands-on practice on real Pearson PTE AI scoring software with verified templates for Describe Image, Retell Lecture & Write from Dictation.",
       "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop",
@@ -385,7 +400,7 @@
       "badgeColor": "indigo",
       "targetBand": "Target 8+ Bands",
       "duration": "4 Weeks",
-      "fee": "₹11,999",
+      "fee": "\u20b911,999",
       "mode": "Dedicated CD-IELTS Terminal Lab",
       "description": "Get 100% comfortable with the official computer-delivered IELTS interface. Practice highlight tools, note taking, and fast typing under timed pressure.",
       "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop",
@@ -405,7 +420,7 @@
       "badgeColor": "purple",
       "targetBand": "Basic to Advanced Fluency",
       "duration": "8 Weeks",
-      "fee": "₹7,999",
+      "fee": "\u20b97,999",
       "mode": "Interactive Group & 1-on-1",
       "description": "Overcome stage fear, eliminate mother tongue influence (MTI), speak English with crystal-clear confidence in meetings and interviews.",
       "image": "https://images.unsplash.com/photo-1577495508048-b635879837f1?q=80&w=800&auto=format&fit=crop",
@@ -432,7 +447,7 @@
         "speaking": "8.5"
       },
       "destination": "University of Toronto, Canada",
-      "flag": "🇨🇦",
+      "flag": "\ud83c\udde8\ud83c\udde6",
       "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=500&auto=format&fit=crop",
       "quote": "The 1-on-1 speaking sessions and writing critiques by First Class faculty are unmatched. They pointed out subtle lexical errors that no other coaching could fix.",
       "admitted": "Fall Intake 2025"
@@ -449,7 +464,7 @@
         "speaking": "8.0"
       },
       "destination": "University of Melbourne, Australia",
-      "flag": "🇦🇺",
+      "flag": "\ud83c\udde6\ud83c\uddfa",
       "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=500&auto=format&fit=crop",
       "quote": "I was stuck at 6.5 bands in writing for 2 attempts. Within 4 weeks at First Class, my score jumped straight to 8.0 overall! Forever grateful.",
       "admitted": "Master of Data Science"
@@ -466,7 +481,7 @@
         "speaking": "8.0"
       },
       "destination": "Express Entry PR, Canada (CLB 10)",
-      "flag": "🇨🇦",
+      "flag": "\ud83c\udde8\ud83c\udde6",
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop",
       "quote": "Needed 8-7-7-7 for Canada PR CRS score. The tips for Reading True/False/Not Given saved me 15 minutes in the real exam.",
       "admitted": "Canada Permanent Resident"
@@ -483,7 +498,7 @@
         "speaking": "8.0"
       },
       "destination": "Imperial College London, UK",
-      "flag": "🇬🇧",
+      "flag": "\ud83c\uddec\ud83c\udde7",
       "photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=500&auto=format&fit=crop",
       "quote": "The computer-delivered mock test software here is an exact clone of the real IDP exam. I felt zero nervousness on exam day!",
       "admitted": "MSc Biomedical Engineering"
@@ -500,7 +515,7 @@
         "speaking": "85"
       },
       "destination": "Monash University, Australia",
-      "flag": "🇦🇺",
+      "flag": "\ud83c\udde6\ud83c\uddfa",
       "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=500&auto=format&fit=crop",
       "quote": "Their AI PTE software scoring and templates for Describe Image and Retell Lecture work like magic. Scored 86 overall!",
       "admitted": "Master of IT"
@@ -517,7 +532,7 @@
         "speaking": "7.5"
       },
       "destination": "University of British Columbia, Canada",
-      "flag": "🇨🇦",
+      "flag": "\ud83c\udde8\ud83c\udde6",
       "photo": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop",
       "quote": "The friendly faculty and daily mock interview room helped me overcome my speaking hesitation completely.",
       "admitted": "Bachelor of Commerce"
@@ -757,7 +772,7 @@
         },
         {
           "label": "Scholarships Facilitated",
-          "value": "₹12+ Crores"
+          "value": "\u20b912+ Crores"
         }
       ]
     },
@@ -766,7 +781,7 @@
         "id": "uni-1",
         "name": "University of Toronto",
         "country": "Canada",
-        "flag": "🇨🇦",
+        "flag": "\ud83c\udde8\ud83c\udde6",
         "city": "Toronto, Ontario",
         "ranking": "QS World Rank #21 | #1 in Canada",
         "scholarship": "Up to $10,000 CAD Entrance Awards",
@@ -787,7 +802,7 @@
         "id": "uni-2",
         "name": "University of Melbourne",
         "country": "Australia",
-        "flag": "🇦🇺",
+        "flag": "\ud83c\udde6\ud83c\uddfa",
         "city": "Melbourne, Victoria",
         "ranking": "QS World Rank #13 | Group of Eight (Go8)",
         "scholarship": "25% to 50% Tuition Fee Waivers",
@@ -808,10 +823,10 @@
         "id": "uni-3",
         "name": "University of Manchester",
         "country": "United Kingdom",
-        "flag": "🇬🇧",
+        "flag": "\ud83c\uddec\ud83c\udde7",
         "city": "Manchester, England",
         "ranking": "QS World Rank #34 | Russell Group",
-        "scholarship": "£5,000 to £10,000 Global Merit Bursary",
+        "scholarship": "\u00a35,000 to \u00a310,000 Global Merit Bursary",
         "popularPrograms": [
           "Advanced Computer Science",
           "MSc International Business",
@@ -829,7 +844,7 @@
         "id": "uni-4",
         "name": "University of British Columbia (UBC)",
         "country": "Canada",
-        "flag": "🇨🇦",
+        "flag": "\ud83c\udde8\ud83c\udde6",
         "city": "Vancouver, British Columbia",
         "ranking": "QS World Rank #34 | Top 3 Canadian Universities",
         "scholarship": "Outstanding International Student (OIS) Award",
@@ -849,7 +864,7 @@
         "id": "uni-5",
         "name": "University of Sydney",
         "country": "Australia",
-        "flag": "🇦🇺",
+        "flag": "\ud83c\udde6\ud83c\uddfa",
         "city": "Sydney, New South Wales",
         "ranking": "QS World Rank #18 | Group of Eight (Go8)",
         "scholarship": "Vice-Chancellor's International Scholarships",
@@ -870,10 +885,10 @@
         "id": "uni-6",
         "name": "University of Birmingham",
         "country": "United Kingdom",
-        "flag": "🇬🇧",
+        "flag": "\ud83c\uddec\ud83c\udde7",
         "city": "Birmingham, England",
         "ranking": "QS World Rank #80 | Russell Group",
-        "scholarship": "£4,000 - £8,000 Outstanding Achievement Award",
+        "scholarship": "\u00a34,000 - \u00a38,000 Outstanding Achievement Award",
         "popularPrograms": [
           "MSc Artificial Intelligence",
           "Mechanical Engineering",
@@ -891,7 +906,7 @@
         "id": "uni-7",
         "name": "Arizona State University (ASU)",
         "country": "USA",
-        "flag": "🇺🇸",
+        "flag": "\ud83c\uddfa\ud83c\uddf8",
         "city": "Phoenix, Arizona",
         "ranking": "#1 in the US for Innovation (9 Consecutive Years)",
         "scholarship": "New American University Merit Scholarships up to $14,000/yr",
@@ -911,7 +926,7 @@
         "id": "uni-8",
         "name": "Technical University of Munich (TUM)",
         "country": "Germany",
-        "flag": "🇩🇪",
+        "flag": "\ud83c\udde9\ud83c\uddea",
         "city": "Munich, Bavaria",
         "ranking": "QS World Rank #28 | #1 in Germany",
         "scholarship": "No Tuition Fees (Only Nominal Semester Contribution)",
@@ -931,10 +946,10 @@
         "id": "uni-9",
         "name": "Trinity College Dublin (TCD)",
         "country": "Ireland",
-        "flag": "🇮🇪",
+        "flag": "\ud83c\uddee\ud83c\uddea",
         "city": "Dublin, Ireland",
         "ranking": "QS World Rank #81 | #1 in Ireland",
-        "scholarship": "Global Excellence Scholarships up to €5,000",
+        "scholarship": "Global Excellence Scholarships up to \u20ac5,000",
         "popularPrograms": [
           "Computer Science",
           "Pharmaceutical Sciences",
@@ -951,7 +966,7 @@
         "id": "uni-10",
         "name": "University of Auckland",
         "country": "New Zealand",
-        "flag": "🇳🇿",
+        "flag": "\ud83c\uddf3\ud83c\uddff",
         "city": "Auckland, New Zealand",
         "ranking": "QS World Rank #65 | #1 in New Zealand",
         "scholarship": "International Student Excellence Scholarship $10,000",
@@ -971,7 +986,7 @@
         "id": "uni-11",
         "name": "Northeastern University",
         "country": "USA",
-        "flag": "🇺🇸",
+        "flag": "\ud83c\uddfa\ud83c\uddf8",
         "city": "Boston, Massachusetts",
         "ranking": "Top 50 US University | World Leader in Co-op",
         "scholarship": "Dean's Merit Scholarship up to $20,000",
@@ -991,7 +1006,7 @@
         "id": "uni-12",
         "name": "Concordia University",
         "country": "Canada",
-        "flag": "🇨🇦",
+        "flag": "\ud83c\udde8\ud83c\udde6",
         "city": "Montreal, Quebec",
         "ranking": "Top Comprehensive Canadian University",
         "scholarship": "Entrance Bursaries & Merit Awards",
