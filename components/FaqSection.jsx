@@ -79,7 +79,7 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
       <div className="absolute top-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-red-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
       <div className="absolute bottom-0 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-blue-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center space-y-3 mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 rounded-full bg-blue-100 text-blue-900 text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -289,36 +289,36 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
 
         {/* Still Have Questions? / Helpdesk Support Card */}
         {config?.showSupportCard !== false && (
-          <div className="mt-10 sm:mt-12 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="mt-10 sm:mt-12 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 text-white shadow-xl relative overflow-hidden border border-white/10">
             {/* Background glowing circles */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600/15 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2 max-w-xl text-center md:text-left">
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
+              <div className="space-y-2.5 max-w-xl text-center lg:text-left">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-red-400 text-[11px] sm:text-xs font-bold tracking-wide backdrop-blur-sm border border-white/10">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{config?.supportBadge || 'Still Have Questions?'}</span>
                 </div>
-                <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-tight">
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight leading-tight">
                   {config?.supportTitle || 'Need Personalized Guidance for Your Target Band?'}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-lg">
                   {config?.supportSubtitle ||
                     "Can't find the answer you are looking for? Speak directly with our master trainers or visit our Chandigarh branch for a 1-on-1 assessment."}
                 </p>
               </div>
 
               {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 shrink-0">
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-end gap-3 w-full lg:w-auto">
                 {/* Book Demo Button */}
                 {config?.supportCtaAction === 'url' && config?.supportCtaUrl ? (
                   <a
                     href={config.supportCtaUrl}
-                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center shrink-0"
                   >
                     <span>{config?.supportCtaText || 'Book Free 1-on-1 Demo'}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </a>
                 ) : (
                   <button
@@ -329,19 +329,19 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/30 text-center shrink-0"
                   >
                     <span>{config?.supportCtaText || 'Book Free 1-on-1 Demo'}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 shrink-0" />
                   </button>
                 )}
 
                 {/* Direct Call Button */}
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="px-4 py-2.5 sm:py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all border border-white/10 text-center"
+                  className="w-full sm:w-auto px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all border border-white/15 text-center shrink-0"
                 >
-                  <Phone className="w-4 h-4 text-emerald-400" />
+                  <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>{config?.supportPhoneText || 'Call Admissions'}</span>
                 </a>
 
@@ -352,10 +352,10 @@ export default function FaqSection({ faqs = [], config = {}, settings = {}, onBo
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2.5 sm:py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/20 text-center"
+                  className="w-full sm:w-auto px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/25 text-center shrink-0"
                 >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>{config?.supportWhatsappText || 'WhatsApp'}</span>
+                  <MessageSquare className="w-4 h-4 shrink-0" />
+                  <span>{config?.supportWhatsappText || 'Chat on WhatsApp'}</span>
                 </a>
               </div>
             </div>
