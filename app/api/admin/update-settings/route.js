@@ -19,6 +19,17 @@ export async function POST(request) {
 
     if (body.settings) {
       db.settings = { ...db.settings, ...body.settings };
+      if (body.settings.sections?.universities) {
+        if (!db.universities) db.universities = { header: {}, items: [] };
+        const uSec = body.settings.sections.universities;
+        db.universities.header = {
+          ...db.universities.header,
+          badge: uSec.badge !== undefined ? uSec.badge : db.universities.header?.badge,
+          title: uSec.title !== undefined ? uSec.title : db.universities.header?.title,
+          subtitle: uSec.subtitle !== undefined ? uSec.subtitle : db.universities.header?.subtitle,
+          stats: Array.isArray(uSec.stats) ? uSec.stats : db.universities.header?.stats,
+        };
+      }
     }
 
     if (body.adminPassword) {

@@ -233,6 +233,15 @@ export default function AdminSettingsPage() {
               subtitle: "Everything you need to know about our IELTS, PTE courses, mock test schedules, and guarantee methodology."
             },
             universities: {
+              badge: "Official Global Study Abroad Network",
+              title: "Direct University Tie-Ups & Global College Network",
+              subtitle: "First Class Global Education LLP directly represents 100+ world-renowned universities and colleges across 30+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+              stats: [
+                { label: "Direct University Tie-Ups", value: "850+" },
+                { label: "Top Destination Countries", value: "25+" },
+                { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+                { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+              ],
               bannerBadge: "Fast-Track Admission & Spot Assessment",
               bannerTitle: "Confused About Which University & Country Fits Your Profile?",
               bannerDesc: "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
@@ -3737,13 +3746,20 @@ export default function AdminSettingsPage() {
           </div>
 
           {/* 7. Universities Section Extra Customizer */}
-          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          {/* 7. UNIVERSITY TIE-UPS */}
+          <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200/80">
               <div className="flex items-center gap-2 font-bold text-sm text-slate-900">
                 <Globe className="w-4 h-4 text-red-600" />
-                <span>7. University Tie-ups Marquee & Callout Banner</span>
+                <span>7. University Tie-ups, Key Stats & Callout Banner</span>
               </div>
               <div className="flex items-center gap-2">
+                <a
+                  href="/admin/universities"
+                  className="px-3 py-1 bg-white hover:bg-slate-100 text-blue-900 border border-slate-200 rounded-xl text-xs font-bold transition-all"
+                >
+                  Manage Universities →
+                </a>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                   settings.sections?.universities?.show !== false
                     ? 'bg-emerald-100 text-emerald-800'
@@ -3764,7 +3780,126 @@ export default function AdminSettingsPage() {
                 </button>
               </div>
             </div>
+
+            {/* Top Headline & Badge */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Section Pill Badge</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.badge || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, badge: e.target.value }
+                    }
+                  }))}
+                  placeholder="e.g. OFFICIAL GLOBAL STUDY ABROAD NETWORK"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Main Heading</label>
+                <input
+                  type="text"
+                  value={settings.sections?.universities?.title || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, title: e.target.value }
+                    }
+                  }))}
+                  placeholder="e.g. Direct University Tie-Ups & Global College Network"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-bold text-slate-600 mb-1">Sub-description Paragraph</label>
+                <textarea
+                  rows={2}
+                  value={settings.sections?.universities?.subtitle || ''}
+                  onChange={(e) => setSettings(prev => ({
+                    ...prev,
+                    sections: {
+                      ...prev.sections,
+                      universities: { ...prev.sections?.universities, subtitle: e.target.value }
+                    }
+                  }))}
+                  placeholder="e.g. First Class Global Education LLP directly represents 100+ world-renowned universities..."
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white"
+                />
+              </div>
+            </div>
+
+            {/* Key Statistic Cards */}
+            <div className="p-3 bg-white rounded-xl border border-slate-200/80 space-y-2">
+              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wide">
+                4 Key Statistic Metric Cards (Shown directly below heading)
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                {(settings.sections?.universities?.stats || [
+                  { label: "Direct University Tie-Ups", value: "850+" },
+                  { label: "Top Destination Countries", value: "25+" },
+                  { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+                  { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+                ]).map((st, idx) => (
+                  <div key={idx} className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg space-y-1.5">
+                    <span className="text-[10px] font-black uppercase text-slate-400">Card #{idx + 1}</span>
+                    <input
+                      type="text"
+                      value={st.value}
+                      onChange={(e) => {
+                        const newStats = [...(settings.sections?.universities?.stats || [
+                          { label: "Direct University Tie-Ups", value: "850+" },
+                          { label: "Top Destination Countries", value: "25+" },
+                          { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+                          { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+                        ])];
+                        newStats[idx] = { ...newStats[idx], value: e.target.value };
+                        setSettings(prev => ({
+                          ...prev,
+                          sections: {
+                            ...prev.sections,
+                            universities: { ...prev.sections?.universities, stats: newStats }
+                          }
+                        }));
+                      }}
+                      placeholder="e.g. 850+"
+                      className="w-full px-2 py-1 text-xs font-black rounded border border-slate-200 bg-white text-blue-950"
+                    />
+                    <input
+                      type="text"
+                      value={st.label}
+                      onChange={(e) => {
+                        const newStats = [...(settings.sections?.universities?.stats || [
+                          { label: "Direct University Tie-Ups", value: "850+" },
+                          { label: "Top Destination Countries", value: "25+" },
+                          { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+                          { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+                        ])];
+                        newStats[idx] = { ...newStats[idx], label: e.target.value };
+                        setSettings(prev => ({
+                          ...prev,
+                          sections: {
+                            ...prev.sections,
+                            universities: { ...prev.sections?.universities, stats: newStats }
+                          }
+                        }));
+                      }}
+                      placeholder="e.g. DIRECT UNIVERSITY TIE-UPS"
+                      className="w-full px-2 py-1 text-[11px] font-bold rounded border border-slate-200 bg-white text-slate-600"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Marquee & Callout Banner */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/80">
               <div className="sm:col-span-2">
                 <label className="block text-[11px] font-bold text-slate-600 mb-1">Marquee Ticker Title</label>
                 <input

@@ -327,6 +327,27 @@
         "show": true
       },
       "universities": {
+        "badge": "Official Global Study Abroad Network",
+        "title": "Direct University Tie-Ups & Global College Network",
+        "subtitle": "First Class Global Education LLP directly represents 100+ world-renowned universities and colleges across 30+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+        "stats": [
+          {
+            "label": "Direct University Tie-Ups",
+            "value": "850+"
+          },
+          {
+            "label": "Top Destination Countries",
+            "value": "25+"
+          },
+          {
+            "label": "Offer Letter Turnaround",
+            "value": "48 - 72 Hrs"
+          },
+          {
+            "label": "Scholarships Facilitated",
+            "value": "₹12+ Crores"
+          }
+        ],
         "bannerBadge": "Fast-Track Admission & Spot Assessment",
         "bannerTitle": "Confused About Which University & Country Fits Your Profile?",
         "bannerDesc": "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
@@ -817,7 +838,7 @@
     "header": {
       "badge": "Official Global Study Abroad Network",
       "title": "Direct University Tie-Ups & Global College Network",
-      "subtitle": "First Class Global Education directly represents 850+ world-renowned universities and colleges across 25+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+      "subtitle": "First Class Global Education LLP directly represents 100+ world-renowned universities and colleges across 30+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
       "stats": [
         {
           "label": "Direct University Tie-Ups",

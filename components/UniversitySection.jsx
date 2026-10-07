@@ -20,16 +20,21 @@ export default function UniversitySection({ universities, onSelectUniversity, co
   if (config?.show === false) return null;
   const [activeFilter, setActiveFilter] = useState('ALL');
 
-  const header = universities?.header || {
-    badge: "Official Global Study Abroad Network",
-    title: "Direct University Tie-Ups & Global College Network",
-    subtitle: "First Class Global Education directly represents 850+ world-renowned universities and colleges across 25+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
-    stats: [
-      { label: "Direct University Tie-Ups", value: "850+" },
-      { label: "Top Destination Countries", value: "25+" },
-      { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
-      { label: "Scholarships Facilitated", value: "₹12+ Crores" }
-    ]
+  const rawHeader = universities?.header || {};
+  const header = {
+    badge: rawHeader.badge || config?.badge || "Official Global Study Abroad Network",
+    title: rawHeader.title || config?.title || "Direct University Tie-Ups & Global College Network",
+    subtitle: rawHeader.subtitle || config?.subtitle || "First Class Global Education directly represents 850+ world-renowned universities and colleges across 25+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+    stats: (Array.isArray(rawHeader.stats) && rawHeader.stats.length > 0)
+      ? rawHeader.stats
+      : (Array.isArray(config?.stats) && config.stats.length > 0)
+        ? config.stats
+        : [
+            { label: "Direct University Tie-Ups", value: "850+" },
+            { label: "Top Destination Countries", value: "25+" },
+            { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+            { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+          ]
   };
 
   const items = universities?.items || [];

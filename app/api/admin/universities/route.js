@@ -15,7 +15,31 @@ export async function GET() {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
   }
 
-  return NextResponse.json(db.universities || { header: {}, items: [] });
+  const universities = db.universities || { header: {}, items: [] };
+  const config = db.settings?.sections?.universities || {
+    badge: "Official Global Study Abroad Network",
+    title: "Direct University Tie-Ups & Global College Network",
+    subtitle: "First Class Global Education directly represents 850+ world-renowned universities and colleges across 25+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+    stats: [
+      { label: "Direct University Tie-Ups", value: "850+" },
+      { label: "Top Destination Countries", value: "25+" },
+      { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+      { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+    ],
+    marqueeTitle: "Representing 850+ Direct Global Partner Universities & Colleges",
+    bannerBadge: "Fast-Track Admission & Spot Assessment",
+    bannerTitle: "Confused About Which University & Country Fits Your Profile?",
+    bannerDesc: "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
+    bannerCta: "Book Free 1-on-1 Profile Assessment",
+    show: true
+  };
+
+  return NextResponse.json({
+    universities,
+    header: universities.header || {},
+    items: universities.items || [],
+    config
+  });
 }
 
 export async function POST(request) {
@@ -34,15 +58,89 @@ export async function POST(request) {
     if (!db.universities) {
       db.universities = { header: {}, items: [] };
     }
+    if (!db.settings) db.settings = {};
+    if (!db.settings.sections) db.settings.sections = {};
+    if (!db.settings.sections.universities) {
+      db.settings.sections.universities = {
+        badge: "Official Global Study Abroad Network",
+        title: "Direct University Tie-Ups & Global College Network",
+        subtitle: "First Class Global Education directly represents 850+ world-renowned universities and colleges across 25+ countries. Fast-track offer letters, scholarship evaluations, and end-to-end visa filing.",
+        stats: [
+          { label: "Direct University Tie-Ups", value: "850+" },
+          { label: "Top Destination Countries", value: "25+" },
+          { label: "Offer Letter Turnaround", value: "48 - 72 Hrs" },
+          { label: "Scholarships Facilitated", value: "₹12+ Crores" }
+        ],
+        marqueeTitle: "Representing 850+ Direct Global Partner Universities & Colleges",
+        bannerBadge: "Fast-Track Admission & Spot Assessment",
+        bannerTitle: "Confused About Which University & Country Fits Your Profile?",
+        bannerDesc: "Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.",
+        bannerCta: "Book Free 1-on-1 Profile Assessment",
+        show: true
+      };
+    }
 
-    // If updating section header
+    // Action 1: Toggle section homepage visibility
+    if (body.action === 'toggle_section') {
+      const currentShow = db.settings.sections.universities.show !== false;
+      db.settings.sections.universities.show = !currentShow;
+      await saveDb(db);
+      return NextResponse.json({
+        success: true,
+        universities: db.universities,
+        header: db.universities.header,
+        items: db.universities.items,
+        config: db.settings.sections.universities
+      });
+    }
+
+    // Action 2: If updating section header & key stats
     if (body.updateHeader && body.header) {
       db.universities.header = {
         ...db.universities.header,
         ...body.header
       };
+      // Keep settings.sections.universities in sync
+      db.settings.sections.universities = {
+        ...db.settings.sections.universities,
+        badge: body.header.badge !== undefined ? body.header.badge : db.settings.sections.universities.badge,
+        title: body.header.title !== undefined ? body.header.title : db.settings.sections.universities.title,
+        subtitle: body.header.subtitle !== undefined ? body.header.subtitle : db.settings.sections.universities.subtitle,
+        stats: Array.isArray(body.header.stats) ? body.header.stats : db.settings.sections.universities.stats,
+      };
       await saveDb(db);
-      return NextResponse.json({ success: true, universities: db.universities });
+      return NextResponse.json({
+        success: true,
+        universities: db.universities,
+        header: db.universities.header,
+        items: db.universities.items,
+        config: db.settings.sections.universities
+      });
+    }
+
+    // Action 3: If updating config (marquee ticker, callout banner, show)
+    if (body.updateConfig && body.config) {
+      db.settings.sections.universities = {
+        ...db.settings.sections.universities,
+        ...body.config
+      };
+      if (body.config.badge || body.config.title || body.config.subtitle || body.config.stats) {
+        db.universities.header = {
+          ...db.universities.header,
+          badge: body.config.badge || db.universities.header?.badge,
+          title: body.config.title || db.universities.header?.title,
+          subtitle: body.config.subtitle || db.universities.header?.subtitle,
+          stats: body.config.stats || db.universities.header?.stats,
+        };
+      }
+      await saveDb(db);
+      return NextResponse.json({
+        success: true,
+        universities: db.universities,
+        header: db.universities.header,
+        items: db.universities.items,
+        config: db.settings.sections.universities
+      });
     }
 
     // If adding or editing an individual university
