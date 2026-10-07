@@ -2,7 +2,8 @@
 import { Calendar, Clock, Users, ArrowRight, Flame } from 'lucide-react';
 
 export default function BatchesSection({ batches = [], onBookClick, config }) {
-  if (config?.show === false || !batches || batches.length === 0) return null;
+  const activeBatches = (batches || []).filter(batch => batch.isActive !== false);
+  if (config?.show === false || activeBatches.length === 0) return null;
 
   return (
     <section id="batches" className="py-14 sm:py-20 bg-slate-50 border-t border-slate-200/80">
@@ -24,7 +25,7 @@ export default function BatchesSection({ batches = [], onBookClick, config }) {
 
         {/* Batches Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12">
-          {batches.map((batch) => (
+          {activeBatches.map((batch) => (
             <div
               key={batch.id}
               className="bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 flex flex-col justify-between hover:shadow-xl transition-all duration-300 relative"

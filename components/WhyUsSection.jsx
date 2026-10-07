@@ -42,7 +42,9 @@ export default function WhyUsSection({ whyUs = {}, onBookClick }) {
   const badge = whyUs?.badge || 'The First Class Advantage';
   const title = whyUs?.title || 'Why 12,000+ Students Chose Us Over Others';
   const subtitle = whyUs?.subtitle || "We don't just lecture; we train you module-by-module until you score your target band. Here is what sets our coaching methodology apart.";
-  const items = whyUs?.items && whyUs.items.length > 0 ? whyUs.items : defaultItems;
+  const rawItems = whyUs?.items && whyUs.items.length > 0 ? whyUs.items : defaultItems;
+  const items = rawItems.filter(item => item.isActive !== false);
+  if (items.length === 0) return null;
 
   const diagnosticTitle = whyUs?.diagnosticTitle || 'Unsure About Your Current IELTS Band Level?';
   const diagnosticText = whyUs?.diagnosticText || 'Take our 45-minute Free Diagnostic Evaluation Test & get an accurate band score report from our Senior Head Examiner today.';

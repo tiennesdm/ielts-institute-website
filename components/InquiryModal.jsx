@@ -205,11 +205,20 @@ export default function InquiryModal({ isOpen, onClose, prefilledCourse = '', mo
                     onChange={(e) => setFormData({ ...formData, targetBand: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-red-600 focus:ring-1 focus:ring-red-600 outline-none text-xs sm:text-sm text-slate-800 bg-white"
                   >
-                    <option value="8.0 - 8.5 Bands (Top University / PR)">8.0 - 8.5 Bands (Elite)</option>
-                    <option value="7.0 - 7.5 Bands (Canada / UK / Aus)">7.0 - 7.5 Bands</option>
-                    <option value="8777 CLB 10 (Express Entry)">8-7-7-7 (Canada PR CLB 9/10)</option>
-                    <option value="79+ Score (PTE Academic)">79+ PTE Pearson</option>
-                    <option value="6.5 Bands (Foundation)">6.5 Bands</option>
+                    {((modalConfig?.targetBands && Array.isArray(modalConfig.targetBands) && modalConfig.targetBands.length > 0)
+                      ? modalConfig.targetBands
+                      : [
+                          "8.0 - 8.5 Bands (Top University / PR)",
+                          "7.0 - 7.5 Bands (Canada / UK / Aus)",
+                          "8777 CLB 10 (Express Entry)",
+                          "79+ Score (PTE Academic)",
+                          "6.5 Bands (Foundation)"
+                        ]
+                    ).map((tb, idx) => {
+                      const val = typeof tb === 'object' ? (tb.value || tb.label) : tb;
+                      const lbl = typeof tb === 'object' ? (tb.label || tb.value) : tb;
+                      return <option key={idx} value={val}>{lbl}</option>;
+                    })}
                   </select>
                 </div>
               </div>

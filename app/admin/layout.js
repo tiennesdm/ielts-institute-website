@@ -16,6 +16,7 @@ import {
   ExternalLink,
   GraduationCap,
   HelpCircle,
+  ShieldCheck,
   Menu,
   X
 } from 'lucide-react';
@@ -84,6 +85,7 @@ export default function AdminLayout({ children }) {
     { label: 'Site Settings & Hero', href: '/admin/settings', icon: <Settings className="w-5 h-5" /> },
     { label: 'University Tie-ups', href: '/admin/universities', icon: <GraduationCap className="w-5 h-5" /> },
     { label: 'Manage Courses', href: '/admin/courses', icon: <BookOpen className="w-5 h-5" /> },
+    { label: 'Why Choose Us', href: '/admin/why-us', icon: <ShieldCheck className="w-5 h-5" /> },
     { label: 'Photo Gallery', href: '/admin/gallery', icon: <ImageIcon className="w-5 h-5" /> },
     { label: '8+ Band Results', href: '/admin/results', icon: <Trophy className="w-5 h-5" /> },
     { label: 'Testimonials', href: '/admin/testimonials', icon: <MessageSquare className="w-5 h-5" /> },

@@ -4,68 +4,47 @@ import {
   PlusCircle,
   Edit3,
   Trash2,
-  Star,
-  Image as ImageIcon,
+  ShieldCheck,
   X,
   Eye,
   EyeOff,
-  MessageSquare,
   Settings,
   Save,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Sparkles
 } from 'lucide-react';
-import { processAndUploadImage } from '@/lib/imageUtils';
 
-export default function AdminTestimonialsPage() {
-  const [activeTab, setActiveTab] = useState('testimonials'); // 'testimonials' | 'settings'
-  const [testimonials, setTestimonials] = useState([]);
+export default function AdminWhyUsPage() {
+  const [activeTab, setActiveTab] = useState('features'); // 'features' | 'settings'
+  const [whyUs, setWhyUs] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploading, setUploading] = useState(false);
   const [savingConfig, setSavingConfig] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  const [config, setConfig] = useState({
-    badge: 'Student Experiences',
-    title: 'Loved By Thousands of Test Takers',
-    subtitle: 'Read how our structured training, daily evaluations, and master feedback helped our students achieve their immigration and admission scores.',
-    show: true
-  });
-
   const defaultItem = {
-    name: '',
-    course: 'IELTS Academic - 8.0 Bands',
-    rating: 5,
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-    text: '',
+    title: '',
+    description: '',
     isActive: true
   };
 
   const [currentItem, setCurrentItem] = useState(defaultItem);
 
   useEffect(() => {
-    fetchTestimonials();
+    fetchWhyUs();
   }, []);
 
-  async function fetchTestimonials() {
+  async function fetchWhyUs() {
     try {
-      const res = await fetch('/api/admin/testimonials');
+      const res = await fetch('/api/admin/why-us');
       const data = await res.json();
-      if (data) {
-        setTestimonials(Array.isArray(data) ? data : (data.testimonials || []));
-        if (data.config) {
-          setConfig({
-            badge: data.config.badge || 'Student Experiences',
-            title: data.config.title || 'Loved By Thousands of Test Takers',
-            subtitle: data.config.subtitle || 'Read how our structured training, daily evaluations...',
-            show: data.config.show !== false
-          });
-        }
+      if (data && data.whyUs) {
+        setWhyUs(data.whyUs);
       }
     } catch (e) {
-      setError('Failed to fetch testimonials');
+      setError('Failed to fetch Why Choose Us data');
     } finally {
       setLoading(false);
     }
@@ -85,59 +64,62 @@ export default function AdminTestimonialsPage() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this testimonial?')) return;
+    if (!confirm('Are you sure you want to delete this feature?')) return;
     try {
-      const res = await fetch(`/api/admin/testimonials?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/admin/why-us?id=${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (res.ok) {
-        setTestimonials(data.testimonials || []);
-        setSuccess('Testimonial deleted successfully');
+        setWhyUs(data.whyUs);
+        setSuccess('Feature deleted successfully');
         setTimeout(() => setSuccess(''), 3000);
       }
     } catch (err) {
-      setError('Failed to delete testimonial');
+      setError('Failed to delete feature');
     }
   };
 
-  // Toggle active visibility for individual testimonial
+  // Toggle active visibility for individual feature
   const handleToggleActive = async (id) => {
     try {
       // Optimistic update
-      setTestimonials(prev => prev.map(t => t.id === id ? { ...t, isActive: t.isActive === false ? true : false } : t));
+      setWhyUs(prev => ({
+        ...prev,
+        items: prev.items.map(it => it.id === id ? { ...it, isActive: it.isActive === false ? true : false } : it)
+      }));
 
-      const res = await fetch('/api/admin/testimonials', {
+      const res = await fetch('/api/admin/why-us', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'toggle_active', id })
       });
       const data = await res.json();
-      if (res.ok && data.testimonials) {
-        setTestimonials(data.testimonials);
-        setSuccess('Testimonial visibility updated!');
+      if (res.ok && data.whyUs) {
+        setWhyUs(data.whyUs);
+        setSuccess('Feature visibility updated!');
         setTimeout(() => setSuccess(''), 2500);
       }
     } catch (err) {
-      setError('Failed to update testimonial visibility');
+      setError('Failed to update feature visibility');
     }
   };
 
   // Toggle whole section visibility on homepage
   const handleToggleSectionShow = async () => {
-    const nextShow = !config.show;
-    setConfig(prev => ({ ...prev, show: nextShow }));
+    const nextShow = !(whyUs?.show !== false);
+    setWhyUs(prev => ({ ...prev, show: nextShow }));
     setSavingConfig(true);
     try {
-      const res = await fetch('/api/admin/testimonials', {
+      const res = await fetch('/api/admin/why-us', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'update_config',
-          config: { ...config, show: nextShow }
+          config: { show: nextShow }
         })
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccess(`Testimonials section is now ${nextShow ? 'VISIBLE' : 'HIDDEN'} on homepage!`);
+        setSuccess(`Why Choose Us section is now ${nextShow ? 'VISIBLE' : 'HIDDEN'} on homepage!`);
         setTimeout(() => setSuccess(''), 3500);
       }
     } catch (err) {
@@ -147,22 +129,30 @@ export default function AdminTestimonialsPage() {
     }
   };
 
-  // Save section settings
+  // Save section settings and diagnostic banner
   const handleSaveConfig = async (e) => {
     e.preventDefault();
     setSavingConfig(true);
     try {
-      const res = await fetch('/api/admin/testimonials', {
+      const res = await fetch('/api/admin/why-us', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'update_config',
-          config
+          config: {
+            badge: whyUs.badge,
+            title: whyUs.title,
+            subtitle: whyUs.subtitle,
+            show: whyUs.show !== false,
+            diagnosticTitle: whyUs.diagnosticTitle,
+            diagnosticText: whyUs.diagnosticText,
+            diagnosticCta: whyUs.diagnosticCta
+          }
         })
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccess('Section settings and visibility saved successfully!');
+        setSuccess('Why Choose Us settings and diagnostic banner saved successfully!');
         setTimeout(() => setSuccess(''), 3000);
       } else {
         setError(data.error || 'Failed to save settings');
@@ -174,40 +164,15 @@ export default function AdminTestimonialsPage() {
     }
   };
 
-  const handlePhotoUpload = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      const dataUrl = await processAndUploadImage(file, 800, 800, 0.85);
-      if (dataUrl) {
-        setCurrentItem(prev => ({ ...prev, photo: dataUrl }));
-      }
-
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setCurrentItem(prev => ({ ...prev, photo: data.url }));
-      }
-    } catch (err) {
-      console.warn('Upload fallback to client data URL:', err);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleSave = async (e) => {
+  const handleSaveItem = async (e) => {
     e.preventDefault();
-    if (!currentItem.name || !currentItem.text) {
-      alert('Name and review text are required');
+    if (!currentItem.title) {
+      alert('Feature title is required');
       return;
     }
 
     try {
-      const res = await fetch('/api/admin/testimonials', {
+      const res = await fetch('/api/admin/why-us', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentItem),
@@ -215,9 +180,9 @@ export default function AdminTestimonialsPage() {
 
       const data = await res.json();
       if (res.ok) {
-        setTestimonials(data.testimonials);
+        setWhyUs(data.whyUs);
         setIsModalOpen(false);
-        setSuccess('Testimonial saved successfully!');
+        setSuccess('Feature saved successfully!');
         setTimeout(() => setSuccess(''), 3000);
       } else {
         setError(data.error || 'Failed to save');
@@ -227,7 +192,7 @@ export default function AdminTestimonialsPage() {
     }
   };
 
-  if (loading) {
+  if (loading || !whyUs) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
@@ -235,7 +200,9 @@ export default function AdminTestimonialsPage() {
     );
   }
 
-  const activeCount = testimonials.filter(t => t.isActive !== false).length;
+  const items = whyUs.items || [];
+  const activeCount = items.filter(it => it.isActive !== false).length;
+  const isSectionActive = whyUs.show !== false;
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
@@ -243,30 +210,30 @@ export default function AdminTestimonialsPage() {
       <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-bold shrink-0 ${
-            config.show ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'
+            isSectionActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'
           }`}>
-            <MessageSquare className="w-5 h-5" />
+            <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-base sm:text-lg font-black text-white">
-                Student Testimonials & Reviews
+                Why Choose Us (The First Class Advantage)
               </h1>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">
-                #testimonials
+                #why-us
               </span>
               <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
-                config.show
+                isSectionActive
                   ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                   : 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
               }`}>
-                {config.show ? '● Section Visible on Homepage' : '○ Section Hidden from Homepage'}
+                {isSectionActive ? '● Section Visible on Homepage' : '○ Section Hidden from Homepage'}
               </span>
             </div>
             <p className="text-xs text-slate-300 mt-1">
-              {config.show
-                ? `Active on Homepage: Displaying ${activeCount} of ${testimonials.length} student reviews.`
-                : 'Section is currently turned OFF. No student reviews will appear on your website until enabled.'}
+              {isSectionActive
+                ? `Active on Homepage: Displaying ${activeCount} of ${items.length} feature cards.`
+                : 'Section is currently turned OFF. Methodology & advantages will not appear on your website until enabled.'}
             </p>
           </div>
         </div>
@@ -277,13 +244,13 @@ export default function AdminTestimonialsPage() {
             onClick={handleToggleSectionShow}
             disabled={savingConfig}
             className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 shadow-md active:scale-95 ${
-              config.show
+              isSectionActive
                 ? 'bg-rose-600 hover:bg-rose-700 text-white'
                 : 'bg-emerald-600 hover:bg-emerald-700 text-white'
             }`}
-            title="Toggle whether the Testimonials section appears on the homepage"
+            title="Toggle whether the Why Choose Us section appears on the homepage"
           >
-            {config.show ? (
+            {isSectionActive ? (
               <>
                 <EyeOff className="w-4 h-4" />
                 <span>Hide Section from Homepage</span>
@@ -301,7 +268,7 @@ export default function AdminTestimonialsPage() {
             className="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
           >
             <PlusCircle className="w-4 h-4" />
-            <span>Add Testimonial</span>
+            <span>Add Feature Card</span>
           </button>
         </div>
       </div>
@@ -325,15 +292,15 @@ export default function AdminTestimonialsPage() {
       <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
         <button
           type="button"
-          onClick={() => setActiveTab('testimonials')}
+          onClick={() => setActiveTab('features')}
           className={`px-4 py-2 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-            activeTab === 'testimonials'
+            activeTab === 'features'
               ? 'bg-blue-950 text-white shadow-sm'
               : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          <MessageSquare className="w-3.5 h-3.5" />
-          <span>Student Reviews ({testimonials.length})</span>
+          <ShieldCheck className="w-3.5 h-3.5" />
+          <span>Feature Cards ({items.length})</span>
           <span className="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500 text-white">
             {activeCount} Live
           </span>
@@ -349,16 +316,16 @@ export default function AdminTestimonialsPage() {
           }`}
         >
           <Settings className="w-3.5 h-3.5" />
-          <span>Section Headings & Visibility</span>
+          <span>Section Headings & Diagnostic Banner</span>
         </button>
       </div>
 
-      {/* TAB 1: TESTIMONIALS LIST */}
-      {activeTab === 'testimonials' && (
+      {/* TAB 1: FEATURE CARDS LIST */}
+      {activeTab === 'features' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs text-slate-500 px-1">
             <span>
-              Showing {testimonials.length} total reviews ({activeCount} visible on website, {testimonials.length - activeCount} hidden)
+              Showing {items.length} total feature cards ({activeCount} visible on website, {items.length - activeCount} hidden)
             </span>
             <span className="text-[11px] text-slate-400">
               💡 Click the "Visible / Hidden" button on any card to toggle its appearance on the homepage.
@@ -366,38 +333,36 @@ export default function AdminTestimonialsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((test) => {
-              const isCardActive = test.isActive !== false;
+            {items.map((feat, idx) => {
+              const isCardActive = feat.isActive !== false;
               return (
                 <div
-                  key={test.id}
-                  className={`bg-white rounded-2xl border p-5 shadow-sm flex flex-col justify-between transition-all duration-200 hover:shadow-md relative overflow-hidden ${
+                  key={feat.id || idx}
+                  className={`bg-white rounded-2xl border p-5 sm:p-6 shadow-sm flex flex-col justify-between transition-all duration-200 hover:shadow-md relative overflow-hidden ${
                     isCardActive ? 'border-slate-200' : 'border-slate-200/60 bg-slate-50/60 opacity-80'
                   }`}
                 >
                   {/* Top Status Accent Bar */}
                   <div className={`absolute top-0 left-0 right-0 h-1.5 ${
-                    isCardActive ? 'bg-gradient-to-r from-amber-500 to-yellow-400' : 'bg-slate-300'
+                    isCardActive ? 'bg-gradient-to-r from-red-600 via-amber-500 to-blue-900' : 'bg-slate-300'
                   }`} />
 
                   <div>
-                    {/* Top Row: Stars rating & 1-Click Quick Eye Toggle */}
+                    {/* Top Row: Index Badge & 1-Click Quick Toggle Eye Button */}
                     <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-slate-100">
-                      <div className="flex text-amber-400">
-                        {[...Array(test.rating || 5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-amber-400" />
-                        ))}
-                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 font-mono">
+                        Feature #{idx + 1}
+                      </span>
 
                       <button
                         type="button"
-                        onClick={() => handleToggleActive(test.id)}
+                        onClick={() => handleToggleActive(feat.id)}
                         className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
                           isCardActive
                             ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
                             : 'bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300'
                         }`}
-                        title={isCardActive ? 'Click to hide this testimonial from website' : 'Click to show this testimonial on website'}
+                        title={isCardActive ? 'Click to hide feature card from website' : 'Click to show feature card on website'}
                       >
                         {isCardActive ? (
                           <>
@@ -413,36 +378,32 @@ export default function AdminTestimonialsPage() {
                       </button>
                     </div>
 
-                    <p className="text-xs text-slate-600 italic leading-relaxed line-clamp-4">
-                      "{test.text}"
+                    <h3 className="font-bold text-slate-900 text-base leading-snug">{feat.title}</h3>
+                    <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                      {feat.description}
                     </p>
                   </div>
 
+                  {/* Actions Footer */}
                   <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <img
-                        src={test.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
-                        alt={test.name}
-                        className="w-10 h-10 rounded-full object-cover border shrink-0"
-                      />
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-slate-900 text-xs truncate">{test.name}</h4>
-                        <p className="text-[10px] text-red-600 font-semibold truncate">{test.course}</p>
-                      </div>
-                    </div>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      isCardActive ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'
+                    }`}>
+                      {isCardActive ? '● Live on Page' : '○ Hidden from Page'}
+                    </span>
 
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-1.5">
                       <button
-                        onClick={() => handleOpenEdit(test)}
-                        className="p-1.5 text-blue-900 hover:bg-blue-50 rounded-lg border border-blue-200/60"
-                        title="Edit Testimonial"
+                        onClick={() => handleOpenEdit(feat)}
+                        className="px-2.5 py-1 text-blue-900 hover:bg-blue-50 rounded-lg text-xs font-bold border border-blue-200/60 flex items-center gap-1 transition-colors"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
                       </button>
                       <button
-                        onClick={() => handleDelete(test.id)}
-                        className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg border border-red-200/60"
-                        title="Delete Testimonial"
+                        onClick={() => handleDelete(feat.id)}
+                        className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg border border-red-200/60 transition-colors"
+                        title="Delete Feature"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -455,15 +416,15 @@ export default function AdminTestimonialsPage() {
         </div>
       )}
 
-      {/* TAB 2: SECTION HEADINGS & SETTINGS */}
+      {/* TAB 2: SECTION HEADINGS & DIAGNOSTIC BANNER */}
       {activeTab === 'settings' && (
         <form onSubmit={handleSaveConfig} className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-amber-600" />
+              <ShieldCheck className="w-5 h-5 text-red-600" />
               <div>
-                <h2 className="text-base font-bold text-slate-900">Testimonials Section Customizer</h2>
-                <p className="text-xs text-slate-500">Edit badge, headline, subtitle, and toggle section visibility on homepage.</p>
+                <h2 className="text-base font-bold text-slate-900">Why Choose Us Section & Diagnostic Banner</h2>
+                <p className="text-xs text-slate-500">Edit badge, main headline, description, diagnostic CTA banner, and section visibility.</p>
               </div>
             </div>
             <button
@@ -480,17 +441,17 @@ export default function AdminTestimonialsPage() {
           <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between gap-4">
             <div>
               <span className="text-xs font-black text-slate-900 block">
-                Show Testimonials Section on Homepage
+                Show Why Choose Us Section on Homepage
               </span>
               <span className="text-[11px] text-slate-500">
-                When enabled, student reviews are rendered on the public website. Turn off to hide them completely.
+                When enabled, the Why Choose Us advantages and diagnostic test banner are rendered on the public website. Turn off to hide them completely.
               </span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer shrink-0">
               <input
                 type="checkbox"
-                checked={config.show}
-                onChange={(e) => setConfig(prev => ({ ...prev, show: e.target.checked }))}
+                checked={whyUs.show !== false}
+                onChange={(e) => setWhyUs(prev => ({ ...prev, show: e.target.checked }))}
                 className="sr-only peer"
               />
               <div className="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
@@ -502,9 +463,9 @@ export default function AdminTestimonialsPage() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Pill Badge Text</label>
               <input
                 type="text"
-                value={config.badge}
-                onChange={(e) => setConfig(prev => ({ ...prev, badge: e.target.value }))}
-                placeholder="Student Experiences"
+                value={whyUs.badge || ''}
+                onChange={(e) => setWhyUs(prev => ({ ...prev, badge: e.target.value }))}
+                placeholder="The First Class Advantage"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm bg-white"
               />
             </div>
@@ -513,9 +474,9 @@ export default function AdminTestimonialsPage() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Section Main Headline</label>
               <input
                 type="text"
-                value={config.title}
-                onChange={(e) => setConfig(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="Loved By Thousands of Test Takers"
+                value={whyUs.title || ''}
+                onChange={(e) => setWhyUs(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="Why 12,000+ Students Chose Us Over Others"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold bg-white"
               />
             </div>
@@ -524,11 +485,59 @@ export default function AdminTestimonialsPage() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Section Subtitle / Description</label>
               <textarea
                 rows={3}
-                value={config.subtitle}
-                onChange={(e) => setConfig(prev => ({ ...prev, subtitle: e.target.value }))}
-                placeholder="Read how our structured training, daily evaluations..."
+                value={whyUs.subtitle || ''}
+                onChange={(e) => setWhyUs(prev => ({ ...prev, subtitle: e.target.value }))}
+                placeholder="We don't just lecture; we train you module-by-module until you score your target band..."
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm bg-white leading-relaxed"
               />
+            </div>
+          </div>
+
+          {/* Diagnostic Banner Customizer */}
+          <div className="pt-4 border-t border-slate-100">
+            <div className="p-5 bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-2xl space-y-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+                <h3 className="font-bold text-sm sm:text-base">Diagnostic Evaluation Banner (Bottom of Section)</h3>
+              </div>
+              <p className="text-xs text-slate-300">
+                Customize the high-converting assessment banner displayed right under the feature cards.
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner Title</label>
+                  <input
+                    type="text"
+                    value={whyUs.diagnosticTitle || ''}
+                    onChange={(e) => setWhyUs(prev => ({ ...prev, diagnosticTitle: e.target.value }))}
+                    placeholder="Unsure About Your Current IELTS Band Level?"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner Description Text</label>
+                  <textarea
+                    rows={2}
+                    value={whyUs.diagnosticText || ''}
+                    onChange={(e) => setWhyUs(prev => ({ ...prev, diagnosticText: e.target.value }))}
+                    placeholder="Take our 45-minute Free Diagnostic Evaluation Test & get an accurate band score report..."
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner CTA Button Text</label>
+                  <input
+                    type="text"
+                    value={whyUs.diagnosticCta || ''}
+                    onChange={(e) => setWhyUs(prev => ({ ...prev, diagnosticCta: e.target.value }))}
+                    placeholder="Take Free Diagnostic Test"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-yellow-300 font-bold placeholder-slate-400 text-xs sm:text-sm"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </form>
@@ -540,19 +549,19 @@ export default function AdminTestimonialsPage() {
           <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 my-8">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <h3 className="text-xl font-black text-slate-900">
-                {currentItem.id ? 'Edit Testimonial' : 'Add Testimonial'}
+                {currentItem.id ? 'Edit Why Choose Us Feature' : 'Add New Feature Card'}
               </h3>
               <button onClick={() => setIsModalOpen(false)} className="p-1 rounded-full text-slate-400 hover:text-slate-600">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleSaveItem} className="space-y-4">
               {/* Display on Homepage Toggle */}
               <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
                 <div>
                   <span className="text-xs font-bold text-slate-800 block">Display On Homepage (Visible)</span>
-                  <span className="text-[11px] text-slate-500">Turn off to temporarily hide this testimonial without deleting</span>
+                  <span className="text-[11px] text-slate-500">Turn off to temporarily hide this feature card without deleting</span>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -565,87 +574,31 @@ export default function AdminTestimonialsPage() {
                 </label>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Student Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={currentItem.name}
-                    onChange={(e) => setCurrentItem({ ...currentItem, name: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-xl text-xs sm:text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Course & Band</label>
-                  <input
-                    type="text"
-                    value={currentItem.course}
-                    onChange={(e) => setCurrentItem({ ...currentItem, course: e.target.value })}
-                    placeholder="e.g. IELTS Academic - 8.5 Bands"
-                    className="w-full px-3 py-2 border rounded-xl text-xs sm:text-sm"
-                  />
-                </div>
-              </div>
-
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Rating (1 to 5 Stars)</label>
-                <select
-                  value={currentItem.rating}
-                  onChange={(e) => setCurrentItem({ ...currentItem, rating: parseInt(e.target.value, 10) })}
-                  className="w-full px-3 py-2 border rounded-xl text-xs bg-white"
-                >
-                  <option value={5}>⭐⭐⭐⭐⭐ 5 Stars</option>
-                  <option value={4}>⭐⭐⭐⭐ 4 Stars</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Student Photo</label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={currentItem.photo || ''}
-                    onChange={(e) => setCurrentItem({ ...currentItem, photo: e.target.value })}
-                    className="flex-1 px-3 py-2 border rounded-xl text-xs"
-                    placeholder="Photo URL"
-                  />
-                  <label className="px-3 py-2 bg-slate-100 hover:bg-slate-200 border rounded-xl text-xs font-bold cursor-pointer shrink-0">
-                    <span>{uploading ? 'Uploading...' : 'Upload'}</span>
-                    <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-                  </label>
-                </div>
-                {currentItem.photo && (
-                  <div className="mt-2 flex items-center gap-3 p-2 bg-slate-50 border border-slate-200 rounded-xl">
-                    <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-slate-200 bg-white">
-                      <img
-                        src={currentItem.photo}
-                        alt="Student"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
-                        }}
-                      />
-                    </div>
-                    <span className="text-[11px] text-slate-500 font-medium">Selected student review photo</span>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Review Experience *</label>
-                <textarea
-                  rows={3}
+                <label className="block text-xs font-bold text-slate-700 mb-1">Feature Title *</label>
+                <input
+                  type="text"
                   required
-                  value={currentItem.text}
-                  onChange={(e) => setCurrentItem({ ...currentItem, text: e.target.value })}
-                  placeholder="What the student said about our trainers and coaching..."
-                  className="w-full px-3 py-2 border rounded-xl text-xs"
+                  value={currentItem.title}
+                  onChange={(e) => setCurrentItem({ ...currentItem, title: e.target.value })}
+                  placeholder="e.g. Daily 1-on-1 Speaking Cabins"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold"
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-3 border-t border-slate-100">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Feature Description *</label>
+                <textarea
+                  rows={4}
+                  required
+                  value={currentItem.description}
+                  onChange={(e) => setCurrentItem({ ...currentItem, description: e.target.value })}
+                  placeholder="Explain why this feature gives students an advantage..."
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm leading-relaxed"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
@@ -657,7 +610,7 @@ export default function AdminTestimonialsPage() {
                   type="submit"
                   className="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-md"
                 >
-                  Save Testimonial
+                  Save Feature
                 </button>
               </div>
             </form>

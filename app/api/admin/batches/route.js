@@ -6,7 +6,18 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const db = await getDbAsync();
-  return NextResponse.json(db ? db.batches || [] : []);
+  const batches = db ? db.batches || [] : [];
+  const config = db?.settings?.sections?.batches || {
+    badge: "Admissions Open",
+    title: "Upcoming IELTS & PTE Batches",
+    subtitle: "Small batch size (max 15 students per batch) to ensure individualized attention. Secure your preferred timing before seats fill out.",
+    ctaText: "Reserve Seat Now",
+    show: true
+  };
+  return NextResponse.json({
+    batches,
+    config
+  });
 }
 
 export async function POST(request) {
@@ -19,24 +30,75 @@ export async function POST(request) {
     if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
 
     if (!db.batches) db.batches = [];
+    if (!db.settings) db.settings = {};
+    if (!db.settings.sections) db.settings.sections = {};
+    if (!db.settings.sections.batches) {
+      db.settings.sections.batches = {
+        badge: "Admissions Open",
+        title: "Upcoming IELTS & PTE Batches",
+        subtitle: "Small batch size (max 15 students per batch) to ensure individualized attention. Secure your preferred timing before seats fill out.",
+        ctaText: "Reserve Seat Now",
+        show: true
+      };
+    }
 
-    if (itemData.id) {
+    // 1. Action: update section config
+    if (itemData.action === 'update_config') {
+      db.settings.sections.batches = {
+        ...db.settings.sections.batches,
+        ...itemData.config
+      };
+      await saveDb(db);
+      return NextResponse.json({
+        success: true,
+        batches: db.batches,
+        config: db.settings.sections.batches
+      });
+    }
+
+    // 2. Action: toggle active visibility for individual batch
+    if (itemData.action === 'toggle_active') {
       const index = db.batches.findIndex(b => b.id === itemData.id);
       if (index !== -1) {
-        db.batches[index] = { ...db.batches[index], ...itemData };
+        const currentActive = db.batches[index].isActive !== false;
+        db.batches[index].isActive = !currentActive;
+        await saveDb(db);
+        return NextResponse.json({
+          success: true,
+          batches: db.batches,
+          config: db.settings.sections.batches
+        });
+      }
+      return NextResponse.json({ error: 'Batch not found' }, { status: 404 });
+    }
+
+    // 3. Normal Add or Edit batch
+    const batchItem = {
+      ...itemData,
+      isActive: itemData.isActive !== false
+    };
+
+    if (batchItem.id) {
+      const index = db.batches.findIndex(b => b.id === batchItem.id);
+      if (index !== -1) {
+        db.batches[index] = { ...db.batches[index], ...batchItem };
       } else {
-        db.batches.push(itemData);
+        db.batches.push(batchItem);
       }
     } else {
       const newItem = {
-        ...itemData,
+        ...batchItem,
         id: `batch-${Date.now()}`
       };
       db.batches.push(newItem);
     }
 
     await saveDb(db);
-    return NextResponse.json({ success: true, batches: db.batches });
+    return NextResponse.json({
+      success: true,
+      batches: db.batches,
+      config: db.settings.sections.batches
+    });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save batch' }, { status: 500 });
   }

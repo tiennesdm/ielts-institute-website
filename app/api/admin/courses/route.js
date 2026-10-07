@@ -6,7 +6,18 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const db = await getDbAsync();
-  return NextResponse.json(db ? db.courses || [] : []);
+  const courses = db ? db.courses || [] : [];
+  const config = db?.settings?.sections?.courses || {
+    badge: "Target Band 8+ Programs",
+    title: "Our Certified IELTS & English Programs",
+    subtitle: "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream.",
+    ctaText: "Book Free Demo For This Course",
+    show: true
+  };
+  return NextResponse.json({
+    courses,
+    config
+  });
 }
 
 export async function POST(request) {
@@ -16,32 +27,82 @@ export async function POST(request) {
   }
 
   try {
-    const courseData = await request.json();
+    const itemData = await request.json();
     const db = await getDbAsync();
     if (!db) {
       return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
     }
 
     if (!db.courses) db.courses = [];
+    if (!db.settings) db.settings = {};
+    if (!db.settings.sections) db.settings.sections = {};
+    if (!db.settings.sections.courses) {
+      db.settings.sections.courses = {
+        badge: "Target Band 8+ Programs",
+        title: "Our Certified IELTS & English Programs",
+        subtitle: "Tailored curriculums designed by former IELTS examiners. Choose the program that fits your target band, immigration deadline, or study abroad dream.",
+        ctaText: "Book Free Demo For This Course",
+        show: true
+      };
+    }
 
-    // Check if updating existing or adding new
-    if (courseData.id) {
-      const index = db.courses.findIndex(c => c.id === courseData.id);
+    // 1. Action: update section config
+    if (itemData.action === 'update_config') {
+      db.settings.sections.courses = {
+        ...db.settings.sections.courses,
+        ...itemData.config
+      };
+      await saveDb(db);
+      return NextResponse.json({
+        success: true,
+        courses: db.courses,
+        config: db.settings.sections.courses
+      });
+    }
+
+    // 2. Action: toggle active visibility for individual course
+    if (itemData.action === 'toggle_active') {
+      const index = db.courses.findIndex(c => c.id === itemData.id);
       if (index !== -1) {
-        db.courses[index] = { ...db.courses[index], ...courseData };
+        const currentActive = db.courses[index].isActive !== false;
+        db.courses[index].isActive = !currentActive;
+        await saveDb(db);
+        return NextResponse.json({
+          success: true,
+          courses: db.courses,
+          config: db.settings.sections.courses
+        });
+      }
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+    }
+
+    // 3. Normal Add or Edit course
+    const courseItem = {
+      ...itemData,
+      isActive: itemData.isActive !== false
+    };
+
+    if (courseItem.id) {
+      const index = db.courses.findIndex(c => c.id === courseItem.id);
+      if (index !== -1) {
+        db.courses[index] = { ...db.courses[index], ...courseItem };
       } else {
-        db.courses.push(courseData);
+        db.courses.push(courseItem);
       }
     } else {
       const newCourse = {
-        ...courseData,
+        ...courseItem,
         id: `course-${Date.now()}`
       };
       db.courses.push(newCourse);
     }
 
     await saveDb(db);
-    return NextResponse.json({ success: true, courses: db.courses });
+    return NextResponse.json({
+      success: true,
+      courses: db.courses,
+      config: db.settings.sections.courses
+    });
   } catch (error) {
     console.error('Course save error:', error);
     return NextResponse.json({ error: 'Failed to save course' }, { status: 500 });

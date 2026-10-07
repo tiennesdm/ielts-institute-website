@@ -2,7 +2,8 @@
 import { Star, Quote, CheckCircle2, MessageSquare } from 'lucide-react';
 
 export default function TestimonialsSection({ testimonials = [], config }) {
-  if (config?.show === false || !testimonials || testimonials.length === 0) return null;
+  const activeTestimonials = (testimonials || []).filter(test => test.isActive !== false);
+  if (config?.show === false || activeTestimonials.length === 0) return null;
 
   return (
     <section id="testimonials" className="py-14 sm:py-20 bg-white">
@@ -24,7 +25,7 @@ export default function TestimonialsSection({ testimonials = [], config }) {
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12">
-          {testimonials.map((test) => (
+          {activeTestimonials.map((test) => (
             <div
               key={test.id}
               className="bg-slate-50 rounded-2xl p-5 sm:p-6 border border-slate-200/90 flex flex-col justify-between hover:shadow-lg transition-all duration-300 relative"

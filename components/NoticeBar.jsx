@@ -2,7 +2,14 @@
 import { useState } from 'react';
 import { Megaphone, X, PhoneCall } from 'lucide-react';
 
-export default function NoticeBar({ announcement, phone, show = true, onBookClick }) {
+export default function NoticeBar({
+  announcement,
+  phone,
+  show = true,
+  onBookClick,
+  callText = 'Call Now',
+  ctaText = 'Claim Free Demo'
+}) {
   const [visible, setVisible] = useState(show);
 
   if (!visible || !announcement) return null;
@@ -26,14 +33,14 @@ export default function NoticeBar({ announcement, phone, show = true, onBookClic
               className="hidden md:inline-flex items-center gap-1.5 bg-white text-red-700 font-bold px-3 py-1 rounded-full text-xs hover:bg-red-50 transition-colors shadow-sm"
             >
               <PhoneCall className="w-3 h-3" />
-              Call Now
+              {callText || 'Call Now'}
             </a>
           )}
           <button
             onClick={onBookClick}
             className="hidden xs:inline-flex items-center bg-yellow-400 text-slate-950 font-bold px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs hover:bg-yellow-300 transition-colors shadow-sm whitespace-nowrap"
           >
-            Claim Free Demo
+            {ctaText || 'Claim Free Demo'}
           </button>
           <button
             onClick={() => setVisible(false)}

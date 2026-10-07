@@ -44,6 +44,8 @@ export default function HomeClient({ initialData }) {
           phone={settings.phone}
           show={settings.showAnnouncement}
           onBookClick={() => handleOpenModal()}
+          callText={settings.announcementCallText}
+          ctaText={settings.announcementCtaText}
         />
       )}
 

@@ -3,14 +3,15 @@ import { useState } from 'react';
 import { Image as ImageIcon, X, ZoomIn, Eye, Sparkles } from 'lucide-react';
 
 export default function GallerySection({ gallery = [], config }) {
-  if (config?.show === false || !gallery || gallery.length === 0) return null;
+  const activeGallery = (gallery || []).filter(item => item.isActive !== false);
+  if (config?.show === false || activeGallery.length === 0) return null;
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [selectedImage, setSelectedImage] = useState(null);
 
   // Extract unique categories
-  const categories = ['ALL', ...Array.from(new Set(gallery.map(item => item.category).filter(Boolean)))];
+  const categories = ['ALL', ...Array.from(new Set(activeGallery.map(item => item.category).filter(Boolean)))];
 
-  const filteredItems = gallery.filter(item => {
+  const filteredItems = activeGallery.filter(item => {
     if (activeCategory === 'ALL') return true;
     return item.category === activeCategory;
   });

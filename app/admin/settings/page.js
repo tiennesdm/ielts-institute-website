@@ -1616,6 +1616,48 @@ export default function AdminSettingsPage() {
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold"
               />
             </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Courses Dropdown Header</label>
+              <input
+                type="text"
+                value={settings.navigation?.coursesDropdownTitle || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  navigation: { ...prev.navigation, coursesDropdownTitle: e.target.value }
+                }))}
+                placeholder="Featured Training Programs"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Courses Dropdown Footer Link Text</label>
+              <input
+                type="text"
+                value={settings.navigation?.coursesDropdownFooterText || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  navigation: { ...prev.navigation, coursesDropdownFooterText: e.target.value }
+                }))}
+                placeholder="View All Course Fees & Schedules →"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Menu Phone Label Prefix</label>
+              <input
+                type="text"
+                value={settings.navigation?.mobileCallPrefix || ''}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  navigation: { ...prev.navigation, mobileCallPrefix: e.target.value }
+                }))}
+                placeholder="Call Now:"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm"
+              />
+            </div>
           </div>
 
           {/* Add New Nav Link Form */}
@@ -2841,9 +2883,20 @@ export default function AdminSettingsPage() {
       {/* TAB 4: FOOTER & BIO */}
       {activeTab === 'footer' && (
         <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <LayoutTemplate className="w-5 h-5 text-blue-900" />
-            <h2 className="text-base font-bold text-slate-900">Footer Content & Contact Details</h2>
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <LayoutTemplate className="w-5 h-5 text-blue-900" />
+              <h2 className="text-base font-bold text-slate-900">Footer Content & Contact Details</h2>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.showFooter !== false}
+                onChange={(e) => setSettings({ ...settings, showFooter: e.target.checked })}
+                className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
+              />
+              <span className="text-xs font-bold text-slate-700">Display Footer On Website</span>
+            </label>
           </div>
 
           <div className="space-y-4">
@@ -4060,6 +4113,30 @@ export default function AdminSettingsPage() {
               </div>
             </div>
 
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Target Band / Score Dropdown Options (Comma-separated)
+              </label>
+              <textarea
+                rows={2}
+                value={
+                  Array.isArray(settings.modal?.targetBands)
+                    ? settings.modal.targetBands.join(', ')
+                    : (settings.modal?.targetBands || '8.0 - 8.5 Bands (Top University / PR), 7.0 - 7.5 Bands (Canada / UK / Aus), 8777 CLB 10 (Express Entry), 79+ Score (PTE Academic), 6.5 Bands (Foundation)')
+                }
+                onChange={(e) => {
+                  const arr = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+                  setSettings(prev => ({
+                    ...prev,
+                    modal: { ...prev.modal, targetBands: arr }
+                  }));
+                }}
+                placeholder="8.0 - 8.5 Bands, 7.0 - 7.5 Bands, 8777 CLB 10, 79+ Score (PTE), 6.5 Bands"
+                className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-700"
+              />
+              <p className="text-[11px] text-slate-400 mt-1">Separate multiple options with commas.</p>
+            </div>
+
             {/* Post submission success view */}
             <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-3 mt-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-800">
@@ -4350,6 +4427,33 @@ export default function AdminSettingsPage() {
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-red-600 focus:ring-1 focus:ring-red-600 outline-none text-xs sm:text-sm text-slate-800"
             />
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Notice Phone Button Text
+              </label>
+              <input
+                type="text"
+                value={settings.announcementCallText || ''}
+                onChange={(e) => setSettings({ ...settings, announcementCallText: e.target.value })}
+                placeholder="Call Now"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Notice CTA Demo Button Text
+              </label>
+              <input
+                type="text"
+                value={settings.announcementCtaText || ''}
+                onChange={(e) => setSettings({ ...settings, announcementCtaText: e.target.value })}
+                placeholder="Claim Free Demo"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800"
+              />
+            </div>
+          </div>
         </div>
       )}
 
@@ -4469,6 +4573,63 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Diagnostic Evaluation Banner Customizer */}
+          <div className="pt-4 border-t border-slate-100">
+            <div className="p-5 bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-2xl space-y-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+                <h3 className="font-bold text-sm sm:text-base">Diagnostic Evaluation Banner (Bottom of Section)</h3>
+              </div>
+              <p className="text-xs text-slate-300">
+                Customize the high-converting assessment banner displayed right under the feature cards.
+              </p>
+
+              <div className="space-y-3 pt-2">
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner Title</label>
+                  <input
+                    type="text"
+                    value={settings.whyUs?.diagnosticTitle || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      whyUs: { ...prev.whyUs, diagnosticTitle: e.target.value }
+                    }))}
+                    placeholder="Unsure About Your Current IELTS Band Level?"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs sm:text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner Description Text</label>
+                  <textarea
+                    rows={2}
+                    value={settings.whyUs?.diagnosticText || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      whyUs: { ...prev.whyUs, diagnosticText: e.target.value }
+                    }))}
+                    placeholder="Take our 45-minute Free Diagnostic Evaluation Test & get an accurate band score report..."
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-200 mb-1">Banner CTA Button Text</label>
+                  <input
+                    type="text"
+                    value={settings.whyUs?.diagnosticCta || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      whyUs: { ...prev.whyUs, diagnosticCta: e.target.value }
+                    }))}
+                    placeholder="Take Free Diagnostic Test"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white/10 border border-white/20 text-yellow-300 font-bold placeholder-slate-400 text-xs sm:text-sm"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

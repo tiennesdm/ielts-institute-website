@@ -123,7 +123,7 @@ export default function Navbar({ settings, onBookClick, courses }) {
                     {coursesDropdownOpen && (
                       <div className="absolute top-full left-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl border border-slate-100 p-3 animate-in fade-in slide-in-from-top-2 duration-200 z-50">
                         <div className="px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 mb-1">
-                          Featured Training Programs
+                          {navConfig.coursesDropdownTitle || 'Featured Training Programs'}
                         </div>
                         <div className="space-y-1">
                           {courseList.map((c, i) => (
@@ -158,7 +158,7 @@ export default function Navbar({ settings, onBookClick, courses }) {
                             onClick={() => setCoursesDropdownOpen(false)}
                             className="text-xs font-bold text-blue-900 hover:text-red-600 p-2 block text-center"
                           >
-                            View All Course Fees & Schedules →
+                            {navConfig.coursesDropdownFooterText || 'View All Course Fees & Schedules →'}
                           </a>
                         </div>
                       </div>
@@ -243,7 +243,7 @@ export default function Navbar({ settings, onBookClick, courses }) {
                 className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 bg-slate-50"
               >
                 <Phone className="w-3.5 h-3.5 text-red-600" />
-                Call Now: {phone}
+                {navConfig.mobileCallPrefix || 'Call Now:'} {phone}
               </a>
             )}
 

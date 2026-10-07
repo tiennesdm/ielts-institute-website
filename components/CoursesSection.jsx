@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { BookOpen, Clock, Calendar, Check, Sparkles, ArrowRight } from 'lucide-react';
 
 export default function CoursesSection({ courses = [], onSelectCourse, config }) {
-  if (config?.show === false) return null;
+  const activeCourses = (courses || []).filter((course) => course.isActive !== false);
+  if (config?.show === false || activeCourses.length === 0) return null;
   const [filter, setFilter] = useState('ALL');
 
-  const filteredCourses = courses.filter((course) => {
+  const filteredCourses = activeCourses.filter((course) => {
     if (filter === 'ALL') return true;
     if (filter === 'ACADEMIC') return course.title?.toLowerCase().includes('academic') && !course.title?.toLowerCase().includes('pte');
     if (filter === 'GENERAL') return course.title?.toLowerCase().includes('general');
