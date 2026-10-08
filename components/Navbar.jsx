@@ -86,7 +86,7 @@ export default function Navbar({ settings, onBookClick, courses }) {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled
           ? 'bg-white/95 backdrop-blur-md shadow-md py-2 border-b border-slate-200/80'
           : 'bg-white border-b border-slate-200/90 py-2.5 sm:py-3'

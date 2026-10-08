@@ -14,8 +14,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col overflow-x-hidden w-full max-w-full">
+    <html lang="en" className="overflow-x-clip">
+      <body className="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col overflow-x-clip w-full max-w-full">
         {children}
       </body>
     </html>
