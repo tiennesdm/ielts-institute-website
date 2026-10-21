@@ -70,10 +70,29 @@ export default function AdminUniversitiesPage() {
     ]
   };
 
+  const defaultMarqueeList = [
+    'University of Toronto 🇨🇦',
+    'University of Melbourne 🇦🇺',
+    'University of Manchester 🇬🇧',
+    'University of British Columbia 🇨🇦',
+    'University of Sydney 🇦🇺',
+    'Arizona State University 🇺🇸',
+    'Technical University of Munich 🇩🇪',
+    'University of Birmingham 🇬🇧',
+    'Trinity College Dublin 🇮🇪',
+    'Northeastern University 🇺🇸',
+    'University of Auckland 🇳🇿',
+    'Concordia University 🇨🇦',
+  ];
+
   const [currentUni, setCurrentUni] = useState(defaultUniversity);
   const [headerForm, setHeaderForm] = useState(defaultHeader);
   const [bannerForm, setBannerForm] = useState({
-    marqueeTitle: '',
+    showMarquee: true,
+    marqueeTitle: 'Representing 850+ Direct Global Partner Universities & Colleges',
+    marqueeMode: 'auto', // 'auto' | 'custom' | 'both'
+    marqueeItemsText: defaultMarqueeList.join('\n'),
+    marqueeSpeed: 'normal', // 'slow' | 'normal' | 'fast'
     bannerBadge: '',
     bannerTitle: '',
     bannerDesc: '',
@@ -123,7 +142,13 @@ export default function AdminUniversitiesPage() {
 
       setConfig(cfgObj);
       setBannerForm({
+        showMarquee: cfgObj.showMarquee !== false,
         marqueeTitle: cfgObj.marqueeTitle || 'Representing 850+ Direct Global Partner Universities & Colleges',
+        marqueeMode: cfgObj.marqueeMode || 'auto',
+        marqueeItemsText: Array.isArray(cfgObj.marqueeItems) && cfgObj.marqueeItems.length > 0
+          ? cfgObj.marqueeItems.join('\n')
+          : defaultMarqueeList.join('\n'),
+        marqueeSpeed: cfgObj.marqueeSpeed || 'normal',
         bannerBadge: cfgObj.bannerBadge || 'Fast-Track Admission & Spot Assessment',
         bannerTitle: cfgObj.bannerTitle || 'Confused About Which University & Country Fits Your Profile?',
         bannerDesc: cfgObj.bannerDesc || 'Get an unbiased profile assessment from our Senior Study Abroad Visa Advisors. We evaluate your academics, IELTS band score, and budget to provide a tailored list of top admitting universities.',
@@ -218,10 +243,26 @@ export default function AdminUniversitiesPage() {
     setSavingBanner(true);
     setError('');
     try {
+      const marqueeItems = bannerForm.marqueeItemsText
+        ? bannerForm.marqueeItemsText.split('\n').map(s => s.trim()).filter(Boolean)
+        : [];
+
+      const payload = {
+        showMarquee: bannerForm.showMarquee !== false,
+        marqueeTitle: bannerForm.marqueeTitle,
+        marqueeMode: bannerForm.marqueeMode || 'auto',
+        marqueeItems,
+        marqueeSpeed: bannerForm.marqueeSpeed || 'normal',
+        bannerBadge: bannerForm.bannerBadge,
+        bannerTitle: bannerForm.bannerTitle,
+        bannerDesc: bannerForm.bannerDesc,
+        bannerCta: bannerForm.bannerCta
+      };
+
       const res = await fetch('/api/admin/universities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updateConfig: true, config: bannerForm }),
+        body: JSON.stringify({ updateConfig: true, config: payload }),
       });
       const resData = await res.json();
       if (res.ok) {
@@ -848,29 +889,226 @@ export default function AdminUniversitiesPage() {
 
       {/* TAB 3: TICKER & CALLOUT BANNER */}
       {activeTab === 'banner' && (
-        <form onSubmit={handleSaveBanner} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 shadow-sm">
+        <form onSubmit={handleSaveBanner} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-8 shadow-sm">
           <div>
             <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-amber-500" />
-              <span>Marquee Ticker & Global Counseling Callout Banner</span>
+              <span>Marquee Partner Ticker & Global Counseling Banner</span>
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              Customize the moving marquee banner text and the prominent counseling CTA box at the bottom of the section.
+              Customize the continuous moving marquee ticker and the prominent counseling CTA box at the bottom of the universities section.
             </p>
           </div>
 
-          <div className="space-y-4 pt-2 border-t border-slate-100">
+          {/* --- SECTION 1: MARQUEE TICKER CONTROLS --- */}
+          <div className="space-y-5 pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+              <div className="space-y-0.5">
+                <span className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-red-600" />
+                  Show Continuous Marquee Partner Ticker
+                </span>
+                <p className="text-xs text-slate-500">
+                  Enable or disable the animated ticker bar on the homepage.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBannerForm(prev => ({ ...prev, showMarquee: !prev.showMarquee }))}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  bannerForm.showMarquee ? 'bg-emerald-600' : 'bg-slate-300'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    bannerForm.showMarquee ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+
+            {bannerForm.showMarquee && (
+              <div className="space-y-4 p-5 rounded-2xl border border-slate-200 bg-slate-50/50">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Marquee Ticker Title / Sub-header
+                    </label>
+                    <input
+                      type="text"
+                      value={bannerForm.marqueeTitle}
+                      onChange={(e) => setBannerForm({ ...bannerForm, marqueeTitle: e.target.value })}
+                      placeholder="e.g. Representing 850+ Direct Global Partner Universities & Colleges"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold focus:outline-none focus:border-red-500 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Ticker Scroll Speed
+                    </label>
+                    <select
+                      value={bannerForm.marqueeSpeed || 'normal'}
+                      onChange={(e) => setBannerForm({ ...bannerForm, marqueeSpeed: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold focus:outline-none focus:border-red-500 bg-white"
+                    >
+                      <option value="slow">Slow (45s - Very Smooth & Readable)</option>
+                      <option value="normal">Normal (28s - Standard)</option>
+                      <option value="fast">Fast (18s - Dynamic & Active)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    Marquee Data Source / Display Mode
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setBannerForm({ ...bannerForm, marqueeMode: 'auto' })}
+                      className={`p-3 rounded-xl border text-left transition-all ${
+                        bannerForm.marqueeMode === 'auto'
+                          ? 'border-red-500 bg-red-50/70 text-red-950 font-bold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 text-xs font-black text-red-600 mb-0.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Auto-Sync Cards</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        Pulls from all active university cards automatically.
+                      </p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setBannerForm({ ...bannerForm, marqueeMode: 'custom' })}
+                      className={`p-3 rounded-xl border text-left transition-all ${
+                        bannerForm.marqueeMode === 'custom'
+                          ? 'border-red-500 bg-red-50/70 text-red-950 font-bold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 text-xs font-black text-red-600 mb-0.5">
+                        <Sliders className="w-3.5 h-3.5" />
+                        <span>Custom Partner List</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        Shows only your manually specified institutions below.
+                      </p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setBannerForm({ ...bannerForm, marqueeMode: 'both' })}
+                      className={`p-3 rounded-xl border text-left transition-all ${
+                        bannerForm.marqueeMode === 'both'
+                          ? 'border-red-500 bg-red-50/70 text-red-950 font-bold shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 text-xs font-black text-red-600 mb-0.5">
+                        <Building2 className="w-3.5 h-3.5" />
+                        <span>Combined (Both)</span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        Combines university cards with custom partners.
+                      </p>
+                    </button>
+                  </div>
+                </div>
+
+                {(bannerForm.marqueeMode === 'custom' || bannerForm.marqueeMode === 'both') && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Custom Partner Institutions (1 per line with flag/badge)
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setBannerForm({ ...bannerForm, marqueeItemsText: defaultMarqueeList.join('\n') })}
+                        className="text-[11px] font-bold text-red-600 hover:underline flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset to Defaults
+                      </button>
+                    </div>
+                    <textarea
+                      rows={5}
+                      value={bannerForm.marqueeItemsText}
+                      onChange={(e) => setBannerForm({ ...bannerForm, marqueeItemsText: e.target.value })}
+                      placeholder="University of Toronto 🇨🇦&#10;University of Melbourne 🇦🇺&#10;University of Oxford 🇬🇧"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-mono focus:outline-none focus:border-red-500 bg-white"
+                    />
+                    <p className="text-[11px] text-slate-400 mt-1">
+                      Enter each institution name followed by an emoji flag or tag. {bannerForm.marqueeItemsText.split('\n').filter(Boolean).length} partners configured.
+                    </p>
+                  </div>
+                )}
+
+                {/* Live Interactive Preview Box */}
+                <div className="mt-4 pt-4 border-t border-slate-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-black text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+                      <Eye className="w-3.5 h-3.5 text-blue-600" />
+                      Live Ticker Preview
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      Hover to pause • Speed: {bannerForm.marqueeSpeed}
+                    </span>
+                  </div>
+
+                  <div className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                    {bannerForm.marqueeTitle || "Representing 850+ Direct Global Partner Universities & Colleges"}
+                  </div>
+
+                  <div className="relative overflow-hidden py-3 bg-white border border-slate-200 rounded-xl shadow-inner">
+                    <div
+                      className="flex items-center gap-8 whitespace-nowrap animate-marquee"
+                      style={{
+                        animationDuration: bannerForm.marqueeSpeed === 'fast' ? '18s' : bannerForm.marqueeSpeed === 'slow' ? '45s' : '28s'
+                      }}
+                    >
+                      {(() => {
+                        const autoList = (data.items || []).filter(u => u.isActive !== false).map(u => `${u.name} ${u.flag || ''}`.trim());
+                        const customList = (bannerForm.marqueeItemsText || '').split('\n').map(s => s.trim()).filter(Boolean);
+                        let previewList = [];
+                        if (bannerForm.marqueeMode === 'custom') {
+                          previewList = customList.length > 0 ? customList : defaultMarqueeList;
+                        } else if (bannerForm.marqueeMode === 'both') {
+                          previewList = Array.from(new Set([...autoList, ...customList]));
+                        } else {
+                          previewList = autoList.length > 0 ? autoList : defaultMarqueeList;
+                        }
+                        if (previewList.length === 0) previewList = defaultMarqueeList;
+
+                        return [...previewList, ...previewList].map((name, i) => (
+                          <div key={i} className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                            <Building2 className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                            <span>{name}</span>
+                            <span className="text-slate-300 mx-2">•</span>
+                          </div>
+                        ));
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* --- SECTION 2: COUNSELING CALLOUT BANNER --- */}
+          <div className="space-y-4 pt-4 border-t border-slate-200">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
-                Marquee Ticker Title
-              </label>
-              <input
-                type="text"
-                value={bannerForm.marqueeTitle}
-                onChange={(e) => setBannerForm({ ...bannerForm, marqueeTitle: e.target.value })}
-                placeholder="e.g. Representing 850+ Direct Global Partner Universities & Colleges"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-bold focus:outline-none focus:border-red-500"
-              />
+              <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-red-600" />
+                <span>Global Counseling Callout Banner</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                The high-conversion CTA box placed directly below the universities section.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

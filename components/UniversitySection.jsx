@@ -39,15 +39,44 @@ export default function UniversitySection({ universities, onSelectUniversity, co
 
   const items = universities?.items || [];
 
+  // Dynamic country filters: Always include 'All Destinations', then all distinct countries with card count
+  const countryFlags = {
+    'Canada': '🇨🇦',
+    'Australia': '🇦🇺',
+    'United Kingdom': '🇬🇧',
+    'UK': '🇬🇧',
+    'USA': '🇺🇸',
+    'Germany': '🇩🇪',
+    'Ireland': '🇮🇪',
+    'New Zealand': '🇳🇿',
+    'France': '🇫🇷',
+    'Italy': '🇮🇹',
+    'Singapore': '🇸🇬',
+    'Dubai': '🇦🇪',
+    'UAE': '🇦🇪',
+    'Sweden': '🇸🇪',
+    'Netherlands': '🇳🇱',
+    'Switzerland': '🇨🇭',
+    'Poland': '🇵🇱',
+    'Spain': '🇪🇸'
+  };
+
+  const defaultCountryKeys = ['Canada', 'Australia', 'United Kingdom', 'USA', 'Germany', 'Ireland', 'New Zealand'];
+  const uniqueCountries = Array.from(new Set(items.map(u => u.country).filter(Boolean)));
+  const allCountryKeys = Array.from(new Set([...defaultCountryKeys, ...uniqueCountries]));
+
   const filterTabs = [
     { key: 'ALL', label: 'All Destinations', count: items.length },
-    { key: 'Canada', label: 'Canada 🇨🇦' },
-    { key: 'Australia', label: 'Australia 🇦🇺' },
-    { key: 'United Kingdom', label: 'UK 🇬🇧' },
-    { key: 'USA', label: 'USA 🇺🇸' },
-    { key: 'Germany', label: 'Germany 🇩🇪' },
-    { key: 'Ireland', label: 'Ireland 🇮🇪' },
-    { key: 'New Zealand', label: 'New Zealand 🇳🇿' },
+    ...allCountryKeys.map(country => {
+      const count = items.filter(u => u.country?.toLowerCase() === country.toLowerCase()).length;
+      const flag = countryFlags[country] || (items.find(u => u.country?.toLowerCase() === country.toLowerCase())?.flag) || '';
+      const shortLabel = country === 'United Kingdom' ? 'UK' : country;
+      return {
+        key: country,
+        label: `${shortLabel} ${flag}`.trim(),
+        count
+      };
+    }).filter(tab => tab.count > 0 || defaultCountryKeys.includes(tab.key))
   ];
 
   const filteredItems = items.filter((uni) => {
@@ -55,7 +84,8 @@ export default function UniversitySection({ universities, onSelectUniversity, co
     return uni.country?.toLowerCase() === activeFilter.toLowerCase();
   });
 
-  const marqueeUniversities = [
+  // Dynamic Partner Marquee Ticker
+  const defaultMarqueeList = [
     'University of Toronto 🇨🇦',
     'University of Melbourne 🇦🇺',
     'University of Manchester 🇬🇧',
@@ -69,6 +99,32 @@ export default function UniversitySection({ universities, onSelectUniversity, co
     'University of Auckland 🇳🇿',
     'Concordia University 🇨🇦',
   ];
+
+  const autoItems = items
+    .filter(u => u.isActive !== false)
+    .map(u => `${u.name} ${u.flag || ''}`.trim());
+
+  const customItems = (Array.isArray(config?.marqueeItems) && config.marqueeItems.length > 0)
+    ? config.marqueeItems
+    : defaultMarqueeList;
+
+  const marqueeMode = config?.marqueeMode || 'auto';
+  let tickerList = [];
+  if (marqueeMode === 'custom') {
+    tickerList = customItems;
+  } else if (marqueeMode === 'both') {
+    tickerList = Array.from(new Set([...autoItems, ...customItems]));
+  } else {
+    // Default 'auto'
+    tickerList = autoItems.length > 0 ? autoItems : defaultMarqueeList;
+  }
+
+  // Ticker animation duration
+  const animationDuration = config?.marqueeSpeed === 'fast'
+    ? '18s'
+    : config?.marqueeSpeed === 'slow'
+      ? '45s'
+      : '28s';
 
   return (
     <section id="universities" className="py-14 sm:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden border-t border-slate-200/80">
@@ -240,26 +296,31 @@ export default function UniversitySection({ universities, onSelectUniversity, co
         </div>
 
         {/* Continuous Marquee Ticker */}
-        <div className="mt-14 pt-8 border-t border-slate-200">
-          <div className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-            {config?.marqueeTitle || "Representing 850+ Direct Global Partner Universities & Colleges"}
-          </div>
+        {config?.showMarquee !== false && tickerList.length > 0 && (
+          <div className="mt-14 pt-8 border-t border-slate-200">
+            <div className="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+              {config?.marqueeTitle || "Representing 850+ Direct Global Partner Universities & Colleges"}
+            </div>
 
-          <div className="relative overflow-hidden py-3 bg-white border border-slate-200 rounded-2xl shadow-inner">
-            <div className="flex items-center gap-8 whitespace-nowrap animate-marquee">
-              {[...marqueeUniversities, ...marqueeUniversities].map((uName, idx) => (
-                <div
-                  key={idx}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition-colors cursor-default"
-                >
-                  <Building2 className="w-3.5 h-3.5 text-red-600" />
-                  <span>{uName}</span>
-                  <span className="text-slate-300 mx-2">•</span>
-                </div>
-              ))}
+            <div className="relative overflow-hidden py-3 bg-white border border-slate-200 rounded-2xl shadow-inner">
+              <div
+                className="flex items-center gap-8 whitespace-nowrap animate-marquee"
+                style={{ animationDuration }}
+              >
+                {[...tickerList, ...tickerList].map((uName, idx) => (
+                  <div
+                    key={idx}
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition-colors cursor-default"
+                  >
+                    <Building2 className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                    <span>{uName}</span>
+                    <span className="text-slate-300 mx-2">•</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Global Counseling Callout Banner */}
         <div className="mt-10 sm:mt-12 rounded-3xl bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">

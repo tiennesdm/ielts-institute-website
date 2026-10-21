@@ -185,7 +185,7 @@
           "description": "Strict exam conditions every Saturday with identical timing, invigilators, and real question patterns. Score reports delivered in 24 hours."
         }
       ],
-      "show": false
+      "show": true
     },
     "socialLinks": {
       "instagram": "https://instagram.com",
@@ -296,7 +296,7 @@
         "badge": "Hall of Fame & High Achievers",
         "title": "Real Students, Real 8+ Band Results",
         "subtitle": "Hundreds of our students clear their target band scores on their first attempt every month and secure admissions in top Ivy League & Global Universities.",
-        "show": true
+        "show": false
       },
       "batches": {
         "badge": "Admissions Open",
@@ -368,7 +368,7 @@
         "show": true
       },
       "whyUs": {
-        "show": false
+        "show": true
       }
     },
     "modal": {

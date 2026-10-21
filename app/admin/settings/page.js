@@ -3952,22 +3952,92 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Marquee & Callout Banner */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/80">
-              <div className="sm:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-600 mb-1">Marquee Ticker Title</label>
-                <input
-                  type="text"
-                  value={settings.sections?.universities?.marqueeTitle || ''}
-                  onChange={(e) => setSettings(prev => ({
+            <div className="space-y-3 pt-3 border-t border-slate-200/80">
+              <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div>
+                  <span className="text-xs font-bold text-slate-800">Show Continuous Marquee Partner Ticker</span>
+                  <p className="text-[11px] text-slate-500">Show or hide the animated partner ticker on homepage</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSettings(prev => ({
                     ...prev,
                     sections: {
                       ...prev.sections,
-                      universities: { ...prev.sections?.universities, marqueeTitle: e.target.value }
+                      universities: {
+                        ...prev.sections?.universities,
+                        showMarquee: prev.sections?.universities?.showMarquee === false ? true : false
+                      }
                     }
                   }))}
-                  className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
-                />
+                  className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+                    settings.sections?.universities?.showMarquee !== false ? 'bg-emerald-600' : 'bg-slate-300'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
+                      settings.sections?.universities?.showMarquee !== false ? 'translate-x-4' : 'translate-x-0.5'
+                    }`}
+                  />
+                </button>
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Marquee Ticker Title</label>
+                  <input
+                    type="text"
+                    value={settings.sections?.universities?.marqueeTitle || ''}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      sections: {
+                        ...prev.sections,
+                        universities: { ...prev.sections?.universities, marqueeTitle: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Ticker Scroll Speed</label>
+                  <select
+                    value={settings.sections?.universities?.marqueeSpeed || 'normal'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      sections: {
+                        ...prev.sections,
+                        universities: { ...prev.sections?.universities, marqueeSpeed: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                  >
+                    <option value="slow">Slow (45s)</option>
+                    <option value="normal">Normal (28s)</option>
+                    <option value="fast">Fast (18s)</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Marquee Data Source Mode</label>
+                  <select
+                    value={settings.sections?.universities?.marqueeMode || 'auto'}
+                    onChange={(e) => setSettings(prev => ({
+                      ...prev,
+                      sections: {
+                        ...prev.sections,
+                        universities: { ...prev.sections?.universities, marqueeMode: e.target.value }
+                      }
+                    }))}
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white font-bold"
+                  >
+                    <option value="auto">Auto-Sync with Active University Cards (Recommended)</option>
+                    <option value="custom">Custom Partner List Only</option>
+                    <option value="both">Combined (Active Cards + Custom Partners)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/80">
               <div>
                 <label className="block text-[11px] font-bold text-slate-600 mb-1">Banner Pill Badge</label>
                 <input
